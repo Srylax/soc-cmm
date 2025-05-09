@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub enum Domain {
     People,
     Business,
@@ -26,32 +28,44 @@ pub enum Satisfaction {
     Fully = 5,
 }
 
+#[derive(Clone, Copy)]
+pub enum Occurence {
+    Never = 1,
+    Sometimes = 2,
+    Averagely = 3,
+    Mostly = 4,
+    Always = 5,
+}
+
 pub enum Answer {
     Maturity(Satisfaction),
+    Occurence(Occurence),
     Bool(bool),
+    Text(String),
     Float(f32),
+    None,
 }
 
 impl Answer {
     pub fn in_scope(&self) -> bool {
         match self {
             Answer::Maturity(_) => true,
-            Answer::Bool(_) => false,
-            Answer::Float(_) => false,
+            Answer::Occurence(_) => true,
+            _ => false,
         }
     }
     pub fn score(&self) -> Option<u8> {
         match self {
             Answer::Maturity(satisfaction) => Some(*satisfaction as u8),
-            Answer::Bool(_) => None,
-            Answer::Float(_) => None,
+            Answer::Occurence(occurence) => Some(*occurence as u8),
+            _ => None,
         }
     }
     pub fn max_score(&self) -> Option<u8> {
         match self {
             Answer::Maturity(_) => Some(5),
-            Answer::Bool(_) => None,
-            Answer::Float(_) => None,
+            Answer::Occurence(_) => Some(5),
+            _ => None,
         }
     }
 }
@@ -59,11 +73,11 @@ impl Answer {
 pub struct Aspect {
     domain: Domain,
     id: u8,
-    capabilities: Vec<CAP>,
+    capabilities: HashMap<String, CAP>,
 }
 
 impl Aspect {
-    pub fn new(domain: Domain, id: u8, capabilities: Vec<CAP>) -> Self {
+    pub fn new(domain: Domain, id: u8, capabilities: HashMap<String, CAP>) -> Self {
         Self {
             domain,
             id,
@@ -72,20 +86,20 @@ impl Aspect {
     }
     pub fn factor(&self) -> u8 {
         self.capabilities
-            .iter()
+            .values()
             .filter(|cap| cap.answer.in_scope())
             .count() as u8
     }
     pub fn total_score(&self) -> u8 {
         self.capabilities
-            .iter()
+            .values()
             .filter(|cap| cap.answer.in_scope())
             .flat_map(|cap| cap.answer.score())
             .sum()
     }
     pub fn max_score(&self) -> u8 {
         self.capabilities
-            .iter()
+            .values()
             .filter(|cap| cap.answer.in_scope())
             .flat_map(|cap| cap.answer.max_score())
             .sum()
