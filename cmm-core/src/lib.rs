@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use strum::FromRepr;
+
 pub enum Domain {
     People,
     Business,
@@ -8,18 +10,7 @@ pub enum Domain {
     Services,
 }
 
-// struct CID(Domain, u8, u8, u8);
-//
-
-// enum Detailed {
-//     No = 1,
-//     Partially = 2,
-//     Averagely = 3,
-//     Mostly = 4,
-//     Fully = 5,
-// }
-
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, FromRepr)]
 pub enum Satisfaction {
     No = 1,
     Somewhat = 2,
@@ -27,8 +18,13 @@ pub enum Satisfaction {
     Mostly = 4,
     Fully = 5,
 }
+impl Default for Satisfaction {
+    fn default() -> Self {
+        Self::No
+    }
+}
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, FromRepr)]
 pub enum Occurence {
     Never = 1,
     Sometimes = 2,
@@ -36,35 +32,75 @@ pub enum Occurence {
     Mostly = 4,
     Always = 5,
 }
+impl Default for Occurence {
+    fn default() -> Self {
+        Self::Never
+    }
+}
 
+#[derive(Clone, Copy, Debug, FromRepr)]
+pub enum Detailed {
+    No = 1,
+    Partially = 2,
+    Averagely = 3,
+    Mostly = 4,
+    Fully = 5,
+}
+impl Default for Detailed {
+    fn default() -> Self {
+        Self::No
+    }
+}
+
+#[derive(Clone, Copy, Debug, FromRepr)]
+pub enum DetailedOptional {
+    No = 1,
+    Partially = 2,
+    Averagely = 3,
+    Mostly = 4,
+    Fully = 5,
+    NotRequired = 6,
+}
+impl Default for DetailedOptional {
+    fn default() -> Self {
+        Self::No
+    }
+}
+
+#[derive(Debug)]
 pub enum Answer {
-    Maturity(Satisfaction),
+    Satisfaction(Satisfaction),
+    Detailed(Detailed),
+    DetailedOptional(DetailedOptional),
     Occurence(Occurence),
     Bool(bool),
-    Text(String),
-    Float(f32),
+    Any(String),
     None,
 }
 
 impl Answer {
     pub fn in_scope(&self) -> bool {
-        match self {
-            Answer::Maturity(_) => true,
-            Answer::Occurence(_) => true,
-            _ => false,
-        }
+        matches!(
+            self,
+            Answer::Satisfaction(_)
+                | Answer::Occurence(_)
+                | Answer::Detailed(_)
+                | Answer::DetailedOptional(_)
+        )
     }
     pub fn score(&self) -> Option<u8> {
         match self {
-            Answer::Maturity(satisfaction) => Some(*satisfaction as u8),
+            Answer::Satisfaction(satisfaction) => Some(*satisfaction as u8),
             Answer::Occurence(occurence) => Some(*occurence as u8),
+            Answer::Detailed(detailed) => Some(*detailed as u8),
+            Answer::DetailedOptional(detailed_optional) => Some(*detailed_optional as u8),
             _ => None,
         }
     }
     pub fn max_score(&self) -> Option<u8> {
         match self {
-            Answer::Maturity(_) => Some(5),
-            Answer::Occurence(_) => Some(5),
+            Answer::Satisfaction(_) | Answer::Occurence(_) | Answer::Detailed(_) => Some(5),
+            Answer::DetailedOptional(_) => Some(6),
             _ => None,
         }
     }

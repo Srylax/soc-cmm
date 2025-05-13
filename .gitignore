@@ -1,2 +1,4 @@
 .direnv
 target
+*.xlsx
+.DS_Store

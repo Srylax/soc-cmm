@@ -1,22 +1,19 @@
-use std::{
-    collections::HashSet,
-    fs::{self, File},
-    io::Read,
-};
+use std::{collections::HashMap, env::args, fs::File, io::Read};
 
 use anyhow::Ok;
-use calamine::{Data, Reader, Xlsx, open_workbook};
+use calamine::{Data, DataType, Reader, ToCellDeserializer, Xlsx, open_workbook};
+use cmm_core::{Answer, Detailed, DetailedOptional, Occurence, Satisfaction};
 use roxmltree::Document;
 
 fn main() -> anyhow::Result<()> {
-    let mut workbook: Xlsx<_> =
-        open_workbook("/home/bsiag.local/kli/Downloads/soc-cmm 2.3.4-basic_BSI.xlsx")?;
+    let soc_cmm = args().nth(1).expect("File Path requried");
+    let mut workbook: Xlsx<_> = open_workbook(&soc_cmm)?;
 
     let output = workbook.worksheet_range("_Output")?;
 
-    let mut zip = zip::ZipArchive::new(File::open(
-        "/home/bsiag.local/kli/Downloads/soc-cmm 2.3.4-basic_BSI.xlsx",
-    )?)?;
+    let mut output_map = list_output(&output);
+
+    let mut zip = zip::ZipArchive::new(File::open(soc_cmm)?)?;
 
     let props = zip
         .file_names()
@@ -53,21 +50,59 @@ fn main() -> anyhow::Result<()> {
 
         let id = output.get_value((output_row, 0)).unwrap();
 
-        let value = output.get_value((output_row, 3)).unwrap();
+        let value = output.get_value((output_row, 3)).unwrap().as_i64().unwrap();
 
-        println!("{id} -> {} ({value})", input_map(input_link));
+        let entry = output_map.get_mut(&id.to_string()).unwrap();
+
+        if matches!(entry, Answer::Any(_)) {
+            *entry = input_map(input_link, value as usize);
+        } else {
+            println!(
+                "Skipped {} with value of {}, existing: {:?}",
+                id, value, entry
+            )
+        }
     }
 
     Ok(())
 }
 
-fn input_map(input: &str) -> &'static str {
+fn input_map(input: &str, value: usize) -> Answer {
     match input {
-        "_Input!$C$13:$C$18" => "Detailed Optional",
-        "_Input!$C$13:$C$17" => "Detailed",
-        "_Input!$C$3:$C$4" => "Yes/No",
-        "_Input!$C$39:$C$43" => "Occurrence",
-        "_Input!$C$45:$C$49" => "Satisfaction",
+        "_Input!$C$13:$C$18" => {
+            Answer::DetailedOptional(DetailedOptional::from_repr(value).unwrap_or_default())
+        }
+        "_Input!$C$13:$C$17" => Answer::Detailed(Detailed::from_repr(value).unwrap_or_default()),
+        "_Input!$C$3:$C$4" => Answer::Bool(value > 1),
+        "_Input!$C$39:$C$43" => Answer::Occurence(Occurence::from_repr(value).unwrap_or_default()),
+        "_Input!$C$45:$C$49" => {
+            Answer::Satisfaction(Satisfaction::from_repr(value).unwrap_or_default())
+        }
         _ => unreachable!(),
     }
+}
+
+fn list_output(output_ragne: &calamine::Range<Data>) -> HashMap<String, Answer> {
+    output_ragne
+        .rows()
+        .filter(|row| {
+            let Some(id) = row[0].as_string() else {
+                return false;
+            };
+            let mut chars = id.chars().skip(1);
+            chars.next().unwrap().is_whitespace()
+                && chars.next().unwrap().is_ascii_digit()
+                && row[13].as_string() != Some("NIST MAPPING".to_owned())
+        })
+        .map(|row| {
+            (
+                row[0].as_string().unwrap(),
+                if ToCellDeserializer::is_empty(&row[3]) {
+                    Answer::None
+                } else {
+                    Answer::Any(row[3].as_string().unwrap())
+                },
+            )
+        })
+        .collect()
 }
