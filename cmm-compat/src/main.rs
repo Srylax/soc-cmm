@@ -1,4 +1,9 @@
-use std::{collections::HashMap, env::args, fs::File, io::Read};
+use std::{
+    collections::HashMap,
+    env::{args, current_dir},
+    fs::File,
+    io::Read,
+};
 
 use anyhow::Ok;
 use calamine::{Data, DataType, Reader, ToCellDeserializer, Xlsx, open_workbook};
@@ -9,7 +14,7 @@ use cmm_core::{
 use roxmltree::Document;
 
 fn main() -> anyhow::Result<()> {
-    let soc_cmm = args().nth(1).expect("File Path requried");
+    let soc_cmm = args().nth(1).unwrap_or("../soc-cmm-2.3.4.xlsx".to_owned());
     let mut workbook: Xlsx<_> = open_workbook(&soc_cmm)?;
 
     let output = workbook.worksheet_range("_Output")?;
@@ -71,6 +76,13 @@ fn map_answers(
         };
         let control = Control::new(answer, guides);
         assert!(controls.insert(cid, control).is_none());
+    }
+    for (cid, answer) in answers {
+        assert!(
+            controls
+                .insert(cid, Control::new(answer, Vec::new()))
+                .is_none()
+        );
     }
     controls
 }
