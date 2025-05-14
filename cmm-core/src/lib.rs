@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
-use answer::Answer;
-use strum::FromRepr;
+use answer::{Answer, Detailed};
+use strum::EnumCount;
 
-mod answer;
+pub mod answer;
 
 pub enum Domain {
     People,
@@ -13,35 +13,37 @@ pub enum Domain {
     Services,
 }
 
+pub type CID = String;
+
 pub struct Aspect {
     domain: Domain,
     id: u8,
-    capabilities: HashMap<String, CAP>,
+    controls: HashMap<CID, Control>,
 }
 
 impl Aspect {
-    pub fn new(domain: Domain, id: u8, capabilities: HashMap<String, CAP>) -> Self {
+    pub fn new(domain: Domain, id: u8, controls: HashMap<String, Control>) -> Self {
         Self {
             domain,
             id,
-            capabilities,
+            controls,
         }
     }
     pub fn factor(&self) -> u8 {
-        self.capabilities
+        self.controls
             .values()
             .filter(|cap| cap.answer.in_scope())
             .count() as u8
     }
     pub fn total_score(&self) -> u8 {
-        self.capabilities
+        self.controls
             .values()
             .filter(|cap| cap.answer.in_scope())
             .flat_map(|cap| cap.answer.score())
             .sum()
     }
     pub fn max_score(&self) -> u8 {
-        self.capabilities
+        self.controls
             .values()
             .filter(|cap| cap.answer.in_scope())
             .flat_map(|cap| cap.answer.max_score())
@@ -56,12 +58,21 @@ impl Aspect {
     }
 }
 
-pub struct CAP {
+#[derive(Debug)]
+pub struct Control {
+    // question: String,
+    // remark: String,
+    guidances: Vec<String>,
     answer: Answer,
 }
 
-impl CAP {
-    pub fn new(answer: Answer) -> Self {
-        Self { answer }
+impl Control {
+    pub fn new(answer: Answer, guidances: Vec<String>) -> Self {
+        Self { answer, guidances }
+    }
+    pub fn guidance(&self) -> Option<&String> {
+        self.answer
+            .score()
+            .and_then(|score| self.guidances.get(score as usize))
     }
 }

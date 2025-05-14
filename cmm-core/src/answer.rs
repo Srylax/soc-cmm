@@ -1,4 +1,4 @@
-use strum::FromRepr;
+use strum::{EnumCount, FromRepr};
 
 #[derive(Clone, Copy, Debug, FromRepr)]
 pub enum Satisfaction {
@@ -28,7 +28,7 @@ impl Default for Occurence {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr)]
+#[derive(Clone, Copy, Debug, FromRepr, EnumCount)]
 pub enum Detailed {
     No = 1,
     Partially = 2,

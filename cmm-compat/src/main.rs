@@ -2,7 +2,10 @@ use std::{collections::HashMap, env::args, fs::File, io::Read};
 
 use anyhow::Ok;
 use calamine::{Data, DataType, Reader, ToCellDeserializer, Xlsx, open_workbook};
-use cmm_core::{Answer, Detailed, DetailedOptional, Occurence, Satisfaction};
+use cmm_core::{
+    CID, Control,
+    answer::{Answer, Detailed, DetailedOptional, Occurence, Satisfaction},
+};
 use roxmltree::Document;
 
 fn main() -> anyhow::Result<()> {
@@ -10,10 +13,74 @@ fn main() -> anyhow::Result<()> {
     let mut workbook: Xlsx<_> = open_workbook(&soc_cmm)?;
 
     let output = workbook.worksheet_range("_Output")?;
+    let guidance = workbook.worksheet_range("_Guidance")?;
 
     let mut output_map = list_output(&output);
+    map_form_controls(&mut output_map, &output, soc_cmm)?;
+    let controls = map_answers(output_map, &guidance);
 
-    let mut zip = zip::ZipArchive::new(File::open(soc_cmm)?)?;
+    Ok(())
+}
+
+fn input_map(input: &str, value: usize) -> Answer {
+    match input {
+        "_Input!$C$13:$C$18" => {
+            Answer::DetailedOptional(DetailedOptional::from_repr(value).unwrap_or_default())
+        }
+        "_Input!$C$13:$C$17" => Answer::Detailed(Detailed::from_repr(value).unwrap_or_default()),
+        "_Input!$C$3:$C$4" => Answer::Bool(value > 1),
+        "_Input!$C$39:$C$43" => Answer::Occurence(Occurence::from_repr(value).unwrap_or_default()),
+        "_Input!$C$45:$C$49" => {
+            Answer::Satisfaction(Satisfaction::from_repr(value).unwrap_or_default())
+        }
+        _ => unreachable!(),
+    }
+}
+
+fn map_answers(
+    mut answers: HashMap<CID, Answer>,
+    guidance_range: &calamine::Range<Data>,
+) -> HashMap<CID, Control> {
+    let mut controls = HashMap::new();
+    for row in 0..=guidance_range.end().unwrap().0 {
+        let is_starting_guidance = guidance_range
+            .get_value((row, 1))
+            .and_then(|data| data.as_i64());
+        if is_starting_guidance.is_none() || is_starting_guidance.unwrap() != 0 {
+            continue;
+        }
+        let mut guides = Vec::new();
+        for guide in 1..=5 {
+            let Some(guidance_index) = guidance_range.get_value((row + guide, 1)).unwrap().as_i64()
+            else {
+                continue;
+            };
+            if guidance_index as u32 != guide {
+                continue;
+            }
+            let guidance = guidance_range
+                .get_value((row + guide, 2))
+                .unwrap()
+                .to_string();
+            guides.push(guidance);
+        }
+        let cid = guidance_range.get_value((row, 0)).unwrap().to_string();
+        let Some(answer) = answers.remove(&cid) else {
+            println!("Skipping unknown cid {}", cid);
+            continue;
+        };
+        let control = Control::new(answer, guides);
+        assert!(controls.insert(cid, control).is_none());
+    }
+    controls
+}
+
+fn map_form_controls(
+    controls: &mut HashMap<CID, Answer>,
+    output_ragne: &calamine::Range<Data>,
+    path: String,
+) -> anyhow::Result<()> {
+    let mut zip = zip::ZipArchive::new(File::open(path)?)?;
 
     let props = zip
         .file_names()
@@ -48,11 +115,15 @@ fn main() -> anyhow::Result<()> {
             .parse::<u32>()?
             - 1;
 
-        let id = output.get_value((output_row, 0)).unwrap();
+        let id = output_ragne.get_value((output_row, 0)).unwrap();
 
-        let value = output.get_value((output_row, 3)).unwrap().as_i64().unwrap();
+        let value = output_ragne
+            .get_value((output_row, 3))
+            .unwrap()
+            .as_i64()
+            .unwrap();
 
-        let entry = output_map.get_mut(&id.to_string()).unwrap();
+        let entry = controls.get_mut(&id.to_string()).unwrap();
 
         if matches!(entry, Answer::Any(_)) {
             *entry = input_map(input_link, value as usize);
@@ -63,26 +134,10 @@ fn main() -> anyhow::Result<()> {
             )
         }
     }
-
     Ok(())
 }
 
-fn input_map(input: &str, value: usize) -> Answer {
-    match input {
-        "_Input!$C$13:$C$18" => {
-            Answer::DetailedOptional(DetailedOptional::from_repr(value).unwrap_or_default())
-        }
-        "_Input!$C$13:$C$17" => Answer::Detailed(Detailed::from_repr(value).unwrap_or_default()),
-        "_Input!$C$3:$C$4" => Answer::Bool(value > 1),
-        "_Input!$C$39:$C$43" => Answer::Occurence(Occurence::from_repr(value).unwrap_or_default()),
-        "_Input!$C$45:$C$49" => {
-            Answer::Satisfaction(Satisfaction::from_repr(value).unwrap_or_default())
-        }
-        _ => unreachable!(),
-    }
-}
-
-fn list_output(output_ragne: &calamine::Range<Data>) -> HashMap<String, Answer> {
+fn list_output(output_ragne: &calamine::Range<Data>) -> HashMap<CID, Answer> {
     output_ragne
         .rows()
         .filter(|row| {
