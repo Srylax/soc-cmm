@@ -143,7 +143,7 @@ fn extend_control_from_guidance(
 
 fn extend_answer_from_form_controls(
     controls: &mut HashMap<CID, Control>,
-    output_ragne: &calamine::Range<Data>,
+    output_range: &calamine::Range<Data>,
     path: String,
 ) -> anyhow::Result<()> {
     let mut zip = zip::ZipArchive::new(File::open(path)?)?;
@@ -181,15 +181,18 @@ fn extend_answer_from_form_controls(
             .parse::<u32>()?
             - 1;
 
-        let id = output_ragne.get_value((output_row, 0)).unwrap();
+        let id = output_range.get_value((output_row, 0)).unwrap();
 
-        let value = output_ragne
+        let value = output_range
             .get_value((output_row, 3))
             .unwrap()
             .as_i64()
             .unwrap();
 
-        let entry = controls.get_mut(&id.to_string()).unwrap();
+        let Some(entry) = controls.get_mut(&id.to_string()) else {
+            println!("Output contains unlisted CID: {}", id);
+            continue;
+        };
 
         if matches!(entry.answer(), Answer::Any(_)) {
             entry.set_answer(input_map(input_link, value as usize));
@@ -218,10 +221,10 @@ fn extend_answer_from_output(
     });
 
     for row in cids {
-        let control = controls.get_mut(&row[0].to_string()).expect(&format!(
-            "Output contains unlisted CID: {}",
-            row[0].to_string()
-        ));
+        let Some(control) = controls.get_mut(&row[0].to_string()) else {
+            println!("Output contains unlisted CID: {}", row[0].to_string());
+            continue;
+        };
         let answer = if ToCellDeserializer::is_empty(&row[3]) {
             Answer::None
         } else {
