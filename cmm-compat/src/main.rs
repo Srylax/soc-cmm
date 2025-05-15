@@ -2,7 +2,7 @@ use std::{
     collections::HashMap,
     env::{args, current_dir},
     fs::File,
-    io::Read,
+    io::{BufReader, Read},
 };
 
 use anyhow::Ok;
@@ -16,15 +16,78 @@ use roxmltree::Document;
 fn main() -> anyhow::Result<()> {
     let soc_cmm = args().nth(1).unwrap_or("../soc-cmm-2.3.4.xlsx".to_owned());
     let mut workbook: Xlsx<_> = open_workbook(&soc_cmm)?;
+    let mut controls = question_remarks(&mut workbook)?;
 
     let output = workbook.worksheet_range("_Output")?;
     let guidance = workbook.worksheet_range("_Guidance")?;
 
-    let mut output_map = list_output(&output);
-    map_form_controls(&mut output_map, &output, soc_cmm)?;
-    let controls = map_answers(output_map, &guidance);
+    extend_answer_from_output(&output, &mut controls);
+    extend_answer_from_form_controls(&mut controls, &output, soc_cmm)?;
+    extend_control_from_guidance(&mut controls, &guidance);
 
     Ok(())
+}
+
+fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<HashMap<CID, Control>> {
+    let sheets = vec![
+        ("Business - BSD", "B"),
+        ("Business - CST", "B"),
+        ("Business - CHT", "B"),
+        ("Business - GOV", "B"),
+        ("Business - PRV", "B"),
+        ("People - EMP", "P"),
+        ("People - R&H", "P"),
+        ("People - PEM", "P"),
+        ("People - KNM", "P"),
+        ("People - T&E", "P"),
+        ("Process - MGT", "M"),
+        ("Process - O&F", "M"),
+        ("Process - RPT", "M"),
+        ("Process - UCM", "M"),
+        ("Process - DTE", "M"),
+        ("Technology - SIM", "T"),
+        ("Technology - NDR", "T"),
+        ("Technology - EDR", "T"),
+        ("Technology - A&O", "T"),
+        ("Services - SCM", "S"),
+        ("Services - SIM", "S"),
+        ("Services - A&F", "S"),
+        ("Services - THR", "S"),
+        ("Services - HNT", "S"),
+        ("Services - VUL", "S"),
+        ("Services - LOG", "S"),
+    ];
+
+    let mut cids = HashMap::new();
+
+    for (sheet, domain) in sheets {
+        let range = workbook.worksheet_range(sheet)?;
+        let iter = range
+            .rows()
+            .skip(9)
+            .take_while(|row| row[1].to_string() != "Comments and/or Remarks")
+            .filter(|row| {
+                row[1]
+                    .to_string()
+                    .chars()
+                    .next()
+                    .map(|char| char.is_ascii_digit())
+                    .unwrap_or(false)
+            })
+            .map(|row| {
+                (
+                    format!("{} {}", domain, row[1]),
+                    Control::new(
+                        row[2].to_string(),
+                        row[15].as_string(),
+                        Answer::None,
+                        Vec::new(),
+                    ),
+                )
+            });
+        cids.extend(iter);
+    }
+    Ok(cids)
 }
 
 fn input_map(input: &str, value: usize) -> Answer {
@@ -42,11 +105,10 @@ fn input_map(input: &str, value: usize) -> Answer {
     }
 }
 
-fn map_answers(
-    mut answers: HashMap<CID, Answer>,
+fn extend_control_from_guidance(
+    controls: &mut HashMap<CID, Control>,
     guidance_range: &calamine::Range<Data>,
-) -> HashMap<CID, Control> {
-    let mut controls = HashMap::new();
+) {
     for row in 0..=guidance_range.end().unwrap().0 {
         let is_starting_guidance = guidance_range
             .get_value((row, 1))
@@ -70,25 +132,17 @@ fn map_answers(
             guides.push(guidance);
         }
         let cid = guidance_range.get_value((row, 0)).unwrap().to_string();
-        let Some(answer) = answers.remove(&cid) else {
+        // let control = Control::new(answer, guides);
+        let Some(control) = controls.get_mut(&cid) else {
             println!("Skipping unknown cid {}", cid);
             continue;
         };
-        let control = Control::new(answer, guides);
-        assert!(controls.insert(cid, control).is_none());
+        control.set_guidances(guides);
     }
-    for (cid, answer) in answers {
-        assert!(
-            controls
-                .insert(cid, Control::new(answer, Vec::new()))
-                .is_none()
-        );
-    }
-    controls
 }
 
-fn map_form_controls(
-    controls: &mut HashMap<CID, Answer>,
+fn extend_answer_from_form_controls(
+    controls: &mut HashMap<CID, Control>,
     output_ragne: &calamine::Range<Data>,
     path: String,
 ) -> anyhow::Result<()> {
@@ -137,8 +191,8 @@ fn map_form_controls(
 
         let entry = controls.get_mut(&id.to_string()).unwrap();
 
-        if matches!(entry, Answer::Any(_)) {
-            *entry = input_map(input_link, value as usize);
+        if matches!(entry.answer(), Answer::Any(_)) {
+            entry.set_answer(input_map(input_link, value as usize));
         } else {
             println!(
                 "Skipped {} with value of {}, existing: {:?}",
@@ -149,27 +203,30 @@ fn map_form_controls(
     Ok(())
 }
 
-fn list_output(output_ragne: &calamine::Range<Data>) -> HashMap<CID, Answer> {
-    output_ragne
-        .rows()
-        .filter(|row| {
-            let Some(id) = row[0].as_string() else {
-                return false;
-            };
-            let mut chars = id.chars().skip(1);
-            chars.next().unwrap().is_whitespace()
-                && chars.next().unwrap().is_ascii_digit()
-                && row[13].as_string() != Some("NIST MAPPING".to_owned())
-        })
-        .map(|row| {
-            (
-                row[0].as_string().unwrap(),
-                if ToCellDeserializer::is_empty(&row[3]) {
-                    Answer::None
-                } else {
-                    Answer::Any(row[3].as_string().unwrap())
-                },
-            )
-        })
-        .collect()
+fn extend_answer_from_output(
+    output_ragne: &calamine::Range<Data>,
+    controls: &mut HashMap<CID, Control>,
+) {
+    let cids = output_ragne.rows().filter(|row| {
+        let Some(id) = row[0].as_string() else {
+            return false;
+        };
+        let mut chars = id.chars().skip(1);
+        chars.next().unwrap().is_whitespace()
+            && chars.next().unwrap().is_ascii_digit()
+            && row[13].as_string() != Some("NIST MAPPING".to_owned())
+    });
+
+    for row in cids {
+        let control = controls.get_mut(&row[0].to_string()).expect(&format!(
+            "Output contains unlisted CID: {}",
+            row[0].to_string()
+        ));
+        let answer = if ToCellDeserializer::is_empty(&row[3]) {
+            Answer::None
+        } else {
+            Answer::Any(row[3].as_string().unwrap())
+        };
+        control.set_answer(answer);
+    }
 }

@@ -60,19 +60,41 @@ impl Aspect {
 
 #[derive(Debug)]
 pub struct Control {
-    // question: String,
-    // remark: String,
+    title: String,
+    remark: Option<String>,
     guidances: Vec<String>,
     answer: Answer,
 }
 
 impl Control {
-    pub fn new(answer: Answer, guidances: Vec<String>) -> Self {
-        Self { answer, guidances }
+    pub fn new(
+        title: String,
+        remark: Option<String>,
+        answer: Answer,
+        guidances: Vec<String>,
+    ) -> Self {
+        Self {
+            title,
+            remark,
+            guidances,
+            answer,
+        }
     }
     pub fn guidance(&self) -> Option<&String> {
         self.answer
             .score()
             .and_then(|score| self.guidances.get(score as usize))
+    }
+
+    pub fn set_guidances(&mut self, guidances: Vec<String>) {
+        self.guidances = guidances;
+    }
+
+    pub fn set_answer(&mut self, answer: Answer) {
+        self.answer = answer;
+    }
+
+    pub fn answer(&self) -> &Answer {
+        &self.answer
     }
 }
