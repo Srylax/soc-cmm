@@ -8,7 +8,7 @@ use std::{
 use anyhow::Ok;
 use calamine::{Data, DataType, Reader, ToCellDeserializer, Xlsx, open_workbook};
 use cmm_core::{
-    CID, Control,
+    CID, CMM, Control, Domain,
     answer::{Answer, Detailed, DetailedOptional, Occurence, Satisfaction},
 };
 use roxmltree::Document;
@@ -24,6 +24,16 @@ fn main() -> anyhow::Result<()> {
     extend_answer_from_output(&output, &mut controls);
     extend_answer_from_form_controls(&mut controls, &output, soc_cmm)?;
     extend_control_from_guidance(&mut controls, &guidance);
+
+    let cmm = CMM::from_map(controls).unwrap();
+
+    let aspect = cmm.aspects(&Domain::Business).unwrap().get(3).unwrap();
+
+    println!("{:#?}", aspect);
+    println!("{:#?}", aspect.factor());
+    println!("{:#?}", aspect.total_score());
+    println!("{:#?}", aspect.max_score());
+    println!("{:#?}", aspect.final_score());
 
     Ok(())
 }

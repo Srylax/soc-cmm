@@ -1,6 +1,6 @@
 use strum::{EnumCount, FromRepr};
 
-#[derive(Clone, Copy, Debug, FromRepr)]
+#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq)]
 pub enum Satisfaction {
     No = 1,
     Somewhat = 2,
@@ -14,7 +14,7 @@ impl Default for Satisfaction {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr)]
+#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq)]
 pub enum Occurence {
     Never = 1,
     Sometimes = 2,
@@ -28,7 +28,7 @@ impl Default for Occurence {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr, EnumCount)]
+#[derive(Clone, Copy, Debug, FromRepr, EnumCount, PartialEq, Eq)]
 pub enum Detailed {
     No = 1,
     Partially = 2,
@@ -42,7 +42,7 @@ impl Default for Detailed {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr)]
+#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq)]
 pub enum DetailedOptional {
     No = 1,
     Partially = 2,
@@ -57,7 +57,7 @@ impl Default for DetailedOptional {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Answer {
     Satisfaction(Satisfaction),
     Detailed(Detailed),

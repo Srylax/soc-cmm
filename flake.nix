@@ -19,7 +19,7 @@
     in {
       devShell = pkgs.mkShell {
         nativeBuildInputs = [
-          fenix.packages.${system}.stable.toolchain
+          fenix.packages.${system}.latest.toolchain
         ];
       };
     });

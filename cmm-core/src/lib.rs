@@ -1,10 +1,21 @@
 use std::collections::HashMap;
 
-use answer::{Answer, Detailed};
-use strum::EnumCount;
+use answer::Answer;
+use itertools::Itertools;
+use strum::VariantArray;
 
 pub mod answer;
 
+use thiserror::Error;
+
+type Result<T> = std::result::Result<T, CmmError>;
+#[derive(Error, Debug)]
+pub enum CmmError {
+    #[error("This aspect contains controls from multiple domains or aspects: ({0}) != ({1})")]
+    MultipleAspects(CID, CID),
+}
+
+#[derive(VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Domain {
     People,
     Business,
@@ -13,22 +24,67 @@ pub enum Domain {
     Services,
 }
 
+impl Domain {
+    fn short(&self) -> char {
+        match self {
+            Domain::People => 'P',
+            Domain::Business => 'B',
+            Domain::Process => 'M',
+            Domain::Technology => 'T',
+            Domain::Services => 'S',
+        }
+    }
+}
+
 pub type CID = String;
 
+#[derive(Debug)]
+pub struct CMM {
+    domains: HashMap<Domain, Vec<Aspect>>,
+}
+
+impl CMM {
+    pub fn from_map(mut controls: HashMap<CID, Control>) -> Result<Self> {
+        let mut domains = HashMap::new();
+        for domain in Domain::VARIANTS {
+            let domain_controls = controls.extract_if(|cid, _| cid.starts_with(domain.short()));
+            let aspects = domain_controls
+                .into_iter()
+                .sorted_by(|a, b| Ord::cmp(&a.0, &b.0)) // Ensure Aspect ordering
+                .chunk_by(|(cid, _)| cid.chars().nth(2)) // Group by aspect ID
+                .into_iter()
+                .map(|(_key, chunk)| chunk.collect::<HashMap<_, _>>()) // Assemble into CID -> Control
+                .map(Aspect::try_from_map)
+                .collect::<Result<Vec<Aspect>>>()?;
+            domains.insert(*domain, aspects);
+        }
+        Ok(Self { domains })
+    }
+
+    pub fn aspects(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
+        self.domains.get(domain)
+    }
+}
+
+#[derive(Default, Debug)]
 pub struct Aspect {
-    domain: Domain,
-    id: u8,
     controls: HashMap<CID, Control>,
 }
 
 impl Aspect {
-    pub fn new(domain: Domain, id: u8, controls: HashMap<String, Control>) -> Self {
-        Self {
-            domain,
-            id,
-            controls,
+    pub fn try_from_map(controls: HashMap<CID, Control>) -> Result<Self> {
+        let Some(prefix) = controls.keys().next().map(|cid| &cid[..2]) else {
+            return Ok(Self::default());
+        };
+        if let Some(conflict) = controls.keys().find(|cid| !cid.starts_with(prefix)) {
+            return Err(CmmError::MultipleAspects(
+                prefix.to_owned(),
+                conflict.clone(),
+            ));
         }
+        Ok(Self { controls })
     }
+
     pub fn factor(&self) -> u8 {
         self.controls
             .values()
@@ -58,7 +114,7 @@ impl Aspect {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Control {
     title: String,
     remark: Option<String>,
