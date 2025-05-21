@@ -57,40 +57,48 @@ impl Default for DetailedOptional {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Answer {
-    Satisfaction(Satisfaction),
-    Detailed(Detailed),
-    DetailedOptional(DetailedOptional),
-    Occurence(Occurence),
+    Satisfaction(Satisfaction),         // Maturity
+    Detailed(Detailed),                 // Maturity
+    DetailedOptional(DetailedOptional), // Capability
+    Occurence(Occurence),               // Maturity
     Bool(bool),
     Any(String),
     None,
 }
 
 impl Answer {
-    pub fn in_scope(&self) -> bool {
+    pub fn capability_in_scope(&self) -> bool {
+        matches!(self, Answer::DetailedOptional(_))
+            && *self != Answer::DetailedOptional(DetailedOptional::NotRequired)
+    }
+    pub fn maturity_in_scope(&self) -> bool {
         matches!(
             self,
-            Answer::Satisfaction(_)
-                | Answer::Occurence(_)
-                | Answer::Detailed(_)
-                | Answer::DetailedOptional(_)
+            Answer::Satisfaction(_) | Answer::Occurence(_) | Answer::Detailed(_)
         )
     }
-    pub fn score(&self) -> Option<u8> {
+    pub fn maturity_score(&self) -> Option<u8> {
         match self {
             Answer::Satisfaction(satisfaction) => Some(*satisfaction as u8),
             Answer::Occurence(occurence) => Some(*occurence as u8),
             Answer::Detailed(detailed) => Some(*detailed as u8),
+            _ => None,
+        }
+    }
+    pub fn capability_score(&self) -> Option<u8> {
+        match self {
             Answer::DetailedOptional(detailed_optional) => Some(*detailed_optional as u8),
             _ => None,
         }
     }
     pub fn max_score(&self) -> Option<u8> {
         match self {
-            Answer::Satisfaction(_) | Answer::Occurence(_) | Answer::Detailed(_) => Some(5),
-            Answer::DetailedOptional(_) => Some(6),
+            Answer::Satisfaction(_)
+            | Answer::Occurence(_)
+            | Answer::Detailed(_)
+            | Answer::DetailedOptional(_) => Some(5),
             _ => None,
         }
     }

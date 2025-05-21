@@ -66,7 +66,7 @@ impl CMM {
     }
 }
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Clone)]
 pub struct Aspect {
     controls: HashMap<CID, Control>,
 }
@@ -85,36 +85,67 @@ impl Aspect {
         Ok(Self { controls })
     }
 
-    pub fn factor(&self) -> u8 {
+    pub fn controls(&self) -> &HashMap<CID, Control> {
+        &self.controls
+    }
+
+    pub fn maturity_factor(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer.in_scope())
+            .filter(|cap| cap.answer.maturity_in_scope())
             .count() as u8
     }
-    pub fn total_score(&self) -> u8 {
+    pub fn capability_factor(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer.in_scope())
-            .flat_map(|cap| cap.answer.score())
+            .filter(|cap| cap.answer.capability_in_scope())
+            .count() as u8
+    }
+    pub fn maturity_total_score(&self) -> u8 {
+        self.controls
+            .values()
+            .filter(|cap| cap.answer.maturity_in_scope())
+            .flat_map(|cap| cap.answer.maturity_score())
             .sum()
     }
-    pub fn max_score(&self) -> u8 {
+    pub fn capability_total_score(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer.in_scope())
+            .filter(|cap| cap.answer.capability_in_scope())
+            .flat_map(|cap| cap.answer.capability_score())
+            .sum()
+    }
+    pub fn maturity_max_score(&self) -> u8 {
+        self.controls
+            .values()
+            .filter(|cap| cap.answer.maturity_in_scope())
             .flat_map(|cap| cap.answer.max_score())
             .sum()
     }
-    pub fn final_score(&self) -> f64 {
-        let factor = self.factor() as f64;
-        let total_score = self.total_score() as f64;
-        let max_score = self.max_score() as f64;
+    pub fn capability_max_score(&self) -> u8 {
+        self.controls
+            .values()
+            .filter(|cap| cap.answer.capability_in_scope())
+            .flat_map(|cap| cap.answer.max_score())
+            .sum()
+    }
+    pub fn maturity_final_score(&self) -> f64 {
+        let factor = self.maturity_factor() as f64;
+        let total_score = self.maturity_total_score() as f64;
+        let max_score = self.maturity_max_score() as f64;
+
+        (((total_score - factor) / (max_score - factor)) * 10000f64).round() / 100f64
+    }
+    pub fn capability_final_score(&self) -> f64 {
+        let factor = self.capability_factor() as f64;
+        let total_score = self.capability_total_score() as f64;
+        let max_score = self.capability_max_score() as f64;
 
         (((total_score - factor) / (max_score - factor)) * 10000f64).round() / 100f64
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Control {
     title: String,
     remark: Option<String>,
@@ -138,7 +169,8 @@ impl Control {
     }
     pub fn guidance(&self) -> Option<&String> {
         self.answer
-            .score()
+            .maturity_score()
+            .or(self.answer.capability_score())
             .and_then(|score| self.guidances.get(score as usize))
     }
 

@@ -137,6 +137,7 @@ dependencies = [
  "anyhow",
  "calamine",
  "cmm-core",
+ "compose-idents",
  "roxmltree",
  "zip",
 ]
@@ -157,6 +158,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48f68d061bc2828ae826206326e61251aca94c1e4a5305cf52d9138639c918b4"
 dependencies = [
  "encoding_rs",
+]
+
+[[package]]
+name = "compose-idents"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b2dd6b261ad54c0b4ceaa14bb27f639acf57d755fd6f0ffdbfc1ac44b026c448"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
