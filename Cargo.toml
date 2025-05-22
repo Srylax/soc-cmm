@@ -1,3 +1,15 @@
 [workspace]
 resolver = "3"
-members = [ "cmm-compat","cmm-core"]
+members = ["cmm-compat", "cmm-core", "cmm-web"]
+
+[profile]
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"

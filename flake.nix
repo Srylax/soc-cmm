@@ -19,7 +19,15 @@
     in {
       devShell = pkgs.mkShell {
         nativeBuildInputs = [
-          fenix.packages.${system}.latest.toolchain
+          pkgs.dioxus-cli
+          pkgs.wasm-bindgen-cli_0_2_100
+          # fenix.packages.${system}.latest.toolchain
+          (with fenix.packages.${system};
+            combine [
+              minimal.cargo
+              minimal.rustc
+              targets.wasm32-unknown-unknown.latest.rust-std
+            ])
         ];
       };
     });
