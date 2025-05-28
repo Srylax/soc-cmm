@@ -1,6 +1,8 @@
+use serde::Deserialize;
+use serde::Serialize;
 use strum::{EnumCount, FromRepr};
 
-#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
 pub enum Satisfaction {
     No = 1,
     Somewhat = 2,
@@ -14,7 +16,7 @@ impl Default for Satisfaction {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
 pub enum Occurence {
     Never = 1,
     Sometimes = 2,
@@ -28,7 +30,9 @@ impl Default for Occurence {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr, EnumCount, PartialEq, Eq)]
+#[derive(
+    Clone, Copy, Debug, FromRepr, EnumCount, PartialEq, Eq, Serialize, Deserialize, strum::Display,
+)]
 pub enum Detailed {
     No = 1,
     Partially = 2,
@@ -42,7 +46,7 @@ impl Default for Detailed {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
 pub enum DetailedOptional {
     No = 1,
     Partially = 2,
@@ -57,7 +61,7 @@ impl Default for DetailedOptional {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub enum Answer {
     Satisfaction(Satisfaction),         // Maturity
     Detailed(Detailed),                 // Maturity
@@ -100,6 +104,17 @@ impl Answer {
             | Answer::Detailed(_)
             | Answer::DetailedOptional(_) => Some(5),
             _ => None,
+        }
+    }
+    pub(crate) fn as_value(&self) -> String {
+        match self {
+            Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
+            Answer::Detailed(detailed) => detailed.to_string(),
+            Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string(),
+            Answer::Occurence(occurence) => occurence.to_string(),
+            Answer::Bool(bool) => bool.to_string(),
+            Answer::Any(text) => text.clone(),
+            Answer::None => "None".to_owned(),
         }
     }
 }

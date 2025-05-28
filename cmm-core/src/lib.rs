@@ -1,3 +1,6 @@
+use indexmap::IndexMap;
+use serde::Deserialize;
+use serde::Serialize;
 use std::collections::HashMap;
 
 use answer::Answer;
@@ -15,7 +18,7 @@ pub enum CmmError {
     MultipleAspects(CID, CID),
 }
 
-#[derive(VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
 pub enum Domain {
     People,
     Business,
@@ -38,22 +41,28 @@ impl Domain {
 
 pub type CID = String;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct CMM {
-    domains: HashMap<Domain, Vec<Aspect>>,
+    domains: IndexMap<Domain, Vec<Aspect>>,
 }
 
 impl CMM {
     pub fn from_map(mut controls: HashMap<CID, Control>) -> Result<Self> {
-        let mut domains = HashMap::new();
+        let mut domains = IndexMap::new();
         for domain in Domain::VARIANTS {
             let domain_controls = controls.extract_if(|cid, _| cid.starts_with(domain.short()));
             let aspects = domain_controls
                 .into_iter()
-                .sorted_by(|a, b| Ord::cmp(&a.0, &b.0)) // Ensure Aspect ordering
+                // Ensure Aspect ordering
+                .sorted_by_key(|(cid, _control)| {
+                    cid[2..]
+                        .split('.')
+                        .flat_map(|p| p.parse::<u32>().ok())
+                        .collect::<Vec<u32>>()
+                })
                 .chunk_by(|(cid, _)| cid.chars().nth(2)) // Group by aspect ID
                 .into_iter()
-                .map(|(_key, chunk)| chunk.collect::<HashMap<_, _>>()) // Assemble into CID -> Control
+                .map(|(_key, chunk)| chunk.collect::<IndexMap<_, _>>()) // Assemble into CID -> Control
                 .map(Aspect::try_from_map)
                 .collect::<Result<Vec<Aspect>>>()?;
             domains.insert(*domain, aspects);
@@ -64,18 +73,36 @@ impl CMM {
     pub fn aspects(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
         self.domains.get(domain)
     }
+
+    pub fn to_simple(&self) -> IndexMap<&Domain, IndexMap<&CID, String>> {
+        self.domains
+            .iter()
+            .map(|(domain, aspects)| {
+                (
+                    domain,
+                    aspects
+                        .iter()
+                        .flat_map(|aspect| aspect.controls())
+                        .map(|(cid, control)| (cid, control.answer.as_value()))
+                        .collect(),
+                )
+            })
+            .collect()
+    }
 }
 
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct Aspect {
-    controls: HashMap<CID, Control>,
+    controls: IndexMap<CID, Control>,
 }
 
 impl Aspect {
-    pub fn try_from_map(controls: HashMap<CID, Control>) -> Result<Self> {
+    pub fn try_from_map(controls: IndexMap<CID, Control>) -> Result<Self> {
+        // Get first Aspect ID
         let Some(prefix) = controls.keys().next().map(|cid| &cid[..2]) else {
             return Ok(Self::default());
         };
+        // Ensure all other CIDs are equal to this Aspect ID
         if let Some(conflict) = controls.keys().find(|cid| !cid.starts_with(prefix)) {
             return Err(CmmError::MultipleAspects(
                 prefix.to_owned(),
@@ -85,7 +112,7 @@ impl Aspect {
         Ok(Self { controls })
     }
 
-    pub fn controls(&self) -> &HashMap<CID, Control> {
+    pub fn controls(&self) -> &IndexMap<CID, Control> {
         &self.controls
     }
 
@@ -145,7 +172,7 @@ impl Aspect {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Control {
     title: String,
     remark: Option<String>,
