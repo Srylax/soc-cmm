@@ -145,7 +145,7 @@ fn extend_control_from_guidance(
         let cid = guidance_range.get_value((row, 0)).unwrap().to_string();
 
         let Some(control) = controls.get_mut(&cid) else {
-            println!("Skipping unknown cid {}", cid);
+            println!("Skipping unknown cid {} - probably an old relic", cid);
             continue;
         };
         control.set_guidances(guides);

@@ -33,6 +33,6 @@ fn main() -> anyhow::Result<()> {
     // println!("C {:#?}", aspect.capability_max_score());
     // println!("C {:#?}", aspect.capability_final_score());
 
-    // println!("{}", toml::to_string(&cmm.to_simple()).unwrap());
+    println!("{}", toml::to_string(&cmm.to_simple()).unwrap());
     Ok(())
 }

@@ -106,15 +106,17 @@ impl Answer {
             _ => None,
         }
     }
-    pub(crate) fn as_value(&self) -> String {
+    pub(crate) fn as_value(&self) -> toml::Value {
         match self {
-            Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
-            Answer::Detailed(detailed) => detailed.to_string(),
-            Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string(),
-            Answer::Occurence(occurence) => occurence.to_string(),
-            Answer::Bool(bool) => bool.to_string(),
-            Answer::Any(text) => text.clone(),
-            Answer::None => "None".to_owned(),
+            Answer::Satisfaction(satisfaction) => toml::Value::String(satisfaction.to_string()),
+            Answer::Detailed(detailed) => toml::Value::String(detailed.to_string()),
+            Answer::DetailedOptional(detailed_optional) => {
+                toml::Value::String(detailed_optional.to_string())
+            }
+            Answer::Occurence(occurence) => toml::Value::String(occurence.to_string()),
+            Answer::Bool(bool) => toml::Value::Boolean(*bool),
+            Answer::Any(text) => toml::Value::String(text.clone()),
+            Answer::None => toml::Value::String("None".to_owned()),
         }
     }
 }

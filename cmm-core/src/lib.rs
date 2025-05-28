@@ -74,7 +74,7 @@ impl CMM {
         self.domains.get(domain)
     }
 
-    pub fn to_simple(&self) -> IndexMap<&Domain, IndexMap<&CID, String>> {
+    pub fn to_simple(&self) -> IndexMap<&Domain, IndexMap<&CID, toml::Value>> {
         self.domains
             .iter()
             .map(|(domain, aspects)| {

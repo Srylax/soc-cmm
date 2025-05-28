@@ -493,6 +493,7 @@ dependencies = [
  "serde",
  "strum",
  "thiserror 2.0.12",
+ "toml",
 ]
 
 [[package]]
