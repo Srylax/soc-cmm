@@ -75,7 +75,11 @@ fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<Hash
             })
             .map(|row| {
                 (
-                    format!("{} {}", domain, row[1]),
+                    format!(
+                        "{} {}",
+                        domain,
+                        row[1].to_string().split_whitespace().next().unwrap()
+                    ),
                     Control::new(
                         row[2].to_string(),
                         row[15].as_string(),
@@ -139,7 +143,7 @@ fn extend_control_from_guidance(
             guides.push(guidance);
         }
         let cid = guidance_range.get_value((row, 0)).unwrap().to_string();
-        // let control = Control::new(answer, guides);
+
         let Some(control) = controls.get_mut(&cid) else {
             println!("Skipping unknown cid {}", cid);
             continue;
