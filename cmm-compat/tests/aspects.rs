@@ -4,7 +4,7 @@ use calamine::{Data, DataType, Reader, Xlsx, open_workbook};
 use cmm_compat::from_xlsx;
 use cmm_core::{Aspect, CMM, Domain};
 
-static XLSX: &str = "/home/bsiag.local/kli/Downloads/soc-cmm 2.3.4-basic_BSI.xlsx";
+static XLSX: &str = "/home/bsiag.local/kli/Downloads/soc-cmm-2.3.4-basic_BSI.xlsx";
 const CMM: LazyCell<CMM> = LazyCell::new(|| from_xlsx(XLSX).unwrap());
 const OUTPUT: LazyCell<calamine::Range<Data>> = LazyCell::new(|| {
     open_workbook::<Xlsx<_>, _>(XLSX)

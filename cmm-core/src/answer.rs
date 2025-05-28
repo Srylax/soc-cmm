@@ -62,6 +62,7 @@ impl Default for DetailedOptional {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", content = "answer")]
 pub enum Answer {
     Satisfaction(Satisfaction),         // Maturity
     Detailed(Detailed),                 // Maturity
@@ -104,19 +105,6 @@ impl Answer {
             | Answer::Detailed(_)
             | Answer::DetailedOptional(_) => Some(5),
             _ => None,
-        }
-    }
-    pub(crate) fn as_value(&self) -> toml::Value {
-        match self {
-            Answer::Satisfaction(satisfaction) => toml::Value::String(satisfaction.to_string()),
-            Answer::Detailed(detailed) => toml::Value::String(detailed.to_string()),
-            Answer::DetailedOptional(detailed_optional) => {
-                toml::Value::String(detailed_optional.to_string())
-            }
-            Answer::Occurence(occurence) => toml::Value::String(occurence.to_string()),
-            Answer::Bool(bool) => toml::Value::Boolean(*bool),
-            Answer::Any(text) => toml::Value::String(text.clone()),
-            Answer::None => toml::Value::String("None".to_owned()),
         }
     }
 }

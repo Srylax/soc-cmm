@@ -2,6 +2,7 @@ use indexmap::IndexMap;
 use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashMap;
+use std::mem::discriminant;
 
 use answer::Answer;
 use itertools::Itertools;
@@ -16,6 +17,8 @@ type Result<T> = std::result::Result<T, CmmError>;
 pub enum CmmError {
     #[error("This aspect contains controls from multiple domains or aspects: ({0}) != ({1})")]
     MultipleAspects(CID, CID),
+    #[error("Cannot extend an answer with mismatching type: {0:?} != {1:?}")]
+    DiscriminantMismatch(Answer, Answer),
 }
 
 #[derive(VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
@@ -47,20 +50,21 @@ pub struct CMM {
 }
 
 impl CMM {
-    pub fn from_map(mut controls: HashMap<CID, Control>) -> Result<Self> {
+    // This is the only place where a CID with prefix is expected because it needs to be globally unique in the hashmap
+    pub fn from_map(mut controls: HashMap<String, Control>) -> Result<Self> {
         let mut domains = IndexMap::new();
         for domain in Domain::VARIANTS {
             let domain_controls = controls.extract_if(|cid, _| cid.starts_with(domain.short()));
             let aspects = domain_controls
                 .into_iter()
+                .map(|(cid, control)| (cid[2..].to_owned(), control)) // Remove domain prefix
                 // Ensure Aspect ordering
                 .sorted_by_key(|(cid, _control)| {
-                    cid[2..]
-                        .split('.')
+                    cid.split('.')
                         .flat_map(|p| p.parse::<u32>().ok())
                         .collect::<Vec<u32>>()
                 })
-                .chunk_by(|(cid, _)| cid.chars().nth(2)) // Group by aspect ID
+                .chunk_by(|(cid, _)| cid.chars().next()) // Group by aspect ID
                 .into_iter()
                 .map(|(_key, chunk)| chunk.collect::<IndexMap<_, _>>()) // Assemble into CID -> Control
                 .map(Aspect::try_from_map)
@@ -74,20 +78,49 @@ impl CMM {
         self.domains.get(domain)
     }
 
-    pub fn to_simple(&self) -> IndexMap<&Domain, IndexMap<&CID, toml::Value>> {
+    pub fn as_simple(&self) -> IndexMap<Domain, IndexMap<CID, SimpleControl>> {
         self.domains
             .iter()
             .map(|(domain, aspects)| {
                 (
-                    domain,
+                    *domain,
                     aspects
                         .iter()
                         .flat_map(|aspect| aspect.controls())
-                        .map(|(cid, control)| (cid, control.answer.as_value()))
+                        .filter(|(_cid, control)| !matches!(control.answer, Answer::None))
+                        .map(|(cid, control)| (cid.clone(), control.to_simple()))
                         .collect(),
                 )
             })
             .collect()
+    }
+
+    pub fn extend_with_simple(
+        &mut self,
+        mut simple: IndexMap<Domain, IndexMap<CID, SimpleControl>>,
+    ) -> Result<()> {
+        for (domain, aspects) in self.domains.iter_mut() {
+            let mut aspects: IndexMap<_, _> = aspects
+                .iter_mut()
+                .flat_map(|aspect| &mut aspect.controls)
+                .collect();
+            let Some(simple) = simple.shift_remove(domain) else {
+                continue;
+            };
+            for (cid, simple_control) in simple {
+                if let Some(control) = aspects.get_mut(&cid) {
+                    if discriminant(&control.answer) != discriminant(&simple_control.answer) {
+                        return Err(CmmError::DiscriminantMismatch(
+                            control.answer.clone(),
+                            simple_control.answer,
+                        ));
+                    }
+                    control.set_answer(simple_control.answer);
+                    // Todo: comment
+                }
+            }
+        }
+        Ok(())
     }
 }
 
@@ -99,7 +132,7 @@ pub struct Aspect {
 impl Aspect {
     pub fn try_from_map(controls: IndexMap<CID, Control>) -> Result<Self> {
         // Get first Aspect ID
-        let Some(prefix) = controls.keys().next().map(|cid| &cid[..2]) else {
+        let Some(prefix) = controls.keys().next().map(|cid| &cid[..1]) else {
             return Ok(Self::default());
         };
         // Ensure all other CIDs are equal to this Aspect ID
@@ -172,6 +205,13 @@ impl Aspect {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+pub struct SimpleControl {
+    #[serde(flatten)]
+    answer: Answer,
+    comment: Option<String>,
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Control {
     title: String,
@@ -211,5 +251,12 @@ impl Control {
 
     pub fn answer(&self) -> &Answer {
         &self.answer
+    }
+
+    pub fn to_simple(&self) -> SimpleControl {
+        SimpleControl {
+            answer: self.answer.clone(),
+            comment: Option::None,
+        }
     }
 }

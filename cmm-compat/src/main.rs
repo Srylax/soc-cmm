@@ -1,6 +1,10 @@
-use std::env::args;
+use std::{collections::HashMap, env::args};
 
 use cmm_compat::from_xlsx;
+use cmm_core::{
+    Domain, SimpleControl,
+    answer::{Answer, Detailed},
+};
 
 fn main() -> anyhow::Result<()> {
     let soc_cmm = args().nth(1).unwrap_or("../soc-cmm-2.3.4.xlsx".to_owned());
@@ -33,6 +37,8 @@ fn main() -> anyhow::Result<()> {
     // println!("C {:#?}", aspect.capability_max_score());
     // println!("C {:#?}", aspect.capability_final_score());
 
-    println!("{}", toml::to_string(&cmm.to_simple()).unwrap());
+    // println!("{}", toml::to_string(&cmm.as_simple()).unwrap());
+    println!("{}", serde_json::to_string_pretty(&cmm).unwrap());
+
     Ok(())
 }

@@ -10,7 +10,8 @@ roxmltree = "0.20.0"
 zip = "2.5.0"
 cmm-core = { path = "../cmm-core" }
 toml = "0.8"
-
+serde_json = "1.0"
 
 [dev-dependencies]
-compose-idents = "0.1.0"
+compose-idents = "0.1"
+indexmap = {version = "2.9", features = ["serde"]}

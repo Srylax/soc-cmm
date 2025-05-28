@@ -479,7 +479,9 @@ dependencies = [
  "calamine",
  "cmm-core",
  "compose-idents",
+ "indexmap 2.9.0",
  "roxmltree",
+ "serde_json",
  "toml",
  "zip",
 ]
@@ -493,7 +495,6 @@ dependencies = [
  "serde",
  "strum",
  "thiserror 2.0.12",
- "toml",
 ]
 
 [[package]]
