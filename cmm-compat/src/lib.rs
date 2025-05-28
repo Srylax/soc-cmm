@@ -61,6 +61,20 @@ fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<Hash
 
     for (sheet, domain) in sheets {
         let range = workbook.worksheet_range(sheet)?;
+
+        let mut comments: HashMap<CID, String> = range
+            .rows()
+            .skip_while(|row| row[1].to_string() != "Comments and/or Remarks")
+            .skip(1)
+            .filter(|row| row[11].is_string() && row[13].is_string())
+            .map(|row| {
+                (
+                    format!("{} {}", domain, row[11].to_string()),
+                    row[13].to_string(),
+                )
+            })
+            .collect();
+
         let iter = range
             .rows()
             .skip(9)
@@ -74,16 +88,18 @@ fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<Hash
                     .unwrap_or(false)
             })
             .map(|row| {
+                let cid = format!(
+                    "{} {}",
+                    domain,
+                    row[1].to_string().split_whitespace().next().unwrap()
+                );
                 (
-                    format!(
-                        "{} {}",
-                        domain,
-                        row[1].to_string().split_whitespace().next().unwrap()
-                    ),
+                    cid.clone(),
                     Control::new(
                         row[2].to_string(),
                         row[15].as_string(),
                         Answer::None,
+                        comments.remove(&cid),
                         Vec::new(),
                     ),
                 )

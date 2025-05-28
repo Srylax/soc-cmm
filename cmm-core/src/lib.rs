@@ -116,7 +116,7 @@ impl CMM {
                         ));
                     }
                     control.set_answer(simple_control.answer);
-                    // Todo: comment
+                    control.set_comment(simple_control.comment);
                 }
             }
         }
@@ -217,6 +217,7 @@ pub struct Control {
     title: String,
     remark: Option<String>,
     guidances: Vec<String>,
+    comment: Option<String>,
     answer: Answer,
 }
 
@@ -225,12 +226,14 @@ impl Control {
         title: String,
         remark: Option<String>,
         answer: Answer,
+        comment: Option<String>,
         guidances: Vec<String>,
     ) -> Self {
         Self {
             title,
             remark,
             guidances,
+            comment,
             answer,
         }
     }
@@ -248,6 +251,9 @@ impl Control {
     pub fn set_answer(&mut self, answer: Answer) {
         self.answer = answer;
     }
+    pub fn set_comment(&mut self, comment: Option<String>) {
+        self.comment = comment;
+    }
 
     pub fn answer(&self) -> &Answer {
         &self.answer
@@ -256,7 +262,7 @@ impl Control {
     pub fn to_simple(&self) -> SimpleControl {
         SimpleControl {
             answer: self.answer.clone(),
-            comment: Option::None,
+            comment: self.comment.clone(),
         }
     }
 }
