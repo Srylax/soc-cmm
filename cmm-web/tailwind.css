@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
+body {
+    @apply bg-gray-950; 
+}
+
 label:after {
     content: attr(data-description);
-    display: block;
+    @apply block opacity-75 text-sm;
 }

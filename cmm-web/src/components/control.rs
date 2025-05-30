@@ -1,14 +1,19 @@
 use cmm_core::{answer::Answer, control::Control, CID};
-use dioxus::prelude::*;
+use dioxus::{html::option::selected, prelude::*};
 
 #[component]
 pub fn ControlComponent(cid: CID, control: Control) -> Element {
     rsx! {
         details {
+            open: true,
+            class: "bg-gray-900 p-4 m-4 rounded text-gray-50",
             summary {
-                "{cid} {control.title()}"
+               "{cid} {control.title()}"
+            },
+            map_control {
+               cid,
+               control
             }
-            map_control { cid, control }
         }
     }
 }
@@ -17,21 +22,28 @@ pub fn ControlComponent(cid: CID, control: Control) -> Element {
 fn map_control(cid: String, control: Control) -> Element {
     if let Answer::Any(content) = control.answer() {
         return rsx! {
-            input { type: "text", "{content}" }
+            input {
+                class: "bg-gray-800 rounded px-2 py-1.5 mt-2",
+                type: "text",
+                "{content}"
+            }
         };
     }
 
     rsx! {
         div {
+            class: "grid gap-y-2 mt-2",
             for (i, variant) in control.answer().variants().into_iter().enumerate() {
                 label {
                     key: cid.clone(),
-                    class: "grid",
+                    class: "bg-gray-800 py-1 px-2 rounded cursor-pointer hover:bg-gray-700 transition-colors has-checked:bg-gray-700",
                     "data-description":  control.guidances().get(i).cloned().unwrap_or(String::new()),
                     input {
+                        class: "mr-2",
                         type: "radio",
                         name: cid.clone(),
                         value: variant.to_owned(),
+                        checked: control.answer().variant_eq(variant)
                     }
                     "{variant}"
                 }

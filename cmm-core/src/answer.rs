@@ -162,4 +162,15 @@ impl Answer {
             Answer::None => &[],
         }
     }
+    pub fn variant_eq(&self, variant: &str) -> bool {
+        match self {
+            Answer::Satisfaction(satisfaction) => satisfaction.to_string() == variant,
+            Answer::Detailed(detailed) => detailed.to_string() == variant,
+            Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string() == variant,
+            Answer::Occurence(occurence) => occurence.to_string() == variant,
+            Answer::Bool(boolean) => boolean.to_string() == variant,
+            Answer::Any(_) => false,
+            Answer::None => false,
+        }
+    }
 }
