@@ -1,8 +1,20 @@
 use serde::Deserialize;
 use serde::Serialize;
+use strum::VariantNames;
 use strum::{EnumCount, FromRepr};
 
-#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    FromRepr,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    strum::Display,
+    VariantNames,
+)]
 pub enum Satisfaction {
     No = 1,
     Somewhat = 2,
@@ -16,7 +28,18 @@ impl Default for Satisfaction {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    FromRepr,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    strum::Display,
+    VariantNames,
+)]
 pub enum Occurence {
     Never = 1,
     Sometimes = 2,
@@ -31,7 +54,17 @@ impl Default for Occurence {
 }
 
 #[derive(
-    Clone, Copy, Debug, FromRepr, EnumCount, PartialEq, Eq, Serialize, Deserialize, strum::Display,
+    Clone,
+    Copy,
+    Debug,
+    FromRepr,
+    EnumCount,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    strum::Display,
+    VariantNames,
 )]
 pub enum Detailed {
     No = 1,
@@ -46,7 +79,18 @@ impl Default for Detailed {
     }
 }
 
-#[derive(Clone, Copy, Debug, FromRepr, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    FromRepr,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    strum::Display,
+    VariantNames,
+)]
 pub enum DetailedOptional {
     No = 1,
     Partially = 2,
@@ -105,6 +149,17 @@ impl Answer {
             | Answer::Detailed(_)
             | Answer::DetailedOptional(_) => Some(5),
             _ => None,
+        }
+    }
+    pub const fn variants(&self) -> &'static [&'static str] {
+        match self {
+            Answer::Satisfaction(_) => Satisfaction::VARIANTS,
+            Answer::Detailed(_) => Detailed::VARIANTS,
+            Answer::DetailedOptional(_) => DetailedOptional::VARIANTS,
+            Answer::Occurence(_) => Occurence::VARIANTS,
+            Answer::Bool(_) => &["true", "false"],
+            Answer::Any(_) => &[],
+            Answer::None => &[],
         }
     }
 }

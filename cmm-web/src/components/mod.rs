@@ -4,5 +4,5 @@
 
 mod hero;
 pub use hero::Hero;
-
-
+mod control;
+pub use control::ControlComponent;

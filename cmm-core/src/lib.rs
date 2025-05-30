@@ -6,6 +6,7 @@ use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashMap;
 use std::mem::discriminant;
+use strum::Display;
 
 use answer::Answer;
 use itertools::Itertools;
@@ -26,7 +27,9 @@ pub enum CmmError {
     DiscriminantMismatch(Answer, Answer),
 }
 
-#[derive(VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
+#[derive(
+    VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, Display,
+)]
 pub enum Domain {
     People,
     Business,
@@ -79,7 +82,7 @@ impl CMM {
         Ok(Self { domains })
     }
 
-    pub fn aspects(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
+    pub fn aspect(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
         self.domains.get(domain)
     }
 

@@ -24,6 +24,10 @@ impl Aspect {
         Ok(Self { controls })
     }
 
+    pub fn controls(&self) -> &IndexMap<CID, Control> {
+        &self.controls
+    }
+
     pub fn maturity_factor(&self) -> u8 {
         self.controls
             .values()

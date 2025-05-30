@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+label:after {
+    content: attr(data-description);
+    display: block;
+}

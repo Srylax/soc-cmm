@@ -501,7 +501,10 @@ dependencies = [
 name = "cmm-web"
 version = "0.1.0"
 dependencies = [
+ "cmm-core",
  "dioxus",
+ "serde_json",
+ "strum",
  "web-sys",
 ]
 

@@ -41,6 +41,10 @@ impl Control {
             .and_then(|score| self.guidances.get(score as usize))
     }
 
+    pub fn guidances(&self) -> &Vec<String> {
+        &self.guidances
+    }
+
     pub fn set_guidances(&mut self, guidances: Vec<String>) {
         self.guidances = guidances;
     }
@@ -52,6 +56,9 @@ impl Control {
         self.comment = comment;
     }
 
+    pub fn title(&self) -> &String {
+        &self.title
+    }
     pub fn answer(&self) -> &Answer {
         &self.answer
     }

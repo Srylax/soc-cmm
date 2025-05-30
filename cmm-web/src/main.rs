@@ -1,8 +1,10 @@
+use cmm_core::{Domain, CMM};
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
-use components::Hero;
+use components::{ControlComponent, Hero};
+use strum::VariantArray;
 use web_sys::{js_sys, window};
 
 /// Define a components module that contains all shared components for our app.
@@ -27,6 +29,7 @@ fn main() {
 /// Components should be annotated with `#[component]` to support props, better error messages, and autocomplete
 #[component]
 fn App() -> Element {
+    let cmm: CMM = serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap();
     // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
     rsx! {
         // In addition to element and text (which we will see later), rsx can contain other components. In this case,
@@ -35,7 +38,13 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: MAIN_CSS }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
-        Hero {}
-
+        for domain in Domain::VARIANTS {
+            h2 { "{domain}" }
+            for aspect in cmm.aspect(&domain).unwrap() {
+                for (cid,control) in aspect.controls() {
+                    ControlComponent { cid:cid.to_owned(), control:control.clone()} {}
+                }
+            }
+        }
     }
 }

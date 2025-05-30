@@ -14,7 +14,7 @@ const OUTPUT: LazyCell<calamine::Range<Data>> = LazyCell::new(|| {
 });
 
 fn aspect(domain: Domain, index: usize) -> Aspect {
-    CMM.aspects(&domain).unwrap().get(index).unwrap().clone()
+    CMM.aspect(&domain).unwrap().get(index).unwrap().clone()
 }
 
 fn score_at(absolute_position: (u32, u32)) -> Data {

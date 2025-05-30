@@ -11,7 +11,7 @@ fn main() -> anyhow::Result<()> {
 
     let cmm = from_xlsx(soc_cmm)?;
 
-    let aspect = cmm.aspects(&Domain::Business).unwrap().get(0).unwrap();
+    let aspect = cmm.aspect(&Domain::Business).unwrap().get(0).unwrap();
     // let mut keys = aspect
     //     .controls()
     //     .iter()
