@@ -1,4 +1,4 @@
-use cmm_core::{CID, CMM, Domain, SimpleControl};
+use cmm_core::{CID, CMM, Domain, control::SimpleControl};
 use indexmap::IndexMap;
 
 #[test]

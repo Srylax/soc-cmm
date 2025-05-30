@@ -1,3 +1,6 @@
+use aspect::Aspect;
+use control::Control;
+use control::SimpleControl;
 use indexmap::IndexMap;
 use serde::Deserialize;
 use serde::Serialize;
@@ -9,10 +12,12 @@ use itertools::Itertools;
 use strum::VariantArray;
 
 pub mod answer;
+pub mod aspect;
+pub mod control;
 
 use thiserror::Error;
 
-type Result<T> = std::result::Result<T, CmmError>;
+pub(crate) type Result<T> = std::result::Result<T, CmmError>;
 #[derive(Error, Debug)]
 pub enum CmmError {
     #[error("This aspect contains controls from multiple domains or aspects: ({0}) != ({1})")]
@@ -86,8 +91,8 @@ impl CMM {
                     *domain,
                     aspects
                         .iter()
-                        .flat_map(|aspect| aspect.controls())
-                        .filter(|(_cid, control)| !matches!(control.answer, Answer::None))
+                        .flat_map(|aspect| &aspect.controls)
+                        .filter(|(_cid, control)| !matches!(control.answer(), Answer::None))
                         .map(|(cid, control)| (cid.clone(), control.to_simple()))
                         .collect(),
                 )
@@ -109,10 +114,10 @@ impl CMM {
             };
             for (cid, simple_control) in simple {
                 if let Some(control) = aspects.get_mut(&cid) {
-                    if discriminant(&control.answer) != discriminant(&simple_control.answer) {
+                    if discriminant(control.answer()) != discriminant(&simple_control.answer) {
                         return Err(CmmError::DiscriminantMismatch(
-                            control.answer.clone(),
-                            simple_control.answer,
+                            control.answer().clone(),
+                            simple_control.answer.clone(),
                         ));
                     }
                     control.set_answer(simple_control.answer);
@@ -121,148 +126,5 @@ impl CMM {
             }
         }
         Ok(())
-    }
-}
-
-#[derive(Default, Debug, Clone, Serialize, Deserialize)]
-pub struct Aspect {
-    controls: IndexMap<CID, Control>,
-}
-
-impl Aspect {
-    pub fn try_from_map(controls: IndexMap<CID, Control>) -> Result<Self> {
-        // Get first Aspect ID
-        let Some(prefix) = controls.keys().next().map(|cid| &cid[..1]) else {
-            return Ok(Self::default());
-        };
-        // Ensure all other CIDs are equal to this Aspect ID
-        if let Some(conflict) = controls.keys().find(|cid| !cid.starts_with(prefix)) {
-            return Err(CmmError::MultipleAspects(
-                prefix.to_owned(),
-                conflict.clone(),
-            ));
-        }
-        Ok(Self { controls })
-    }
-
-    pub fn controls(&self) -> &IndexMap<CID, Control> {
-        &self.controls
-    }
-
-    pub fn maturity_factor(&self) -> u8 {
-        self.controls
-            .values()
-            .filter(|cap| cap.answer.maturity_in_scope())
-            .count() as u8
-    }
-    pub fn capability_factor(&self) -> u8 {
-        self.controls
-            .values()
-            .filter(|cap| cap.answer.capability_in_scope())
-            .count() as u8
-    }
-    pub fn maturity_total_score(&self) -> u8 {
-        self.controls
-            .values()
-            .filter(|cap| cap.answer.maturity_in_scope())
-            .flat_map(|cap| cap.answer.maturity_score())
-            .sum()
-    }
-    pub fn capability_total_score(&self) -> u8 {
-        self.controls
-            .values()
-            .filter(|cap| cap.answer.capability_in_scope())
-            .flat_map(|cap| cap.answer.capability_score())
-            .sum()
-    }
-    pub fn maturity_max_score(&self) -> u8 {
-        self.controls
-            .values()
-            .filter(|cap| cap.answer.maturity_in_scope())
-            .flat_map(|cap| cap.answer.max_score())
-            .sum()
-    }
-    pub fn capability_max_score(&self) -> u8 {
-        self.controls
-            .values()
-            .filter(|cap| cap.answer.capability_in_scope())
-            .flat_map(|cap| cap.answer.max_score())
-            .sum()
-    }
-    pub fn maturity_final_score(&self) -> f64 {
-        let factor = self.maturity_factor() as f64;
-        let total_score = self.maturity_total_score() as f64;
-        let max_score = self.maturity_max_score() as f64;
-
-        (((total_score - factor) / (max_score - factor)) * 10000f64).round() / 100f64
-    }
-    pub fn capability_final_score(&self) -> f64 {
-        let factor = self.capability_factor() as f64;
-        let total_score = self.capability_total_score() as f64;
-        let max_score = self.capability_max_score() as f64;
-
-        (((total_score - factor) / (max_score - factor)) * 10000f64).round() / 100f64
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
-pub struct SimpleControl {
-    #[serde(flatten)]
-    answer: Answer,
-    comment: Option<String>,
-}
-
-#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
-pub struct Control {
-    title: String,
-    remark: Option<String>,
-    guidances: Vec<String>,
-    comment: Option<String>,
-    answer: Answer,
-}
-
-impl Control {
-    pub fn new(
-        title: String,
-        remark: Option<String>,
-        answer: Answer,
-        comment: Option<String>,
-        guidances: Vec<String>,
-    ) -> Self {
-        Self {
-            title,
-            remark,
-            guidances,
-            comment,
-            answer,
-        }
-    }
-    pub fn guidance(&self) -> Option<&String> {
-        self.answer
-            .maturity_score()
-            .or(self.answer.capability_score())
-            .and_then(|score| self.guidances.get(score as usize))
-    }
-
-    pub fn set_guidances(&mut self, guidances: Vec<String>) {
-        self.guidances = guidances;
-    }
-
-    pub fn set_answer(&mut self, answer: Answer) {
-        self.answer = answer;
-    }
-    pub fn set_comment(&mut self, comment: Option<String>) {
-        self.comment = comment;
-    }
-
-    pub fn answer(&self) -> &Answer {
-        &self.answer
-    }
-
-    pub fn to_simple(&self) -> SimpleControl {
-        SimpleControl {
-            answer: self.answer.clone(),
-            comment: self.comment.clone(),
-        }
     }
 }

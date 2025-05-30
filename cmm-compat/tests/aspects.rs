@@ -2,7 +2,7 @@ use std::cell::LazyCell;
 
 use calamine::{Data, DataType, Reader, Xlsx, open_workbook};
 use cmm_compat::from_xlsx;
-use cmm_core::{Aspect, CMM, Domain};
+use cmm_core::{CMM, Domain, aspect::Aspect};
 
 static XLSX: &str = "/home/bsiag.local/kli/Downloads/soc-cmm-2.3.4-basic_BSI.xlsx";
 const CMM: LazyCell<CMM> = LazyCell::new(|| from_xlsx(XLSX).unwrap());

@@ -8,8 +8,9 @@ use std::{
 use anyhow::Ok;
 use calamine::{Data, DataType, Reader, ToCellDeserializer, Xlsx, open_workbook};
 use cmm_core::{
-    CID, CMM, Control,
+    CID, CMM,
     answer::{Answer, Detailed, DetailedOptional, Occurence, Satisfaction},
+    control::Control,
 };
 use roxmltree::Document;
 

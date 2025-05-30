@@ -2,7 +2,7 @@ use std::{collections::HashMap, env::args};
 
 use cmm_compat::from_xlsx;
 use cmm_core::{
-    Domain, SimpleControl,
+    Domain,
     answer::{Answer, Detailed},
 };
 
@@ -11,7 +11,7 @@ fn main() -> anyhow::Result<()> {
 
     let cmm = from_xlsx(soc_cmm)?;
 
-    // let aspect = cmm.aspects(&Domain::Technology).unwrap().get(1).unwrap();
+    let aspect = cmm.aspects(&Domain::Business).unwrap().get(0).unwrap();
     // let mut keys = aspect
     //     .controls()
     //     .iter()
@@ -27,17 +27,19 @@ fn main() -> anyhow::Result<()> {
     // keys.sort();
 
     // println!("{:#?}", keys);
-    // println!("M {:#?}", aspect.maturity_factor());
-    // println!("M {:#?}", aspect.maturity_total_score());
-    // println!("M {:#?}", aspect.maturity_max_score());
-    // println!("M {:#?}", aspect.maturity_final_score());
+    println!("M {:#?}", aspect.maturity_factor());
+    println!("M {:#?}", aspect.maturity_total_score());
+    println!("M {:#?}", aspect.maturity_max_score());
+    println!("M {:#?}", aspect.maturity_final_score());
+    println!("M {:#?}", aspect.maturity_score());
 
-    // println!("C {:#?}", aspect.capability_factor());
-    // println!("C {:#?}", aspect.capability_total_score());
-    // println!("C {:#?}", aspect.capability_max_score());
-    // println!("C {:#?}", aspect.capability_final_score());
+    println!("C {:#?}", aspect.capability_factor());
+    println!("C {:#?}", aspect.capability_total_score());
+    println!("C {:#?}", aspect.capability_max_score());
+    println!("C {:#?}", aspect.capability_final_score());
+    println!("C {:#?}", aspect.capability_score());
 
-    println!("{}", toml::to_string(&cmm.as_simple()).unwrap());
+    // println!("{}", toml::to_string(&cmm.as_simple()).unwrap());
     // println!("{}", serde_json::to_string_pretty(&cmm).unwrap());
 
     Ok(())
