@@ -2,7 +2,7 @@
 name = "cmm-web"
 version = "0.1.0"
 authors = ["Srylax <71783705+srylax@users.noreply.github.com>"]
-edition = "2024"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

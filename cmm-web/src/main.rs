@@ -3,10 +3,12 @@ use cmm_core::{Domain, CMM};
 // need dioxus
 use dioxus::prelude::*;
 
-use components::{ControlComponent, Hero};
+use components::ControlComponent;
 use strum::VariantArray;
 use std::sync::Arc;
 use dioxus::{prelude::dioxus_elements::FileEngine};
+
+use crate::components::SidebarComponent;
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -53,27 +55,49 @@ fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
-
-        div {
-            label { r#for: "textreader", "Upload CMM values in toml format" }
-            input {
-                r#type: "file",
-                accept: ".toml",
-                multiple: false,
-                name: "textreader",
-                directory: false,
-                onchange: upload_cmm,
-            }
-        }
-
-        for domain in Domain::VARIANTS {
-            h2 {
-                class: "text-3xl mb-2",
-                "{domain}"
+        SidebarComponent {
+            cmm: cmm,
+            div {
+                label {
+                    class: "text-sm mb-2 block",
+                    r#for: "textreader",
+                    "Upload CMM values in toml format"
+                },
+                input {
+                    class: "bg-slate-800 p-1 rounded w-full",
+                    r#type: "file",
+                    accept: ".toml",
+                    multiple: false,
+                    name: "textreader",
+                    directory: false,
+                    onchange: upload_cmm,
+                }
             },
-            for aspect in cmm.read().aspect(&domain).unwrap() {
-                for (cid,control) in aspect.controls() {
-                    ControlComponent { key: cid.to_owned(), domain: *domain, cid: cid.to_owned(), control: control.clone()} {}
+        },
+        main {
+            class: "ml-[260px] px-8 py-4",
+
+            div {
+                class: "max-w-3xl mx-auto",
+                for domain in Domain::VARIANTS {
+                    h2 {
+                        class: "text-3xl mb-2 mt-3",
+                        id: "variant-{domain}",
+                        "{domain}"
+                    },
+                    for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
+                        h3 {
+                            class: "text-2xl mb-2 mt-6",
+                            id: "aspect-{domain}-{i + 1}",
+                            "{i + 1}. {aspect.title()}"
+                        }
+                        div {
+                            class: "grid gap-y-2",
+                            for (cid,control) in aspect.controls() {
+                                ControlComponent { key: cid.to_owned(), domain: *domain, cid: cid.to_owned(), control: control.clone()} {}
+                            }
+                        }
+                    }
                 }
             }
         }

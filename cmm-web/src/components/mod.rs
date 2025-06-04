@@ -5,4 +5,6 @@
 mod hero;
 pub use hero::Hero;
 mod control;
+mod sidebar;
 pub use control::ControlComponent;
+pub use sidebar::SidebarComponent;
