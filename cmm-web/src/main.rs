@@ -8,16 +8,10 @@ use dioxus_storage::{use_synced_storage, LocalStorage};
 use std::sync::Arc;
 use strum::VariantArray;
 
-use crate::components::SidebarComponent;
+use crate::components::{SidebarComponent, ControlComponent};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
-
-// We can import assets in dioxus with the `asset!` macro. This macro takes a path to an asset relative to the crate root.
-// The macro returns an `Asset` type that will display as the path to the asset in the browser or a local path in desktop bundles.
-const FAVICON: Asset = asset!("/assets/favicon.ico");
-// The asset macro also minifies some assets like CSS and JS to make bundled smaller
-const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
 fn main() {
     // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
@@ -53,8 +47,12 @@ fn App() -> Element {
     rsx! {
         // In addition to element and text (which we will see later), rsx can contain other components. In this case,
         // we are using the `document::Link` component to add a link to our favicon and main CSS file into the head of our app.
-        document::Link { rel: "icon", href: FAVICON }
-        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
+        document::Link { rel: "apple-touch-icon", sizes: "180x180", href: asset!("/assets/apple-touch-icon.png") }
+        document::Link { rel: "icon", type: "image/png", sizes: "16x16", href: asset!("/assets/favicon-16x16.png") }
+        document::Link { rel: "icon", type: "image/png", sizes: "32x32", href: asset!("/assets/favicon-32x32.png") }
+        document::Link { rel: "icon", href: asset!("/assets/favicon.ico") }
+        document::Link { rel: "stylesheet", href: asset!("/assets/tailwind.css") }
+        document::Link { rel: "manifest", href: asset!("/assets/site.webmanifest")}
 
         SidebarComponent {
             cmm: cmm,
@@ -82,20 +80,20 @@ fn App() -> Element {
                 class: "max-w-3xl mx-auto",
                 for domain in Domain::VARIANTS {
                     h2 {
-                        class: "text-3xl mb-2 mt-3",
+                        class: "text-3xl mb-2 mt-6 font-semibold",
                         id: "variant-{domain}",
                         "{domain}"
                     },
                     for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
                         h3 {
-                            class: "text-2xl mb-2 mt-6",
+                            class: "text-2xl mb-2 mt-6 font-semibold",
                             id: "aspect-{domain}-{i + 1}",
                             "{i + 1}. {aspect.title()}"
                         }
                         div {
-                            class: "grid gap-y-2",
+                            class: "",
                             for (cid,control) in aspect.controls() {
-                                ControlComponent { key: cid.to_owned(), domain: *domain, cid: cid.to_owned(), control: control.clone()} {}
+                                ControlComponent { key: cid.to_owned(), domain: *domain, cid: cid.to_owned(), control: control.clone()}
                             }
                         }
                     }

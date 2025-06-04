@@ -4,15 +4,32 @@ use dioxus::prelude::*;
 #[component]
 pub fn ControlComponent(domain: Domain, cid: CID, control: Control) -> Element {
 // pub fn ControlComponent(domain: Domain, cid: ReadOnlySignal<CID>, control: ReadOnlySignal<Control>) -> Element {
+
+    if let Answer::None = control.answer() {
+        return rsx! {
+            h4 {
+                class: "mt-4 mb-1 text-xl font-semibold",
+                "{cid} {control.title()}"
+            }
+        };
+    }
+
+    let value = control.answer().as_value();
     rsx! {
         details {
-            class: "bg-slate-800 open:p-4 rounded text-slate-50 not-open:hover:bg-slate-700 transition-colors group",
+            class: "bg-slate-800 mt-2 open:p-4 rounded text-slate-50 not-open:hover:bg-slate-700 transition-colors duration-100ms ease-in-out group",
             summary {
-                class: "not-in-open:p-4 cursor-pointer",
-               "{cid} {control.title()}"
+                class: "not-in-open:p-4 cursor-pointer flex justify-between w-full",
+                span {
+                    "{cid} {control.title()}"
+                },
+                span {
+                    class: "bg-slate-600 rounded px-2 py-1",
+                    "{value}"
+                }
             },
             map_control {
-                domain,
+               domain,
                cid,
                control
             }

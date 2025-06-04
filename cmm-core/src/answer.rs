@@ -173,4 +173,16 @@ impl Answer {
             Answer::None => false,
         }
     }
+
+    pub fn as_value(&self) -> String {
+        return match self {
+            Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
+            Answer::Detailed(detailed) => detailed.to_string(),
+            Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string(),
+            Answer::Occurence(occurence) => occurence.to_string(),
+            Answer::Bool(boolean) => boolean.to_string(),
+            Answer::Any(any) => any.to_string(),
+            Answer::None => String::new(),
+        }
+    }
 }

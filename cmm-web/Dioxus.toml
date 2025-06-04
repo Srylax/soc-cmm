@@ -1,9 +1,11 @@
 [application]
 
+asset_dir = "assets"
+
 [web.app]
 
 # HTML title tag content
-title = "cmm-web"
+title = "CMM Web"
 
 # include `assets` in web platform
 [web.resource]
