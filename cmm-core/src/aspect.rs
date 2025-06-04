@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{CID, CmmError, Control};
 
-#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Aspect {
     pub(crate) controls: IndexMap<CID, Control>,
 }

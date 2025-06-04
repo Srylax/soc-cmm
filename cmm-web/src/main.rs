@@ -5,7 +5,8 @@ use dioxus::prelude::*;
 
 use components::{ControlComponent, Hero};
 use strum::VariantArray;
-use web_sys::{js_sys, window};
+use std::sync::Arc;
+use dioxus::{prelude::dioxus_elements::FileEngine};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -28,7 +29,23 @@ fn main() {
 /// Components should be annotated with `#[component]` to support props, better error messages, and autocomplete
 #[component]
 fn App() -> Element {
-    let cmm: CMM = serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap();
+    let mut cmm: Signal<CMM> = use_signal(||serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap());
+
+    let read_cmm_from_file = move |file_engine: Arc<dyn FileEngine>| async move {
+        let files = file_engine.files();
+        for file_name in &files {
+            if let Some(contents) = file_engine.read_file_to_string(file_name).await {
+                let simple_cmm = toml::from_str(&contents).unwrap();
+                cmm.write().extend_with_simple(simple_cmm).unwrap();
+
+            }
+        }
+    };
+    let upload_cmm = move |evt: FormEvent| async move {
+            if let Some(file_engine) = evt.files() {
+                read_cmm_from_file(file_engine).await;
+            }
+        };
     // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
     rsx! {
         // In addition to element and text (which we will see later), rsx can contain other components. In this case,
@@ -36,14 +53,27 @@ fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
+
+        div {
+            label { r#for: "textreader", "Upload CMM values in toml format" }
+            input {
+                r#type: "file",
+                accept: ".toml",
+                multiple: false,
+                name: "textreader",
+                directory: false,
+                onchange: upload_cmm,
+            }
+        }
+
         for domain in Domain::VARIANTS {
             h2 {
                 class: "text-3xl mb-2",
-                "{domain}" 
+                "{domain}"
             },
-            for aspect in cmm.aspect(&domain).unwrap() {
+            for aspect in cmm.read().aspect(&domain).unwrap() {
                 for (cid,control) in aspect.controls() {
-                    ControlComponent { cid:cid.to_owned(), control:control.clone()} {}
+                    ControlComponent { key: cid.to_owned(), domain: *domain, cid: cid.to_owned(), control: control.clone()} {}
                 }
             }
         }

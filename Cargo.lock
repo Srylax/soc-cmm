@@ -503,8 +503,11 @@ version = "0.1.0"
 dependencies = [
  "cmm-core",
  "dioxus",
+ "indexmap 2.9.0",
  "serde_json",
  "strum",
+ "toml",
+ "tracing",
  "web-sys",
 ]
 

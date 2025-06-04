@@ -1,8 +1,9 @@
-use cmm_core::{answer::Answer, control::Control, CID};
+use cmm_core::{answer::Answer, control::Control, Domain, CID};
 use dioxus::{html::option::selected, prelude::*};
 
 #[component]
-pub fn ControlComponent(cid: CID, control: Control) -> Element {
+pub fn ControlComponent(domain: Domain, cid: CID, control: Control) -> Element {
+// pub fn ControlComponent(domain: Domain, cid: ReadOnlySignal<CID>, control: ReadOnlySignal<Control>) -> Element {
     rsx! {
         details {
             open: true,
@@ -11,6 +12,7 @@ pub fn ControlComponent(cid: CID, control: Control) -> Element {
                "{cid} {control.title()}"
             },
             map_control {
+                domain,
                cid,
                control
             }
@@ -19,7 +21,8 @@ pub fn ControlComponent(cid: CID, control: Control) -> Element {
 }
 
 #[component]
-fn map_control(cid: String, control: Control) -> Element {
+// fn map_control(domain: Domain, cid: ReadOnlySignal<String>, control: ReadOnlySignal<Control>) -> Element {
+fn map_control(domain: Domain, cid: String, control: Control) -> Element {
     if let Answer::Any(content) = control.answer() {
         return rsx! {
             input {
@@ -29,6 +32,7 @@ fn map_control(cid: String, control: Control) -> Element {
             }
         };
     }
+
 
     rsx! {
         div {
@@ -41,9 +45,9 @@ fn map_control(cid: String, control: Control) -> Element {
                     input {
                         class: "mr-2",
                         type: "radio",
-                        name: cid.clone(),
+                        name:  "{domain}.{cid.clone()}",
                         value: variant.to_owned(),
-                        checked: control.answer().variant_eq(variant)
+                        checked: control.answer().variant_eq(variant),
                     }
                     "{variant}"
                 }

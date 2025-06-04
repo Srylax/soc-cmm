@@ -22,7 +22,7 @@
           pkgs.dioxus-cli
           pkgs.tailwindcss_4
           pkgs.wasm-bindgen-cli_0_2_100
-          # fenix.packages.${system}.latest.toolchain
+          fenix.packages.${system}.latest.toolchain
           (with fenix.packages.${system};
             combine [
               minimal.cargo
