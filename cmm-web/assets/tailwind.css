@@ -229,9 +229,6 @@
   .grid {
     display: grid;
   }
-  .table {
-    display: table;
-  }
   .h-full {
     height: 100%;
   }
@@ -244,27 +241,17 @@
   .max-w-\[260px\] {
     max-width: 260px;
   }
-  .border-collapse {
-    border-collapse: collapse;
-  }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
   .cursor-pointer {
     cursor: pointer;
   }
-  .resize {
-    resize: both;
-  }
   .gap-y-2 {
     row-gap: calc(var(--spacing) * 2);
   }
   .rounded {
     border-radius: 0.25rem;
-  }
-  .border {
-    border-style: var(--tw-border-style);
-    border-width: 1px;
   }
   .bg-black {
     background-color: var(--color-black);
@@ -321,25 +308,13 @@
   .text-slate-50 {
     color: var(--color-slate-50);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .opacity-50 {
     opacity: 50%;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
   }
   .transition-colors {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
-  }
-  .not-open\:bg-white {
-    &:not(*:is([open], :popover-open, :open)) {
-      background-color: var(--color-white);
-    }
   }
   .not-in-open\:p-4 {
     &:not(:where(*:is([open], :popover-open, :open)) *) {
@@ -372,11 +347,6 @@
           background-color: var(--color-slate-700);
         }
       }
-    }
-  }
-  .in-not-open\:p-4 {
-    :where(*:not(*:is([open], :popover-open, :open))) & {
-      padding: calc(var(--spacing) * 4);
     }
   }
   .has-checked\:bg-slate-600 {
@@ -416,16 +386,6 @@ label:after {
   syntax: "*";
   inherits: false;
 }
-@property --tw-border-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -434,8 +394,6 @@ label:after {
       --tw-rotate-z: initial;
       --tw-skew-x: initial;
       --tw-skew-y: initial;
-      --tw-border-style: solid;
-      --tw-outline-style: solid;
     }
   }
 }

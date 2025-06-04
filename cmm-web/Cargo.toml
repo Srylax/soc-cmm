@@ -14,6 +14,7 @@ strum = "0.27"
 toml = "0.8"
 indexmap = { version = "2.9", features = ["serde"] }
 tracing = "0.1"
+dioxus_storage = "0.1.0-alpha.1"
 
 
 [dependencies.web-sys]

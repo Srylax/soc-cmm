@@ -54,7 +54,7 @@ impl Domain {
 
 pub type CID = String;
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct CMM {
     domains: IndexMap<Domain, Vec<Aspect>>,
 }

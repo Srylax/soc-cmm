@@ -3,10 +3,10 @@ use cmm_core::{Domain, CMM};
 // need dioxus
 use dioxus::prelude::*;
 
-use components::ControlComponent;
-use strum::VariantArray;
+use dioxus::prelude::dioxus_elements::FileEngine;
+use dioxus_storage::{use_synced_storage, LocalStorage};
 use std::sync::Arc;
-use dioxus::{prelude::dioxus_elements::FileEngine};
+use strum::VariantArray;
 
 use crate::components::SidebarComponent;
 
@@ -31,7 +31,9 @@ fn main() {
 /// Components should be annotated with `#[component]` to support props, better error messages, and autocomplete
 #[component]
 fn App() -> Element {
-    let mut cmm: Signal<CMM> = use_signal(||serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap());
+    let mut cmm: Signal<CMM> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
+        serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
+    });
 
     let read_cmm_from_file = move |file_engine: Arc<dyn FileEngine>| async move {
         let files = file_engine.files();
@@ -39,15 +41,14 @@ fn App() -> Element {
             if let Some(contents) = file_engine.read_file_to_string(file_name).await {
                 let simple_cmm = toml::from_str(&contents).unwrap();
                 cmm.write().extend_with_simple(simple_cmm).unwrap();
-
             }
         }
     };
     let upload_cmm = move |evt: FormEvent| async move {
-            if let Some(file_engine) = evt.files() {
-                read_cmm_from_file(file_engine).await;
-            }
-        };
+        if let Some(file_engine) = evt.files() {
+            read_cmm_from_file(file_engine).await;
+        }
+    };
     // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
     rsx! {
         // In addition to element and text (which we will see later), rsx can contain other components. In this case,
