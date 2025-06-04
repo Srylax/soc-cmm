@@ -25,7 +25,7 @@ pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<cmm_core::CMM> {
     extend_answer_from_form_controls(&mut controls, &output, path)?;
     extend_control_from_guidance(&mut controls, &guidance);
 
-    Ok(CMM::from_map(controls).unwrap())
+    Ok(CMM::from_map(controls, aspects(&output)).unwrap())
 }
 
 fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<HashMap<CID, Control>> {
@@ -131,6 +131,27 @@ fn input_map(input: &str, value: usize, _type: &str) -> Answer {
         }
         _ => unreachable!(),
     }
+}
+
+fn aspects(output_range: &calamine::Range<Data>) -> HashMap<String, String> {
+    output_range
+        .rows()
+        .filter(|row| {
+            row[0].to_string().contains("-")
+                && row[0]
+                    .to_string()
+                    .chars()
+                    .filter(|char| char.is_ascii_digit())
+                    .count()
+                    == 1
+                && ToCellDeserializer::is_empty(&row[3])
+        })
+        .flat_map(|row| row[0].as_string())
+        .map(|aspect| {
+            let (aid, title) = aspect.split_once("-").unwrap();
+            (aid.replace(" ", ""), title.trim().to_owned())
+        })
+        .collect()
 }
 
 fn extend_control_from_guidance(

@@ -6,10 +6,11 @@ use crate::{CID, CmmError, Control};
 #[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Aspect {
     pub(crate) controls: IndexMap<CID, Control>,
+    pub(crate) title: String,
 }
 
 impl Aspect {
-    pub fn try_from_map(controls: IndexMap<CID, Control>) -> crate::Result<Self> {
+    pub fn try_from_map(controls: IndexMap<CID, Control>, title: String) -> crate::Result<Self> {
         // Get first Aspect ID
         let Some(prefix) = controls.keys().next().map(|cid| &cid[..1]) else {
             return Ok(Self::default());
@@ -21,11 +22,14 @@ impl Aspect {
                 conflict.clone(),
             ));
         }
-        Ok(Self { controls })
+        Ok(Self { controls, title })
     }
 
     pub fn controls(&self) -> &IndexMap<CID, Control> {
         &self.controls
+    }
+    pub fn title(&self) -> &String {
+        &self.title
     }
 
     pub fn maturity_factor(&self) -> u8 {

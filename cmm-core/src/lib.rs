@@ -25,6 +25,8 @@ pub enum CmmError {
     MultipleAspects(CID, CID),
     #[error("Cannot extend an answer with mismatching type: {0:?} != {1:?}")]
     DiscriminantMismatch(Answer, Answer),
+    #[error("Aspect with missing title found")]
+    MissingAspectTitle,
 }
 
 #[derive(
@@ -59,7 +61,10 @@ pub struct CMM {
 
 impl CMM {
     // This is the only place where a CID with prefix is expected because it needs to be globally unique in the hashmap
-    pub fn from_map(mut controls: HashMap<String, Control>) -> Result<Self> {
+    pub fn from_map(
+        mut controls: HashMap<String, Control>,
+        mut aspects: HashMap<String, String>,
+    ) -> Result<Self> {
         let mut domains = IndexMap::new();
         for domain in Domain::VARIANTS {
             let domain_controls = controls.extract_if(|cid, _| cid.starts_with(domain.short()));
@@ -72,10 +77,17 @@ impl CMM {
                         .flat_map(|p| p.parse::<u32>().ok())
                         .collect::<Vec<u32>>()
                 })
-                .chunk_by(|(cid, _)| cid.chars().next()) // Group by aspect ID
+                .chunk_by(|(cid, _)| cid.chars().next().unwrap()) // Group by aspect ID
                 .into_iter()
-                .map(|(_key, chunk)| chunk.collect::<IndexMap<_, _>>()) // Assemble into CID -> Control
-                .map(Aspect::try_from_map)
+                .map(|(key, chunk)| {
+                    (
+                        chunk.collect::<IndexMap<_, _>>(),
+                        aspects.remove(&format!("{}{key}", domain.short())),
+                    )
+                }) // Assemble into CID -> Control
+                .map(|(map, title)| {
+                    Aspect::try_from_map(map, title.ok_or(CmmError::MissingAspectTitle)?)
+                })
                 .collect::<Result<Vec<Aspect>>>()?;
             domains.insert(*domain, aspects);
         }
