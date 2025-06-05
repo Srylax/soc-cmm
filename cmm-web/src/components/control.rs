@@ -1,4 +1,4 @@
-use cmm_core::{answer::Answer, control::Control, Domain, CID, CMM};
+use cmm_core::{CID, CMM, Domain, answer::Answer, control::Control};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
@@ -21,7 +21,7 @@ pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>) -> Element {
                     class: "",
                     for (cid,control) in aspect.controls() {
                         ControlItemComponent {
-                            key: cid.to_owned() + control.answer().as_value(),
+                            key: format!("{}{}", cid, control.answer().as_value()),
                             domain: *domain,
                             cid: cid.to_owned(),
                             control: control.clone()
@@ -142,7 +142,7 @@ fn ControlInputComponent(
                 class: "w-full flex items-baseline gap-x-2",
                 for value in vec!["True", "False"] {
                     label {
-                        key: cid.clone() + control().answer().as_value() + i,
+                        key: format!("{}{}",cid, control().answer().as_value()),
                         class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 has-checked:bg-slate-600 has-checked:border-blue-400 border-3 border-transparent w-full",
                         input {
                             class: "appearance-none opacity-0",
@@ -166,7 +166,7 @@ fn ControlInputComponent(
             class: "grid gap-2",
             for (i, variant) in control().answer().variants().into_iter().enumerate() {
                 label {
-                    key: cid.clone() + control().answer().as_value() + i,
+                    key: format!("{}{}{}",cid, control().answer().as_value(), i),
                     class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent has-focus:outline-2 has-focus:outline-dashed has-focus:outline-blue-400 outline-l-0",
                     "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
                     input {

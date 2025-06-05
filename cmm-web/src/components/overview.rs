@@ -1,4 +1,4 @@
-use cmm_core::{Domain, CMM};
+use cmm_core::{CMM, Domain};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
@@ -9,10 +9,12 @@ pub fn OverviewComponent() -> Element {
     use_effect(move || {
         // this line is required, else the use effect wont update
         let _ = cmm.read();
-        document::eval(r#"
+        document::eval(
+            r#"
             const event = new Event("updateChart");
             document.dispatchEvent(event);
-            "#);
+            "#,
+        );
     });
 
     rsx! {
@@ -80,7 +82,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
             tbody {
                 for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
                     tr {
-                        key: aspect.title() + aspect.maturity_score() + "_" + aspect.capability_score(),
+                        key: format!("{}{}_{}",aspect.title(), aspect.maturity_score(), aspect.capability_score()),
                         td {
                             "{i + 1}. {aspect.title()}"
                         },

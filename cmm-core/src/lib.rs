@@ -107,7 +107,10 @@ impl CMM {
         let Some(aspects) = self.aspect(domain) else {
             return None;
         };
-        let scores: Vec<f64> = aspects.into_iter().map(|aspect| aspect.maturity_score()).collect();
+        let scores: Vec<f64> = aspects
+            .into_iter()
+            .map(|aspect| aspect.maturity_score())
+            .collect();
         Some(scores.iter().sum::<f64>() / scores.iter().count() as f64)
     }
 

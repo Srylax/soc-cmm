@@ -512,7 +512,6 @@ dependencies = [
  "strum",
  "toml",
  "tracing",
- "web-sys",
 ]
 
 [[package]]
