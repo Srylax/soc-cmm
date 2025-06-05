@@ -8,3 +8,11 @@ label:after {
     content: attr(data-description);
     @apply block opacity-75 text-sm;
 }
+
+.indent-2 {
+    @apply pl-3 ml-1 border-l-1 border-slate-600;
+}
+
+.indent-2 + div:not(.indent-2) {
+    @apply mt-2;
+}

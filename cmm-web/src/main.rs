@@ -1,4 +1,4 @@
-use cmm_core::{Domain, CMM};
+use cmm_core::CMM;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
@@ -6,9 +6,8 @@ use dioxus::prelude::*;
 use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{use_synced_storage, LocalStorage};
 use std::sync::Arc;
-use strum::VariantArray;
 
-use crate::components::{ControlComponent, SidebarComponent};
+use crate::components::{ControlListComponent, SidebarComponent};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -80,25 +79,8 @@ fn App() -> Element {
 
             div {
                 class: "max-w-3xl mx-auto",
-                for domain in Domain::VARIANTS {
-                    h2 {
-                        class: "text-3xl mb-2 mt-6 font-semibold",
-                        id: "variant-{domain}",
-                        "{domain}"
-                    },
-                    for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
-                        h3 {
-                            class: "text-2xl mb-2 mt-6 font-semibold",
-                            id: "aspect-{domain}-{i + 1}",
-                            "{i + 1}. {aspect.title()}"
-                        }
-                        div {
-                            class: "",
-                            for (cid,control) in aspect.controls() {
-                                ControlComponent { key: cid.to_owned() + control.answer().as_value(), domain: *domain, cid: cid.to_owned(), control: control.clone()}
-                            }
-                        }
-                    }
+                ControlListComponent {
+                    cmm: cmm,
                 }
             }
         }

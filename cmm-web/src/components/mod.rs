@@ -4,5 +4,5 @@
 
 mod control;
 mod sidebar;
-pub use control::ControlComponent;
+pub use control::ControlListComponent;
 pub use sidebar::SidebarComponent;

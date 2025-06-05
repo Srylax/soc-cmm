@@ -7,9 +7,9 @@ use strum::VariantArray;
 fn NavigationLinkComponent(title: String, href: String) -> Element {
     rsx! {
         li {
-            class: "mt-2 text-gray-300",
+            class: "text-slate-300 border-l-1 border-gray-700 has-hover:border-white pl-3 py-1 text-md",
             a {
-                class: "hover:text-white transition-colors",
+                class: "hover:text-white",
                 href: "#{href}",
                 alt: "{title}",
                 "{title}"
@@ -26,14 +26,11 @@ fn NavigationSectionComponent(title: String, href: String, children: Element) ->
             a {
                 href: "#{href}",
                 alt: "{title}",
-                class: "text-xl",
-                span {
-                    class: "opacity-50 mr-2",
-                    "#"
-                }
+                class: "text-lg font-semibold",
                 "{title}"
             },
             ol {
+                class: "mt-2",
                 {children}
             }
         }
@@ -44,7 +41,7 @@ fn NavigationSectionComponent(title: String, href: String, children: Element) ->
 pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
     rsx! {
         nav {
-            class: "fixed z-10 h-full left-0 top-0 bg-gray-950 max-w-[260px] w-full",
+            class: "fixed z-10 h-full left-0 top-0 max-w-[260px] w-full",
             div {
                 class: "bg-black p-4",
                 {children}
