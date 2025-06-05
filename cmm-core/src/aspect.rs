@@ -35,40 +35,40 @@ impl Aspect {
     pub fn maturity_factor(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer().maturity_in_scope())
+            .filter(|cap| cap.answer().maturity_in_scope() && !cap.nist_only())
             .count() as u8
     }
     pub fn capability_factor(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer().capability_in_scope())
+            .filter(|cap| cap.answer().capability_in_scope() && !cap.nist_only())
             .count() as u8
     }
     pub fn maturity_total_score(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer().maturity_in_scope())
+            .filter(|cap| cap.answer().maturity_in_scope() && !cap.nist_only())
             .flat_map(|cap| cap.answer().maturity_score())
             .sum()
     }
     pub fn capability_total_score(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer().capability_in_scope())
+            .filter(|cap| cap.answer().capability_in_scope() && !cap.nist_only())
             .flat_map(|cap| cap.answer().capability_score())
             .sum()
     }
     pub fn maturity_max_score(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer().maturity_in_scope())
+            .filter(|cap| cap.answer().maturity_in_scope() && !cap.nist_only())
             .flat_map(|cap| cap.answer().max_score())
             .sum()
     }
     pub fn capability_max_score(&self) -> u8 {
         self.controls
             .values()
-            .filter(|cap| cap.answer().capability_in_scope())
+            .filter(|cap| cap.answer().capability_in_scope() && !cap.nist_only())
             .flat_map(|cap| cap.answer().max_score())
             .sum()
     }

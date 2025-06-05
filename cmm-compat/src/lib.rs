@@ -45,14 +45,13 @@ fn nist_compat(controls: &mut HashMap<CID, Control>) {
         ("M 3.11.2", Answer::Detailed(Detailed::No)),
         ("M 3.11.3", Answer::Detailed(Detailed::No)),
         ("B 4.6", Answer::Detailed(Detailed::No)),
-        ("P 2.2.14", Answer::Detailed(Detailed::No)),
+        ("P 2.2.14", Answer::Any(String::new())),
     ]);
 
     for (cid, answer) in compat {
-        controls
-            .get_mut(cid)
-            .expect("Compat CID not in controls")
-            .set_answer(answer);
+        let control = controls.get_mut(cid).expect("Compat CID not in controls");
+        control.set_answer(answer);
+        control.set_nist_only(cid != "P 2.2.14");
     }
 }
 

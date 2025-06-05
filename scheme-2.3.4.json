@@ -327,8 +327,8 @@
             "guidances": [],
             "comment": null,
             "answer": {
-              "type": "Detailed",
-              "answer": "No"
+              "type": "Any",
+              "answer": ""
             }
           },
           "2.3": {
@@ -1979,7 +1979,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "4.7": {
             "title": "Are SOC governance meetings regularly held?",
@@ -2974,7 +2975,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "2.3": {
             "title": "Process integration",
@@ -3152,7 +3154,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "2.4.6": {
             "title": "Do you have a video wall for monitoring purposes?",
@@ -3216,7 +3219,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "2.5": {
             "title": "Operational shifts",
@@ -3677,7 +3681,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "3.11.2": {
             "title": "Do you perform risk / impact assessments of these advisories?",
@@ -3693,7 +3698,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "3.11.3": {
             "title": "Do you perform follow-up of these advisories?",
@@ -3709,7 +3715,8 @@
             "answer": {
               "type": "Detailed",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "3.12": {
             "title": "Education and Awareness",
@@ -8892,7 +8899,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "2.17.34": {
             "title": "Exercises with other incident response teams",
@@ -8902,7 +8910,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "2.17.35": {
             "title": "Root Cause Analysis",
@@ -8912,7 +8921,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "2.17.36": {
             "title": "Restore integrity verification",
@@ -8922,7 +8932,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           }
         },
         "title": "Security incident Management"
@@ -10154,7 +10165,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           },
           "4.15.31": {
             "title": "Management of the CTI infrastructure (Threat Intelligence Platform)",
@@ -10164,7 +10176,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           }
         },
         "title": "Threat Intelligence"
@@ -11272,7 +11285,8 @@
             "answer": {
               "type": "DetailedOptional",
               "answer": "No"
-            }
+            },
+            "nist_only": true
           }
         },
         "title": "Vulnerability Management"
