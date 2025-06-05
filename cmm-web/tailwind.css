@@ -23,3 +23,16 @@ li:has(a.current) {
 a.current {
     @apply text-blue-400;
 }
+
+table {
+    @apply border-collapse border border-slate-600;
+}
+
+th {
+    @apply bg-slate-800;
+}
+
+td,
+th {
+    @apply border border-slate-600 p-2;
+}

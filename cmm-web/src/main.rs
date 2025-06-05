@@ -7,7 +7,7 @@ use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{use_synced_storage, LocalStorage};
 use std::sync::Arc;
 
-use crate::components::{ControlListComponent, SidebarComponent};
+use crate::components::{ControlListComponent, OverviewComponent, SidebarComponent};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -55,6 +55,8 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: asset!("/assets/tailwind.css") }
         document::Link { rel: "manifest", href: asset!("/assets/site.webmanifest")}
         document::Script { src: asset!("/assets/scripts/highlight-nav.js") }
+        document::Script { src: "https://cdn.jsdelivr.net/npm/chart.js" }
+        document::Script { src: asset!("/assets/scripts/chart.js"), defer: true }
 
         SidebarComponent {
             cmm: cmm,
@@ -77,7 +79,14 @@ fn App() -> Element {
         },
         main {
             class: "ml-[260px] px-8 py-4",
-
+            div {
+                class: "flex mt-10 mb-6",
+                h1 {
+                    class: "mx-auto text-6xl font-semibold",
+                    "SOC CMM"
+                },
+            },
+            OverviewComponent {},
             div {
                 class: "max-w-3xl mx-auto",
                 ControlListComponent {

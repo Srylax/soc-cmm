@@ -103,6 +103,14 @@ impl CMM {
         self.domains.get(domain)
     }
 
+    pub fn aspect_maturity_score(&self, domain: &Domain) -> Option<f64> {
+        let Some(aspects) = self.aspect(domain) else {
+            return None;
+        };
+        let scores: Vec<f64> = aspects.into_iter().map(|aspect| aspect.maturity_score()).collect();
+        Some(scores.iter().sum::<f64>() / scores.iter().count() as f64)
+    }
+
     pub fn set_answer(&mut self, domain: &Domain, cid: CID, answer: Answer) {
         if let Some(aspects) = self.domains.get_mut(domain)
             && let Some(aspect_id) = cid.chars().next()

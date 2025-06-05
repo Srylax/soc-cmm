@@ -125,7 +125,7 @@ fn ControlInputComponent(
         return rsx! {
             div {
                 input {
-                    class: "bg-slate-700 rounded px-2 py-1.5 w-full",
+                    class: "bg-slate-700 rounded px-2 py-1.5 w-full block",
                     type: "text",
                     value: "{content}",
                     oninput: move |evt| {
