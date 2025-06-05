@@ -28,14 +28,34 @@ pub fn ControlComponent(
                     "{cid} {control().title()}"
                 },
                 span {
-                    class: "bg-slate-600 rounded px-2 py-1",
+                    class: "bg-slate-600 rounded px-2 py-1 text-sm",
                     "{value}"
                 }
             },
-            map_control {
-                domain,
-                cid,
-                control
+            div {
+                class: "grid gap-2 mt-4 grid-cols-[60%_40%]",
+                span { },
+                span {
+                    class: "text-sm",
+                    "Comment",
+                },
+            },
+            div {
+                class: "grid gap-2 mt-1 grid-cols-[60%_40%]",
+                div {
+                    class: "grid gap-2",
+                    map_control {
+                        domain,
+                        cid,
+                        control
+                    },
+                },
+                label {
+                    class: "min-h-2xl flex flex-wrap",
+                    textarea {
+                        class: "bg-slate-700 rounded px-2 py-1.5 w-full",
+                    },
+                }
             }
         }
     }
@@ -49,10 +69,12 @@ fn map_control(
 ) -> Element {
     if let Answer::Any(content) = control().answer() {
         return rsx! {
-            input {
-                class: "bg-slate-700 rounded px-2 py-1.5 mt-2",
-                type: "text",
-                "{content}"
+            div {
+                input {
+                    class: "bg-slate-700 rounded px-2 py-1.5 w-full",
+                    type: "text",
+                    value: "{content}"
+                }
             }
         };
     }
@@ -60,25 +82,22 @@ fn map_control(
     let mut cmm = use_context::<Signal<CMM>>();
 
     rsx! {
-        div {
-            class: "grid gap-y-2 mt-2",
-            for (i, variant) in control().answer().variants().into_iter().enumerate() {
-                label {
-                    key: cid.clone() + control().answer().as_value() + i,
-                    class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600",
-                    "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
-                    input {
-                        class: "mr-2",
-                        type: "radio",
-                        name:  "{domain}.{cid.clone()}",
-                        value: variant.to_owned(),
-                        checked: control().answer().variant_eq(variant),
-                        onclick: move |_evt| {
-                            cmm.write().set_answer(&domain, cid(), control().answer().extend_from_variant(variant).unwrap());
-                        }
+        for (i, variant) in control().answer().variants().into_iter().enumerate() {
+            label {
+                key: cid.clone() + control().answer().as_value() + i,
+                class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600",
+                "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
+                input {
+                    class: "mr-2",
+                    type: "radio",
+                    name:  "{domain}.{cid.clone()}",
+                    value: variant.to_owned(),
+                    checked: control().answer().variant_eq(variant),
+                    onclick: move |_evt| {
+                        cmm.write().set_answer(&domain, cid(), control().answer().extend_from_variant(variant).unwrap());
                     }
-                    "{variant}"
                 }
+                "{variant}"
             }
         }
     }

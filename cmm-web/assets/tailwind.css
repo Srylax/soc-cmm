@@ -201,6 +201,9 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -264,8 +267,23 @@
   .resize {
     resize: both;
   }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid-cols-\[60\%\,40\%\] {
+    grid-template-columns: 60%,40%;
+  }
+  .grid-cols-\[60\%_40\%\] {
+    grid-template-columns: 60% 40%;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
   .justify-between {
     justify-content: space-between;
+  }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
   }
   .gap-y-2 {
     row-gap: calc(var(--spacing) * 2);
@@ -364,6 +382,11 @@
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
   }
+  .not-open\:bg-white {
+    &:not(*:is([open], :popover-open, :open)) {
+      background-color: var(--color-white);
+    }
+  }
   .not-in-open\:p-4 {
     &:not(:where(*:is([open], :popover-open, :open)) *) {
       padding: calc(var(--spacing) * 4);
@@ -381,6 +404,13 @@
       }
     }
   }
+  .hover\:bg-slate-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-slate-700);
+      }
+    }
+  }
   .hover\:text-white {
     &:hover {
       @media (hover: hover) {
@@ -395,6 +425,11 @@
           background-color: var(--color-slate-700);
         }
       }
+    }
+  }
+  .in-not-open\:p-4 {
+    :where(*:not(*:is([open], :popover-open, :open))) & {
+      padding: calc(var(--spacing) * 4);
     }
   }
   .has-checked\:bg-slate-600 {
