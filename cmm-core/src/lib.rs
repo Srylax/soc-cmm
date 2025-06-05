@@ -38,8 +38,8 @@ pub enum CmmError {
     VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, Display,
 )]
 pub enum Domain {
-    People,
     Business,
+    People,
     Process,
     Technology,
     Services,

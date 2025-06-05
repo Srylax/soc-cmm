@@ -1,5 +1,1114 @@
 {
   "domains": {
+    "Business": [
+      {
+        "controls": {
+          "1.1": {
+            "title": "Have you identified the main business drivers?",
+            "remark": "Example business drivers: cyber crime prevention, risk reduction, law / regulation, audit / compliance, business continuity",
+            "guidances": [
+              "Business drivers are unknown",
+              "Basic awareness of business drivers",
+              "Some business drivers have been identified",
+              "Most business drivers have been identified",
+              "All business drivers are well known within the SOC"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "1.2": {
+            "title": "Have you documented the main business drivers?",
+            "remark": "Documentation of business drivers is important for demonstrable business alignment",
+            "guidances": [
+              "No documentation in place",
+              "Some ad-hoc information across documents",
+              "Basic documentation of business drivers",
+              "Single document, full description of business drivers",
+              "Document completed, approved and formally published"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "1.3": {
+            "title": "Do you use business drivers in the decision making process?",
+            "remark": "e.g. to determine priorities or make decisions regarding the on-boarding of new services or operations",
+            "guidances": [
+              "Business drivers are not part of decision making",
+              "Business drivers are referred to on an ad-hoc basis",
+              "Business drivers are occasionally used in decisions",
+              "Business drivers are used in most decisions",
+              "Business drivers are used in all relevant decisions"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "1.4": {
+            "title": "Do you regularly check if the current service catalogue is aligned with business drivers?",
+            "remark": "i.e. do you check for services or operations that outside the scope of business drivers?",
+            "guidances": [
+              "Service catalogue has not been checked for alignment",
+              "Alignment is performed on an ad-hoc basis",
+              "Alignment was performed but not maintained",
+              "Alignment is performed and maintained regularly",
+              "Every change in the catalogue is checked against drivers"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "1.5": {
+            "title": "Have the business drivers been validated with business stakeholders?",
+            "remark": "Business stakeholders can be C-level management",
+            "guidances": [
+              "Business drivers have not been validated",
+              "Basic awareness of SOC drivers exists among stakeholders",
+              "Stakeholders informally informed of business drivers",
+              "Alignment of SOC drivers with stakeholders is performed",
+              "Business drivers are formally validated by stakeholders"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          }
+        },
+        "title": "Business Drivers"
+      },
+      {
+        "controls": {
+          "2.1": {
+            "title": "Have you identified the SOC customers?",
+            "remark": "Types of customers, customer requirements / expectations, etc.",
+            "guidances": [
+              "SOC customers are not known",
+              "Basic awareness of SOC customers",
+              "Some customers have been identified",
+              "Customers have mostly been identified",
+              "All customers are identified, including relevance and context "
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "2.2": {
+            "title": "Please specify your customers:",
+            "remark": "Use this a guideline for answering 2.1 This is also potentially useful for insights and comparison with previous assessments",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Title"
+            }
+          },
+          "2.2.1": {
+            "title": "Legal",
+            "remark": "Legal department, may be a stakeholder for privacy, or may request forensic investigation to the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.2": {
+            "title": "Audit",
+            "remark": "The audit department can be supported by logging provided by the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.3": {
+            "title": "Engineering / R&D",
+            "remark": "The engineering departments deal with Intellectual Property that may require additional access monitoring",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.4": {
+            "title": "IT",
+            "remark": "IT departments can be supported by monitoring for anomalies in their infrastructure and systems",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.5": {
+            "title": "Business",
+            "remark": "Business should be the most important customer, as all SOC activities ultimately support business processes",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.6": {
+            "title": "External customers",
+            "remark": "External customers mostly apply to managed service providers",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.7": {
+            "title": "(Senior) Management",
+            "remark": "Senior management may be a direct SOC customer, depending on organization hierarchy",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "2.2.8": {
+            "title": "Other customers:",
+            "remark": "Specify any additional customers",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Title"
+            }
+          },
+          "2.3": {
+            "title": "Have you documented the main SOC customers?",
+            "remark": "Formal registration of customer contact details, place in the organization, geolocation, etc.",
+            "guidances": [
+              "No documentation in place",
+              "Some ad-hoc information across documents",
+              "Basic documentation of SOC customers",
+              "Single document, full description of SOC customers",
+              "Document completed, approved and formally published"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "2.4": {
+            "title": "Do you differentiate output towards these specific customers?",
+            "remark": "For example, are communication style and contents to Business customers different than that to IT?",
+            "guidances": [
+              "Output is the same for all customers",
+              "Output is somewhat contextualized",
+              "Some customers receive differentiated output",
+              "All important customers receive differentiated output",
+              "All customers receive specific output based on context and type"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "2.5": {
+            "title": "Do you have service level agreements with these customers?",
+            "remark": "Service level agreements are used to provide standardized services operating within known boundaries",
+            "guidances": [
+              "Contractual agreements not in place",
+              "No contract in place, ad-hoc agreements made",
+              "Basic contract in place, not formally signed of",
+              "Contract signed, but not regularly reviewed",
+              "Contract signed, approved by- and regularly reviewed with customers"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "2.6": {
+            "title": "Do you regularly send updates to your customers?",
+            "remark": "For example: changes in service scope or delivery. Can also be reports, dashboards, etc.",
+            "guidances": [
+              "No updates sent to customers",
+              "Ad-hoc updates sent to some customers",
+              "Frequent updates sent to most customers",
+              "Periodical updates sent to all customers",
+              "Periodical updates sent and discussed with all customers"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Occurence",
+              "answer": "Never"
+            }
+          },
+          "2.7": {
+            "title": "Do you actively measure and manage customer satisfaction?",
+            "remark": "Understanding customer satisfaction will help to better align with business needs",
+            "guidances": [
+              "Customer satisfaction not measured or managed",
+              "Customer satisfaction managed in ad-hoc fashion",
+              "Customer satisfaction metrics defined, not applied structurally",
+              "Customer satisfaction measured structurally, not actively managed",
+              "Customer satisfaction fully managed and improved over time"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Occurence",
+              "answer": "Never"
+            }
+          }
+        },
+        "title": "Customers"
+      },
+      {
+        "controls": {
+          "3.1": {
+            "title": "Does the SOC have a formal charter document in place?",
+            "remark": "See 3.2 for charter document elements",
+            "guidances": [
+              "No charter document in place",
+              "Some ad-hoc information across documents",
+              "Basic charter document created",
+              "Single charter, full description of SOC strategic elements",
+              "Charter completed, approved and formally published"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "3.2": {
+            "title": "Please specify elements of the charter document:",
+            "remark": null,
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Any",
+              "answer": "Incomplete"
+            }
+          },
+          "3.2.1": {
+            "title": "Mission",
+            "remark": "A SOC mission should be established to provide insight into the reason for existence of the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.2": {
+            "title": "Vision",
+            "remark": "A vision should be created to determine long-term goals for the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.3": {
+            "title": "Strategy",
+            "remark": "A strategy should be in place to show how to meet goals and targets set by mission and vision",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.4": {
+            "title": "Service Scope",
+            "remark": "Service scope is documented to provide insight into SOC service delivery",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.5": {
+            "title": "Deliverables",
+            "remark": "The output provided by the SOC, for example: reports, incidents, investigations, advisories, etc.",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.6": {
+            "title": "Responsibilities",
+            "remark": "Responsibilities of the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.7": {
+            "title": "Accountability",
+            "remark": "Accountability for the SOC for actions taken",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.8": {
+            "title": "Operational Hours",
+            "remark": "Operational hours of the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.9": {
+            "title": "Stakeholders",
+            "remark": "All relevant stakeholders for the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.10": {
+            "title": "Objectives / Goals",
+            "remark": "Objectives and goals should be concrete and measurable so that they are fit for reporting purposes",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.2.11": {
+            "title": "Statement of success",
+            "remark": "A statement of success is used to determine when the SOC is successful. Should be aligned with goals and objectives",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "3.3": {
+            "title": "Is the SOC charter document regularly updated?",
+            "remark": "Regularity should be matched to your own internal policy. At least yearly is recommended",
+            "guidances": [
+              "Charter is never updated",
+              "Charter is updated on ad-hoc basis",
+              "Charter is updated on major changes in business strategy",
+              "Charter is regularly updated",
+              "Charter periodically updated and realigned with business strategy"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Occurence",
+              "answer": "Never"
+            }
+          },
+          "3.4": {
+            "title": "Is the SOC charter document approved by the business / CISO?",
+            "remark": "Approval from the relevant stakeholders will aid in business support for SOC operations",
+            "guidances": [
+              "Charter is not approved",
+              "Business / CISO has basic awareness of the charter",
+              "Business / CISO has full awareness of the charter",
+              "Business / CISO approves of the content, but not formally",
+              "Charter is formally approved by the business / CISO"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "3.5": {
+            "title": "Are all stakeholders familiar with the SOC charter document contents?",
+            "remark": "Making stakeholders aware of the contents helps in getting organizational support for security operations",
+            "guidances": [
+              "Stakeholders are unfamiliar with the charter",
+              "Some stakeholders are aware of the charter, but not its contents",
+              "Some stakeholders are aware of the charter and its contents",
+              "All stakeholders are aware, not all stakeholders know its contents",
+              "All Stakeholders are aware of the charter and its contents"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          }
+        },
+        "title": "SOC Charter"
+      },
+      {
+        "controls": {
+          "4.1": {
+            "title": "Does the SOC have a governance process in place?",
+            "remark": "A governance process is required to determine the way the SOC should be managed ",
+            "guidances": [
+              "SOC governance process is not in place",
+              "SOC governance is done in an ad-hoc fashion",
+              "Several governance elements are in place, but not structurally",
+              "Formal governance process is in place that covers most SOC aspects",
+              "Formal governance process is in place and covers all SOC aspects"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "4.2": {
+            "title": "Have all governance elements been identified?",
+            "remark": "Possible governance elements can be found in under 4.3",
+            "guidances": [
+              "No governance elements have been identified",
+              "Some governance elements are identified and governed ad-hoc",
+              "Some governance elements are identified and governed actively",
+              "Most governance elements are identified and actively governed",
+              "All elements are identified and actively governed"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "4.3": {
+            "title": "Please specify identified governance elements",
+            "remark": null,
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Any",
+              "answer": "Fully complete"
+            }
+          },
+          "4.3.1": {
+            "title": "Business Alignment",
+            "remark": "Aligning SOC operations to business needs",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.2": {
+            "title": "Accountability",
+            "remark": "Note that this can be part of the SOC charter document. This does not automatically make it part of the governance process",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.3": {
+            "title": "Sponsorship",
+            "remark": "Can be part of stakeholder management",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.4": {
+            "title": "Mandate",
+            "remark": "Mandate for the SOC should be established so that the SOC can take action in crisis situations",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.5": {
+            "title": "Relationships & Third Party Management",
+            "remark": "Both management of internal and external relationships",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.6": {
+            "title": "Vendor Engagement",
+            "remark": "For example: active involvement of vendors in the creation of a vision and strategy for the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.7": {
+            "title": "Service Commitment",
+            "remark": "For example: service level agreements and IT controls",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.8": {
+            "title": "Project / Program Management",
+            "remark": "Project management for individual projects within the SOC / program management for larger transitions",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.9": {
+            "title": "Continual Improvement",
+            "remark": "Improvement of the SOC and of SOC management",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.10": {
+            "title": "Span of control / federation governance",
+            "remark": "Especially important for SOC setups where multiple SOCs exist within the same company",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.11": {
+            "title": "Outsourced service management",
+            "remark": "Especially important for hybrid SOC setups. When using outsourcing, SLAs and oversight should be in place",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.12": {
+            "title": "SOC KPIs & Metrics",
+            "remark": "These are discussed in more detail in the Process section regarding reporting",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.13": {
+            "title": "SOC risk management",
+            "remark": "Identification of- and dealing with risk (business, people, process and technology risk) within the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.3.14": {
+            "title": "Customer Engagement / Satisfaction",
+            "remark": "Are customers an integral part of your security operations? Is their satisfaction of SOC services every inquired about?",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": true
+            }
+          },
+          "4.4": {
+            "title": "Is cost management in place?",
+            "remark": "Managing costs is required to justify budget allocation for the SOC and ensure continued service delivery in the future",
+            "guidances": [
+              "Cost management not in place",
+              "Costs visible, basic budget allocation in place",
+              "Costs fully visible and mostly managed, forecasting in place",
+              "Costs fully managed, not formally aligned with business stakeholders",
+              "Costs fully managed and formally aligned with business stakeholders"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "4.5": {
+            "title": "Please specify cost management elements",
+            "remark": null,
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Any",
+              "answer": "Incomplete"
+            }
+          },
+          "4.5.1": {
+            "title": "People cost",
+            "remark": "Costs associated with employees. Should be managed to prove FTE requirements to stakeholders",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.2": {
+            "title": "Process cost",
+            "remark": "Cost associated with processes. Should be managed to ensure process elements can be delivered",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.3": {
+            "title": "Technology cost",
+            "remark": "Cost associated with technology. Should be managed to prove budget requirements for new technology or replacement",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.4": {
+            "title": "Services cost",
+            "remark": "Cost associated with service delivery. Especially important for managed service providers to ensure a healthy business model",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.5": {
+            "title": "Facility cost",
+            "remark": "Cost associated with facilities used by the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.6": {
+            "title": "Budget forecasting",
+            "remark": "Forecasting of required budget over time. Should be aligned with business needs; increased spending must be justified",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.7": {
+            "title": "Budget alignment",
+            "remark": "Alignment of budget with business requirements and drivers to ensure balanced spending on the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.5.8": {
+            "title": "Return on investment",
+            "remark": "Prove the return on investment to stakeholders to ensure continued budget allocation",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "4.6": {
+            "title": "Are all governance elements formally documented?",
+            "remark": "Formal documentation should be signed off and stored in a quality management system",
+            "guidances": [
+              "No governance document in place",
+              "Some ad-hoc information across documents",
+              "Basic governance document created",
+              "Single document, full description of governance elements ",
+              "Governance document completed, approved and formally published"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            },
+            "nist_only": true
+          },
+          "4.7": {
+            "title": "Are SOC governance meetings regularly held?",
+            "remark": "Meetings at different levels (operational, tactical, strategic) should be formalised in Terms of Reference (ToR) and driven by metrics",
+            "guidances": [
+              "No governance meetings held",
+              "Governance meetings held in an ad-hoc fashion",
+              "Goveranancer meetings regularly scheduled",
+              "Governance meetings at different levels scheduled and structured",
+              "Governance meetings at different levels scheduled, ToR formalised"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "4.8": {
+            "title": "Is the governance process regularly reviewed?",
+            "remark": "Frequency should be matched to your own internal policy. At least yearly is recommended",
+            "guidances": [
+              "Governance process is not reviewed",
+              "Governance process is reviewed in an ad-hoc fashion",
+              "Process is reviewed using a structured approach in an ad-hoc fashion",
+              "Process is regularly and informally reviewed and updated",
+              "Process is regularly and formally reviewed and updated with findings"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "4.9": {
+            "title": "Is the governance process aligned with all stakeholders?",
+            "remark": "Alignment will help the SOC obtain required mandate, budget and management support",
+            "guidances": [
+              "Stakeholders are unfamiliar with the process",
+              "Some stakeholders are aware of the process, but not its details",
+              "Some stakeholders are aware of the process and its details",
+              "All stakeholders are aware, not all stakeholders know its details",
+              "All stakeholders are aware of the process and its details"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Occurence",
+              "answer": "Never"
+            }
+          },
+          "4.10": {
+            "title": "Is the SOC regularly audited or subjected to (external) assessments?",
+            "remark": "Frequency should be matched to the SOC policy. At least yearly is recommended. 3rd party assessments have a higher objectivity",
+            "guidances": [
+              "No assessments are performed",
+              "The SOC is assessed in an ad-hoc fashion",
+              "The SOC is assessed using a structured approach in an ad-hoc fashion",
+              "The SOC is regularly and informally assessed",
+              "The SOC is regularly and formally assessed by a third party"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "4.11": {
+            "title": "Is there an active cooperation with other SOCs (external)?",
+            "remark": "Exchange of best practices, intelligence and actions on threats with other SOCs is vital for improving cyber defence",
+            "guidances": [
+              "No cooperation with other SOCs",
+              "Some ad-hoc informal information exchange",
+              "Some information exchange with external SOCs",
+              "Information exchanged regularly, cooperation not formalized",
+              "Continuous formalized active cooperation and information exchange"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          }
+        },
+        "title": "Governance"
+      },
+      {
+        "controls": {
+          "5.1": {
+            "title": "Is there an information security policy in place that supports the SOC activities?",
+            "remark": "A clear security policy that supports SOC operations provides guidance and helps to enforce mandate for the SOC in the organisation",
+            "guidances": [
+              "No formal information security policy in place",
+              "Information security in place, no mention of SOC activities",
+              "Policy in place, SOC activities mentioned without mandate",
+              "Policy in place, SOC activities mentioned in detail with mandate",
+              "Policy with SOC activities and mandate in place, actively communicated"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.2": {
+            "title": "Has a SOC policy been created?",
+            "remark": "A SOC policy is to outline the rules to which SOC personnel and SOC management needs to adhere",
+            "guidances": [
+              "No SOC policy in place",
+              "Some ad-hoc information across documents",
+              "Basic SOC policy document created",
+              "Single document, full description of SOC policy elements ",
+              "SOC policy document completed, approved and formally published"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.3": {
+            "title": "Please specify elements of the SOC policy",
+            "remark": null,
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Title"
+            }
+          },
+          "5.3.1": {
+            "title": "Code of conduct",
+            "remark": "How to behave in the SOC, mandatory and optional meetings, SOC culture, repercussions for non-compliance, etc.",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.2": {
+            "title": "Rules of engagement & responsibilities",
+            "remark": "What activities can and can not be performed as part of the job",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.3": {
+            "title": "Review frequency of documentation",
+            "remark": "What documentation is subjected to review and how often that documentation needs to be reviewed",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.4": {
+            "title": "SOC assessment frequency and type",
+            "remark": "How often the SOC is assessed and in what manner (self-assessment, audit, external assessment, etc.)",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.5": {
+            "title": "Knowledge exchange and maintenance",
+            "remark": "The means (meetings and platforms) for knowledge exchange and rules for maintenance of knowledge bases",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.6": {
+            "title": "Exercise frequency",
+            "remark": "Frequency and type (table top, cyber range, red team, etc.) of exercises in the SOC",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.7": {
+            "title": "Usage of TLP",
+            "remark": "Information exchange protocols. Especially important for collaborations outside the organisation",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.3.8": {
+            "title": "Working agreements",
+            "remark": "Agreements on length of meetings, length of agile sprints, transparency of completed work, etc.",
+            "guidances": [],
+            "comment": null,
+            "answer": {
+              "type": "Bool",
+              "answer": false
+            }
+          },
+          "5.4": {
+            "title": "Is the SOC consulted in the creation and updates of operational security policy?",
+            "remark": "Consulting the SOC in the creation of security policy will ensure that SOC activities are properly mentioned and enforceable",
+            "guidances": [
+              "SOC not consulted or informed of policy creation or policy updates",
+              "SOC informed of policy creation and updates only",
+              "SOC consulted before policy creation and updates, not actively involved",
+              "SOC consulted before policy creation and updates, performs reviews",
+              "Full involvement of the SOC in the creation of operational security policy"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.5": {
+            "title": "Is a reporting policy for security incidents in place?",
+            "remark": "A reporting policy for security incidents will aid the SOC in identifying incidents and threats in the organization",
+            "guidances": [
+              "No reporting policy in place",
+              "Policy in place, no mention of the SOC",
+              "Policy in place, role of the SOC in security incidents mentioned",
+              "Policy in place with all SOC activities, no central point for reporting",
+              "Policy & central point for reporting in place, SOC part of the workflow"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.6": {
+            "title": "Is a privacy policy regarding security monitoring of employees in place?",
+            "remark": "A privacy policy should state that monitoring of employees is possible within acceptable limits",
+            "guidances": [
+              "No policy is in place",
+              "Information regarding privacy is scattered across documents",
+              "A policy exists, but has not been accepted formally",
+              "A formal policy exists, its contents are known to all employees",
+              "A formal policy exists, its contents are accepted by all employees"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.7": {
+            "title": "Does the SOC operate in compliance with all applicable privacy laws and regulations?",
+            "remark": "Local laws and regulations as well as company policy may apply and should all be considered",
+            "guidances": [
+              "Regulations are not known and the SOC is non-compliant",
+              "Some regulations are known and the SOC is non-compliant",
+              "Most regulations are known and the SOC is partially compliant",
+              "Regulations are fully known and the SOC is mostly compliant",
+              "Regulations are fully known and the SOC is fully compliant"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.8": {
+            "title": "Does the SOC cooperate with legal departments regarding privacy matters?",
+            "remark": "Cooperation will ensure that the SOC is enabled to perform activities, rather than blocked",
+            "guidances": [
+              "There is no cooperation between the SOC and legal",
+              "There is some ad-hoc cooperation between SOC and legal",
+              "There is structural cooperation between SOC and legal",
+              "Alignment exists between SOC and legal",
+              "Full and regular alignment exists between SOC and legal"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.9": {
+            "title": "Are specific procedures in place for dealing with privacy related investigations?",
+            "remark": "Privacy related issues require careful examination, especially those potentially leading to court cases",
+            "guidances": [
+              "No privacy procedures in place",
+              "Some ad-hoc information across documents",
+              "Basic privacy procedure created",
+              "Single document, full description of privacy investigations",
+              "Procedure completed, approved and formally published"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.10": {
+            "title": "Is the SOC aware of all information that it processes and is subject to privacy regulations?",
+            "remark": "Such information includes IP addresses, customer identifiers, user names, host names (for personally owned devices), etc.",
+            "guidances": [
+              "The SOC is unaware of any information",
+              "The SOC is aware of such information, no formal identification",
+              "The SOC is fully aware, some information is formally identified",
+              "Most privacy related information is identified and documented",
+              "All privacy related information is identified and documented"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Detailed",
+              "answer": "No"
+            }
+          },
+          "5.11": {
+            "title": "Is a Privacy Impact Assessment (PIA) regularly conducted?",
+            "remark": "Can be used to determine the impact of monitoring on privacy, and can help uncover potential violations",
+            "guidances": [
+              "PIAs are not conducted",
+              "PIAs are conducted in an ad-hoc fashion",
+              "PIAs are conducted using a structured approach in an ad-hoc fashion",
+              "PIAs are conducted informally and regularly",
+              "PIAs are conducted formally and regularly"
+            ],
+            "comment": null,
+            "answer": {
+              "type": "Occurence",
+              "answer": "Never"
+            }
+          }
+        },
+        "title": "Privacy & Policy"
+      }
+    ],
     "People": [
       {
         "controls": {
@@ -1209,1115 +2318,6 @@
           }
         },
         "title": "Training & Education"
-      }
-    ],
-    "Business": [
-      {
-        "controls": {
-          "1.1": {
-            "title": "Have you identified the main business drivers?",
-            "remark": "Example business drivers: cyber crime prevention, risk reduction, law / regulation, audit / compliance, business continuity",
-            "guidances": [
-              "Business drivers are unknown",
-              "Basic awareness of business drivers",
-              "Some business drivers have been identified",
-              "Most business drivers have been identified",
-              "All business drivers are well known within the SOC"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "1.2": {
-            "title": "Have you documented the main business drivers?",
-            "remark": "Documentation of business drivers is important for demonstrable business alignment",
-            "guidances": [
-              "No documentation in place",
-              "Some ad-hoc information across documents",
-              "Basic documentation of business drivers",
-              "Single document, full description of business drivers",
-              "Document completed, approved and formally published"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "1.3": {
-            "title": "Do you use business drivers in the decision making process?",
-            "remark": "e.g. to determine priorities or make decisions regarding the on-boarding of new services or operations",
-            "guidances": [
-              "Business drivers are not part of decision making",
-              "Business drivers are referred to on an ad-hoc basis",
-              "Business drivers are occasionally used in decisions",
-              "Business drivers are used in most decisions",
-              "Business drivers are used in all relevant decisions"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "1.4": {
-            "title": "Do you regularly check if the current service catalogue is aligned with business drivers?",
-            "remark": "i.e. do you check for services or operations that outside the scope of business drivers?",
-            "guidances": [
-              "Service catalogue has not been checked for alignment",
-              "Alignment is performed on an ad-hoc basis",
-              "Alignment was performed but not maintained",
-              "Alignment is performed and maintained regularly",
-              "Every change in the catalogue is checked against drivers"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "1.5": {
-            "title": "Have the business drivers been validated with business stakeholders?",
-            "remark": "Business stakeholders can be C-level management",
-            "guidances": [
-              "Business drivers have not been validated",
-              "Basic awareness of SOC drivers exists among stakeholders",
-              "Stakeholders informally informed of business drivers",
-              "Alignment of SOC drivers with stakeholders is performed",
-              "Business drivers are formally validated by stakeholders"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          }
-        },
-        "title": "Business Drivers"
-      },
-      {
-        "controls": {
-          "2.1": {
-            "title": "Have you identified the SOC customers?",
-            "remark": "Types of customers, customer requirements / expectations, etc.",
-            "guidances": [
-              "SOC customers are not known",
-              "Basic awareness of SOC customers",
-              "Some customers have been identified",
-              "Customers have mostly been identified",
-              "All customers are identified, including relevance and context "
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "2.2": {
-            "title": "Please specify your customers:",
-            "remark": "Use this a guideline for answering 2.1 This is also potentially useful for insights and comparison with previous assessments",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Title"
-            }
-          },
-          "2.2.1": {
-            "title": "Legal",
-            "remark": "Legal department, may be a stakeholder for privacy, or may request forensic investigation to the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.2": {
-            "title": "Audit",
-            "remark": "The audit department can be supported by logging provided by the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.3": {
-            "title": "Engineering / R&D",
-            "remark": "The engineering departments deal with Intellectual Property that may require additional access monitoring",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.4": {
-            "title": "IT",
-            "remark": "IT departments can be supported by monitoring for anomalies in their infrastructure and systems",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.5": {
-            "title": "Business",
-            "remark": "Business should be the most important customer, as all SOC activities ultimately support business processes",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.6": {
-            "title": "External customers",
-            "remark": "External customers mostly apply to managed service providers",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.7": {
-            "title": "(Senior) Management",
-            "remark": "Senior management may be a direct SOC customer, depending on organization hierarchy",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "2.2.8": {
-            "title": "Other customers:",
-            "remark": "Specify any additional customers",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Title"
-            }
-          },
-          "2.3": {
-            "title": "Have you documented the main SOC customers?",
-            "remark": "Formal registration of customer contact details, place in the organization, geolocation, etc.",
-            "guidances": [
-              "No documentation in place",
-              "Some ad-hoc information across documents",
-              "Basic documentation of SOC customers",
-              "Single document, full description of SOC customers",
-              "Document completed, approved and formally published"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "2.4": {
-            "title": "Do you differentiate output towards these specific customers?",
-            "remark": "For example, are communication style and contents to Business customers different than that to IT?",
-            "guidances": [
-              "Output is the same for all customers",
-              "Output is somewhat contextualized",
-              "Some customers receive differentiated output",
-              "All important customers receive differentiated output",
-              "All customers receive specific output based on context and type"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "2.5": {
-            "title": "Do you have service level agreements with these customers?",
-            "remark": "Service level agreements are used to provide standardized services operating within known boundaries",
-            "guidances": [
-              "Contractual agreements not in place",
-              "No contract in place, ad-hoc agreements made",
-              "Basic contract in place, not formally signed of",
-              "Contract signed, but not regularly reviewed",
-              "Contract signed, approved by- and regularly reviewed with customers"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "2.6": {
-            "title": "Do you regularly send updates to your customers?",
-            "remark": "For example: changes in service scope or delivery. Can also be reports, dashboards, etc.",
-            "guidances": [
-              "No updates sent to customers",
-              "Ad-hoc updates sent to some customers",
-              "Frequent updates sent to most customers",
-              "Periodical updates sent to all customers",
-              "Periodical updates sent and discussed with all customers"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Occurence",
-              "answer": "Never"
-            }
-          },
-          "2.7": {
-            "title": "Do you actively measure and manage customer satisfaction?",
-            "remark": "Understanding customer satisfaction will help to better align with business needs",
-            "guidances": [
-              "Customer satisfaction not measured or managed",
-              "Customer satisfaction managed in ad-hoc fashion",
-              "Customer satisfaction metrics defined, not applied structurally",
-              "Customer satisfaction measured structurally, not actively managed",
-              "Customer satisfaction fully managed and improved over time"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Occurence",
-              "answer": "Never"
-            }
-          }
-        },
-        "title": "Customers"
-      },
-      {
-        "controls": {
-          "3.1": {
-            "title": "Does the SOC have a formal charter document in place?",
-            "remark": "See 3.2 for charter document elements",
-            "guidances": [
-              "No charter document in place",
-              "Some ad-hoc information across documents",
-              "Basic charter document created",
-              "Single charter, full description of SOC strategic elements",
-              "Charter completed, approved and formally published"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "3.2": {
-            "title": "Please specify elements of the charter document:",
-            "remark": null,
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Any",
-              "answer": "Incomplete"
-            }
-          },
-          "3.2.1": {
-            "title": "Mission",
-            "remark": "A SOC mission should be established to provide insight into the reason for existence of the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.2": {
-            "title": "Vision",
-            "remark": "A vision should be created to determine long-term goals for the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.3": {
-            "title": "Strategy",
-            "remark": "A strategy should be in place to show how to meet goals and targets set by mission and vision",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.4": {
-            "title": "Service Scope",
-            "remark": "Service scope is documented to provide insight into SOC service delivery",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.5": {
-            "title": "Deliverables",
-            "remark": "The output provided by the SOC, for example: reports, incidents, investigations, advisories, etc.",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.6": {
-            "title": "Responsibilities",
-            "remark": "Responsibilities of the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.7": {
-            "title": "Accountability",
-            "remark": "Accountability for the SOC for actions taken",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.8": {
-            "title": "Operational Hours",
-            "remark": "Operational hours of the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.9": {
-            "title": "Stakeholders",
-            "remark": "All relevant stakeholders for the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.10": {
-            "title": "Objectives / Goals",
-            "remark": "Objectives and goals should be concrete and measurable so that they are fit for reporting purposes",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.2.11": {
-            "title": "Statement of success",
-            "remark": "A statement of success is used to determine when the SOC is successful. Should be aligned with goals and objectives",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "3.3": {
-            "title": "Is the SOC charter document regularly updated?",
-            "remark": "Regularity should be matched to your own internal policy. At least yearly is recommended",
-            "guidances": [
-              "Charter is never updated",
-              "Charter is updated on ad-hoc basis",
-              "Charter is updated on major changes in business strategy",
-              "Charter is regularly updated",
-              "Charter periodically updated and realigned with business strategy"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Occurence",
-              "answer": "Never"
-            }
-          },
-          "3.4": {
-            "title": "Is the SOC charter document approved by the business / CISO?",
-            "remark": "Approval from the relevant stakeholders will aid in business support for SOC operations",
-            "guidances": [
-              "Charter is not approved",
-              "Business / CISO has basic awareness of the charter",
-              "Business / CISO has full awareness of the charter",
-              "Business / CISO approves of the content, but not formally",
-              "Charter is formally approved by the business / CISO"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "3.5": {
-            "title": "Are all stakeholders familiar with the SOC charter document contents?",
-            "remark": "Making stakeholders aware of the contents helps in getting organizational support for security operations",
-            "guidances": [
-              "Stakeholders are unfamiliar with the charter",
-              "Some stakeholders are aware of the charter, but not its contents",
-              "Some stakeholders are aware of the charter and its contents",
-              "All stakeholders are aware, not all stakeholders know its contents",
-              "All Stakeholders are aware of the charter and its contents"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          }
-        },
-        "title": "SOC Charter"
-      },
-      {
-        "controls": {
-          "4.1": {
-            "title": "Does the SOC have a governance process in place?",
-            "remark": "A governance process is required to determine the way the SOC should be managed ",
-            "guidances": [
-              "SOC governance process is not in place",
-              "SOC governance is done in an ad-hoc fashion",
-              "Several governance elements are in place, but not structurally",
-              "Formal governance process is in place that covers most SOC aspects",
-              "Formal governance process is in place and covers all SOC aspects"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "4.2": {
-            "title": "Have all governance elements been identified?",
-            "remark": "Possible governance elements can be found in under 4.3",
-            "guidances": [
-              "No governance elements have been identified",
-              "Some governance elements are identified and governed ad-hoc",
-              "Some governance elements are identified and governed actively",
-              "Most governance elements are identified and actively governed",
-              "All elements are identified and actively governed"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "4.3": {
-            "title": "Please specify identified governance elements",
-            "remark": null,
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Any",
-              "answer": "Fully complete"
-            }
-          },
-          "4.3.1": {
-            "title": "Business Alignment",
-            "remark": "Aligning SOC operations to business needs",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.2": {
-            "title": "Accountability",
-            "remark": "Note that this can be part of the SOC charter document. This does not automatically make it part of the governance process",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.3": {
-            "title": "Sponsorship",
-            "remark": "Can be part of stakeholder management",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.4": {
-            "title": "Mandate",
-            "remark": "Mandate for the SOC should be established so that the SOC can take action in crisis situations",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.5": {
-            "title": "Relationships & Third Party Management",
-            "remark": "Both management of internal and external relationships",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.6": {
-            "title": "Vendor Engagement",
-            "remark": "For example: active involvement of vendors in the creation of a vision and strategy for the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.7": {
-            "title": "Service Commitment",
-            "remark": "For example: service level agreements and IT controls",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.8": {
-            "title": "Project / Program Management",
-            "remark": "Project management for individual projects within the SOC / program management for larger transitions",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.9": {
-            "title": "Continual Improvement",
-            "remark": "Improvement of the SOC and of SOC management",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.10": {
-            "title": "Span of control / federation governance",
-            "remark": "Especially important for SOC setups where multiple SOCs exist within the same company",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.11": {
-            "title": "Outsourced service management",
-            "remark": "Especially important for hybrid SOC setups. When using outsourcing, SLAs and oversight should be in place",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.12": {
-            "title": "SOC KPIs & Metrics",
-            "remark": "These are discussed in more detail in the Process section regarding reporting",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.13": {
-            "title": "SOC risk management",
-            "remark": "Identification of- and dealing with risk (business, people, process and technology risk) within the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.3.14": {
-            "title": "Customer Engagement / Satisfaction",
-            "remark": "Are customers an integral part of your security operations? Is their satisfaction of SOC services every inquired about?",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": true
-            }
-          },
-          "4.4": {
-            "title": "Is cost management in place?",
-            "remark": "Managing costs is required to justify budget allocation for the SOC and ensure continued service delivery in the future",
-            "guidances": [
-              "Cost management not in place",
-              "Costs visible, basic budget allocation in place",
-              "Costs fully visible and mostly managed, forecasting in place",
-              "Costs fully managed, not formally aligned with business stakeholders",
-              "Costs fully managed and formally aligned with business stakeholders"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "4.5": {
-            "title": "Please specify cost management elements",
-            "remark": null,
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Any",
-              "answer": "Incomplete"
-            }
-          },
-          "4.5.1": {
-            "title": "People cost",
-            "remark": "Costs associated with employees. Should be managed to prove FTE requirements to stakeholders",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.2": {
-            "title": "Process cost",
-            "remark": "Cost associated with processes. Should be managed to ensure process elements can be delivered",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.3": {
-            "title": "Technology cost",
-            "remark": "Cost associated with technology. Should be managed to prove budget requirements for new technology or replacement",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.4": {
-            "title": "Services cost",
-            "remark": "Cost associated with service delivery. Especially important for managed service providers to ensure a healthy business model",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.5": {
-            "title": "Facility cost",
-            "remark": "Cost associated with facilities used by the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.6": {
-            "title": "Budget forecasting",
-            "remark": "Forecasting of required budget over time. Should be aligned with business needs; increased spending must be justified",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.7": {
-            "title": "Budget alignment",
-            "remark": "Alignment of budget with business requirements and drivers to ensure balanced spending on the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.5.8": {
-            "title": "Return on investment",
-            "remark": "Prove the return on investment to stakeholders to ensure continued budget allocation",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "4.6": {
-            "title": "Are all governance elements formally documented?",
-            "remark": "Formal documentation should be signed off and stored in a quality management system",
-            "guidances": [
-              "No governance document in place",
-              "Some ad-hoc information across documents",
-              "Basic governance document created",
-              "Single document, full description of governance elements ",
-              "Governance document completed, approved and formally published"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            },
-            "nist_only": true
-          },
-          "4.7": {
-            "title": "Are SOC governance meetings regularly held?",
-            "remark": "Meetings at different levels (operational, tactical, strategic) should be formalised in Terms of Reference (ToR) and driven by metrics",
-            "guidances": [
-              "No governance meetings held",
-              "Governance meetings held in an ad-hoc fashion",
-              "Goveranancer meetings regularly scheduled",
-              "Governance meetings at different levels scheduled and structured",
-              "Governance meetings at different levels scheduled, ToR formalised"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "4.8": {
-            "title": "Is the governance process regularly reviewed?",
-            "remark": "Frequency should be matched to your own internal policy. At least yearly is recommended",
-            "guidances": [
-              "Governance process is not reviewed",
-              "Governance process is reviewed in an ad-hoc fashion",
-              "Process is reviewed using a structured approach in an ad-hoc fashion",
-              "Process is regularly and informally reviewed and updated",
-              "Process is regularly and formally reviewed and updated with findings"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "4.9": {
-            "title": "Is the governance process aligned with all stakeholders?",
-            "remark": "Alignment will help the SOC obtain required mandate, budget and management support",
-            "guidances": [
-              "Stakeholders are unfamiliar with the process",
-              "Some stakeholders are aware of the process, but not its details",
-              "Some stakeholders are aware of the process and its details",
-              "All stakeholders are aware, not all stakeholders know its details",
-              "All stakeholders are aware of the process and its details"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Occurence",
-              "answer": "Never"
-            }
-          },
-          "4.10": {
-            "title": "Is the SOC regularly audited or subjected to (external) assessments?",
-            "remark": "Frequency should be matched to the SOC policy. At least yearly is recommended. 3rd party assessments have a higher objectivity",
-            "guidances": [
-              "No assessments are performed",
-              "The SOC is assessed in an ad-hoc fashion",
-              "The SOC is assessed using a structured approach in an ad-hoc fashion",
-              "The SOC is regularly and informally assessed",
-              "The SOC is regularly and formally assessed by a third party"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "4.11": {
-            "title": "Is there an active cooperation with other SOCs (external)?",
-            "remark": "Exchange of best practices, intelligence and actions on threats with other SOCs is vital for improving cyber defence",
-            "guidances": [
-              "No cooperation with other SOCs",
-              "Some ad-hoc informal information exchange",
-              "Some information exchange with external SOCs",
-              "Information exchanged regularly, cooperation not formalized",
-              "Continuous formalized active cooperation and information exchange"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          }
-        },
-        "title": "Governance"
-      },
-      {
-        "controls": {
-          "5.1": {
-            "title": "Is there an information security policy in place that supports the SOC activities?",
-            "remark": "A clear security policy that supports SOC operations provides guidance and helps to enforce mandate for the SOC in the organisation",
-            "guidances": [
-              "No formal information security policy in place",
-              "Information security in place, no mention of SOC activities",
-              "Policy in place, SOC activities mentioned without mandate",
-              "Policy in place, SOC activities mentioned in detail with mandate",
-              "Policy with SOC activities and mandate in place, actively communicated"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.2": {
-            "title": "Has a SOC policy been created?",
-            "remark": "A SOC policy is to outline the rules to which SOC personnel and SOC management needs to adhere",
-            "guidances": [
-              "No SOC policy in place",
-              "Some ad-hoc information across documents",
-              "Basic SOC policy document created",
-              "Single document, full description of SOC policy elements ",
-              "SOC policy document completed, approved and formally published"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.3": {
-            "title": "Please specify elements of the SOC policy",
-            "remark": null,
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Title"
-            }
-          },
-          "5.3.1": {
-            "title": "Code of conduct",
-            "remark": "How to behave in the SOC, mandatory and optional meetings, SOC culture, repercussions for non-compliance, etc.",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.2": {
-            "title": "Rules of engagement & responsibilities",
-            "remark": "What activities can and can not be performed as part of the job",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.3": {
-            "title": "Review frequency of documentation",
-            "remark": "What documentation is subjected to review and how often that documentation needs to be reviewed",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.4": {
-            "title": "SOC assessment frequency and type",
-            "remark": "How often the SOC is assessed and in what manner (self-assessment, audit, external assessment, etc.)",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.5": {
-            "title": "Knowledge exchange and maintenance",
-            "remark": "The means (meetings and platforms) for knowledge exchange and rules for maintenance of knowledge bases",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.6": {
-            "title": "Exercise frequency",
-            "remark": "Frequency and type (table top, cyber range, red team, etc.) of exercises in the SOC",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.7": {
-            "title": "Usage of TLP",
-            "remark": "Information exchange protocols. Especially important for collaborations outside the organisation",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.3.8": {
-            "title": "Working agreements",
-            "remark": "Agreements on length of meetings, length of agile sprints, transparency of completed work, etc.",
-            "guidances": [],
-            "comment": null,
-            "answer": {
-              "type": "Bool",
-              "answer": false
-            }
-          },
-          "5.4": {
-            "title": "Is the SOC consulted in the creation and updates of operational security policy?",
-            "remark": "Consulting the SOC in the creation of security policy will ensure that SOC activities are properly mentioned and enforceable",
-            "guidances": [
-              "SOC not consulted or informed of policy creation or policy updates",
-              "SOC informed of policy creation and updates only",
-              "SOC consulted before policy creation and updates, not actively involved",
-              "SOC consulted before policy creation and updates, performs reviews",
-              "Full involvement of the SOC in the creation of operational security policy"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.5": {
-            "title": "Is a reporting policy for security incidents in place?",
-            "remark": "A reporting policy for security incidents will aid the SOC in identifying incidents and threats in the organization",
-            "guidances": [
-              "No reporting policy in place",
-              "Policy in place, no mention of the SOC",
-              "Policy in place, role of the SOC in security incidents mentioned",
-              "Policy in place with all SOC activities, no central point for reporting",
-              "Policy & central point for reporting in place, SOC part of the workflow"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.6": {
-            "title": "Is a privacy policy regarding security monitoring of employees in place?",
-            "remark": "A privacy policy should state that monitoring of employees is possible within acceptable limits",
-            "guidances": [
-              "No policy is in place",
-              "Information regarding privacy is scattered across documents",
-              "A policy exists, but has not been accepted formally",
-              "A formal policy exists, its contents are known to all employees",
-              "A formal policy exists, its contents are accepted by all employees"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.7": {
-            "title": "Does the SOC operate in compliance with all applicable privacy laws and regulations?",
-            "remark": "Local laws and regulations as well as company policy may apply and should all be considered",
-            "guidances": [
-              "Regulations are not known and the SOC is non-compliant",
-              "Some regulations are known and the SOC is non-compliant",
-              "Most regulations are known and the SOC is partially compliant",
-              "Regulations are fully known and the SOC is mostly compliant",
-              "Regulations are fully known and the SOC is fully compliant"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.8": {
-            "title": "Does the SOC cooperate with legal departments regarding privacy matters?",
-            "remark": "Cooperation will ensure that the SOC is enabled to perform activities, rather than blocked",
-            "guidances": [
-              "There is no cooperation between the SOC and legal",
-              "There is some ad-hoc cooperation between SOC and legal",
-              "There is structural cooperation between SOC and legal",
-              "Alignment exists between SOC and legal",
-              "Full and regular alignment exists between SOC and legal"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.9": {
-            "title": "Are specific procedures in place for dealing with privacy related investigations?",
-            "remark": "Privacy related issues require careful examination, especially those potentially leading to court cases",
-            "guidances": [
-              "No privacy procedures in place",
-              "Some ad-hoc information across documents",
-              "Basic privacy procedure created",
-              "Single document, full description of privacy investigations",
-              "Procedure completed, approved and formally published"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.10": {
-            "title": "Is the SOC aware of all information that it processes and is subject to privacy regulations?",
-            "remark": "Such information includes IP addresses, customer identifiers, user names, host names (for personally owned devices), etc.",
-            "guidances": [
-              "The SOC is unaware of any information",
-              "The SOC is aware of such information, no formal identification",
-              "The SOC is fully aware, some information is formally identified",
-              "Most privacy related information is identified and documented",
-              "All privacy related information is identified and documented"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Detailed",
-              "answer": "No"
-            }
-          },
-          "5.11": {
-            "title": "Is a Privacy Impact Assessment (PIA) regularly conducted?",
-            "remark": "Can be used to determine the impact of monitoring on privacy, and can help uncover potential violations",
-            "guidances": [
-              "PIAs are not conducted",
-              "PIAs are conducted in an ad-hoc fashion",
-              "PIAs are conducted using a structured approach in an ad-hoc fashion",
-              "PIAs are conducted informally and regularly",
-              "PIAs are conducted formally and regularly"
-            ],
-            "comment": null,
-            "answer": {
-              "type": "Occurence",
-              "answer": "Never"
-            }
-          }
-        },
-        "title": "Privacy & Policy"
       }
     ],
     "Process": [
