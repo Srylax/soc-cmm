@@ -7,6 +7,7 @@
     'Noto Color Emoji';
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+    --color-blue-400: oklch(70.7% 0.165 254.624);
     --color-slate-50: oklch(98.4% 0.003 247.858);
     --color-slate-300: oklch(86.9% 0.022 252.894);
     --color-slate-600: oklch(44.6% 0.043 257.281);
@@ -424,6 +425,12 @@ label:after {
 }
 .indent-2 + div:not(.indent-2) {
   margin-top: calc(var(--spacing) * 2);
+}
+li:has(a.current) {
+  border-color: var(--color-blue-400);
+}
+a.current {
+  color: var(--color-blue-400);
 }
 @property --tw-border-style {
   syntax: "*";

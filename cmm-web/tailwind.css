@@ -16,3 +16,10 @@ label:after {
 .indent-2 + div:not(.indent-2) {
     @apply mt-2;
 }
+
+li:has(a.current) {
+    @apply border-blue-400;
+}
+a.current {
+    @apply text-blue-400;
+}
