@@ -484,6 +484,7 @@ dependencies = [
  "indexmap 2.9.0",
  "roxmltree",
  "serde_json",
+ "strum",
  "toml",
  "zip 3.0.0",
 ]

@@ -16,10 +16,21 @@ pub struct SimpleControl {
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Control {
     title: String,
+
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // #[serde(default)]
     remark: Option<String>,
+
+    // #[serde(skip_serializing_if = "Vec::is_empty")]
+    // #[serde(default)]
     guidances: Vec<String>,
+
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // #[serde(default)]
     comment: Option<String>,
+
     answer: Answer,
+
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
     nist_only: bool,

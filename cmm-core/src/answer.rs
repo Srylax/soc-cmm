@@ -196,7 +196,7 @@ impl Answer {
     }
 
     pub fn as_value(&self) -> String {
-        return match self {
+        match self {
             Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
             Answer::Detailed(detailed) => detailed.to_string(),
             Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string(),
@@ -204,6 +204,15 @@ impl Answer {
             Answer::Bool(boolean) => boolean.to_string(),
             Answer::Any(any) => any.to_string(),
             Answer::Title => String::new(),
-        };
+        }
+    }
+    pub fn is_capability(&self) -> bool {
+        matches!(self, Answer::DetailedOptional(_))
+    }
+    pub fn is_maturity(&self) -> bool {
+        match self {
+            Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_) => true,
+            _ => false,
+        }
     }
 }

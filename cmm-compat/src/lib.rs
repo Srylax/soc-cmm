@@ -1,5 +1,5 @@
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     fs::File,
     io::{BufReader, Read},
     path::Path,
@@ -8,10 +8,11 @@ use std::{
 use anyhow::Ok;
 use calamine::{Data, DataType, Reader, ToCellDeserializer, Xlsx, open_workbook};
 use cmm_core::{
-    CID, CMM,
+    CID, CMM, Domain,
     answer::{Answer, Detailed, DetailedOptional, Occurence, Satisfaction},
     control::Control,
 };
+
 use roxmltree::Document;
 
 pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<cmm_core::CMM> {
@@ -25,6 +26,8 @@ pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<cmm_core::CMM> {
     extend_answer_from_form_controls(&mut controls, &output, path)?;
     extend_control_from_guidance(&mut controls, &guidance);
     nist_compat(&mut controls);
+    // Service.2.17.35 has no guidance
+    extend_generic_guidances(&mut controls);
 
     Ok(CMM::from_map(controls, aspects(&output)).unwrap())
 }
@@ -121,6 +124,7 @@ fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<Hash
                     domain,
                     row[1].to_string().split_whitespace().next().unwrap()
                 );
+
                 (
                     cid.clone(),
                     Control::new(
@@ -181,6 +185,51 @@ fn aspects(output_range: &calamine::Range<Data>) -> HashMap<String, String> {
         .collect()
 }
 
+fn extend_generic_guidances(controls: &mut HashMap<CID, Control>) {
+    let monitoring_capabilities = HashSet::from([
+        "S 1.16.12",
+        "S 1.16.13",
+        "S 1.16.14",
+        "S 1.16.15",
+        "S 1.16.16",
+        "S 1.16.17",
+        "S 1.16.18",
+        "S 1.16.19",
+        "S 1.16.20",
+        "S 1.16.21",
+        "S 1.16.22",
+        "S 1.16.23",
+        "S 1.16.24",
+        "S 1.16.25",
+        "S 1.16.26",
+        "S 1.16.27",
+    ]);
+    for (cid, control) in controls.iter_mut() {
+        if !control.answer().is_capability() || !control.guidances().is_empty() {
+            continue;
+        }
+        if monitoring_capabilities.contains(cid.as_str()) {
+            control.set_guidances(vec![
+                "Not in place".to_owned(),
+                "Log sources connected, basic monitoring".to_owned(),
+                "Specific use cases defined and operationalised".to_owned(),
+                "Use cases, playbooks and procedures defined and implemented".to_owned(),
+                "Fully implemented, performance measured and improved".to_owned(),
+                "Not required for SOC operations".to_owned(),
+            ]);
+        } else {
+            control.set_guidances(vec![
+                "Not in place".to_owned(),
+                "Partially implemented, incomplete".to_owned(),
+                "Averagely implemented, partially documented".to_owned(),
+                "Mostly implemented, documented and approved".to_owned(),
+                "Fully implemented, documented, approved, actively improved".to_owned(),
+                "Not required for SOC operations".to_owned(),
+            ]);
+        }
+    }
+}
+
 fn extend_control_from_guidance(
     controls: &mut HashMap<CID, Control>,
     guidance_range: &calamine::Range<Data>,
@@ -209,12 +258,40 @@ fn extend_control_from_guidance(
         }
         let cid = guidance_range.get_value((row, 0)).unwrap().to_string();
 
+        let cid = guidance_cid_map(cid, row);
+
         let Some(control) = controls.get_mut(&cid) else {
-            println!("Skipping unknown cid {} - probably an old relic", cid);
+            eprintln!("Skipping unknown cid {} - probably an old relic", cid);
             continue;
         };
         control.set_guidances(guides);
     }
+}
+fn guidance_cid_map(cid: CID, row: u32) -> CID {
+    HashMap::from([
+        (("M 4.1", 829), "M 4.1.1"),
+        (("M 4.2", 835), "M 4.1.2"),
+        (("M 4.3", 841), "M 4.1.3"),
+        (("M 4.4", 847), "M 4.1.4"),
+        (("M 4.5", 853), "M 4.1.5"),
+        (("M 4.6", 859), "M 4.1.6"),
+        (("M 4.7", 865), "M 4.1.7"),
+        (("M 4.8", 871), "M 4.1.8"),
+        (("M 4.9", 877), "M 4.1.9"),
+        (("M 4.10", 883), "M 4.1.10"),
+        (("M 4.11", 889), "M 4.1.11"),
+        (("S 3.12", 1844), "S 3.13"),
+        (("S 3.13", 1850), "S 3.14"),
+        (("S 3.14", 1856), "S 3.15"),
+        (("T 5.4.1", 1512), "T 4.4.1"),
+        (("T 5.4.2", 1518), "T 4.4.2"),
+        (("T 5.4.3", 1524), "T 4.4.3"),
+        (("T 5.4.4", 1530), "T 4.4.4"),
+        (("T 5.4.5", 1536), "T 4.4.5"),
+    ])
+    .get(&(cid.as_str(), row))
+    .map(|cid| cid.to_string())
+    .unwrap_or(cid)
 }
 
 fn extend_answer_from_form_controls<P: AsRef<Path>>(
@@ -260,7 +337,7 @@ fn extend_answer_from_form_controls<P: AsRef<Path>>(
         let id = output_range.get_value((output_row, 0)).unwrap();
 
         let Some(value) = output_range.get_value((output_row, 3)).unwrap().as_i64() else {
-            println!(
+            eprintln!(
                 "Control maps to outdated control (this is probably wanted): {} row: {}",
                 id, output_row
             );
@@ -268,7 +345,7 @@ fn extend_answer_from_form_controls<P: AsRef<Path>>(
         };
 
         let Some(entry) = controls.get_mut(&id.to_string()) else {
-            println!("Output contains unlisted CID: {}", id);
+            eprintln!("Output contains unlisted CID: {}", id);
             continue;
         };
 
@@ -277,7 +354,7 @@ fn extend_answer_from_form_controls<P: AsRef<Path>>(
         if matches!(entry.answer(), Answer::Any(_)) {
             entry.set_answer(input_map(input_link, value as usize, &_type));
         } else {
-            println!(
+            eprintln!(
                 "Skipped {} with value of {}, existing: {:?}",
                 id, value, entry
             )
@@ -302,7 +379,7 @@ fn extend_answer_from_output(
 
     for row in cids {
         let Some(control) = controls.get_mut(&row[0].to_string()) else {
-            println!("Output contains unlisted CID: {}", row[0].to_string());
+            eprintln!("Output contains unlisted CID: {}", row[0].to_string());
             continue;
         };
         let answer = if ToCellDeserializer::is_empty(&row[3]) {
