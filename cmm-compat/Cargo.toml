@@ -5,13 +5,13 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.98"
-calamine = "0.27.0"
+calamine = { git = "https://github.com/prophittcorey/calamine.git", branch = "fix/zip-3.0" }
 roxmltree = "0.20.0"
-zip = "2.5.0"
+zip = "3.0"
 cmm-core = { path = "../cmm-core" }
 toml = "0.8"
 serde_json = "1.0"
 
 [dev-dependencies]
 compose-idents = "0.1"
-indexmap = {version = "2.9", features = ["serde"]}
+indexmap = { version = "2.9", features = ["serde"] }
