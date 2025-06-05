@@ -62,12 +62,17 @@ fn ControlItemComponent(
     rsx! {
         div {
             class: "indent-{indent} pt-1 pb-0.5",
+            tabindex: "-1",
             details {
                 class: "bg-slate-800 border-1 border-slate-700 open:p-3 rounded text-slate-50 not-open:hover:bg-slate-700 transition-colors duration-100ms ease-in-out group",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
                     span {
-                        "{cid} {control().title()}"
+                        span {
+                            class: "opacity-70 mr-2",
+                            "{cid}"
+                        },
+                        "{control().title()}"
                     },
                     div {
                         span {
@@ -112,6 +117,8 @@ fn ControlInputComponent(
     cid: ReadOnlySignal<String>,
     control: ReadOnlySignal<Control>,
 ) -> Element {
+    let mut cmm = use_context::<Signal<CMM>>();
+
     if let Answer::Any(content) = control().answer() {
         return rsx! {
             div {
@@ -124,16 +131,38 @@ fn ControlInputComponent(
         };
     }
 
-    let mut cmm = use_context::<Signal<CMM>>();
+    if let Answer::Bool(content) = control().answer() {
+        return rsx! {
+            div {
+                class: "w-full flex items-baseline gap-x-2",
+                for value in vec!["True", "False"] {
+                    label {
+                        key: cid.clone() + control().answer().as_value() + i,
+                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600 has-checked:border-blue-400 border-3 border-transparent w-full",
+                        input {
+                            class: "hidden",
+                            type: "radio",
+                            name:  "{domain}.{cid.clone()}",
+                            checked: content == &(value == "True"),
+                            onclick: move |_evt| {
+                                cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "True"));
+                            }
+                        },
+                        "{value}"
+                    }
+                }
+            }
+        };
+    }
 
     rsx! {
         for (i, variant) in control().answer().variants().into_iter().enumerate() {
             label {
                 key: cid.clone() + control().answer().as_value() + i,
-                class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600",
+                class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent",
                 "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
                 input {
-                    class: "mr-2",
+                    class: "hidden",
                     type: "radio",
                     name:  "{domain}.{cid.clone()}",
                     value: variant.to_owned(),

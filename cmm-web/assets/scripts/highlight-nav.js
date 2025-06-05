@@ -24,9 +24,12 @@ const intersectionObserver = new IntersectionObserver(
     document
       .querySelectorAll("nav a.current")
       .forEach((el) => el.classList.remove("current"));
-    document
-      .querySelector(`nav a[href="#${topElement.id}"]`)
-      .classList.add("current");
+    const targetNavLink = document.querySelector(
+      `nav a[href="#${topElement.id}"]`,
+    );
+    if (targetNavLink) {
+      targetNavLink.classList.add("current");
+    }
   },
   {
     rootMargin: "0px",
