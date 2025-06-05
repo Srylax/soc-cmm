@@ -6,6 +6,7 @@ use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashMap;
 use std::mem::discriminant;
+use std::str::ParseBoolError;
 use strum::Display;
 
 use answer::Answer;
@@ -27,6 +28,10 @@ pub enum CmmError {
     DiscriminantMismatch(Answer, Answer),
     #[error("Aspect with missing title found")]
     MissingAspectTitle,
+    #[error(transparent)]
+    StrumParseError(#[from] strum::ParseError),
+    #[error(transparent)]
+    ParseBoolError(#[from] ParseBoolError),
 }
 
 #[derive(
@@ -96,6 +101,17 @@ impl CMM {
 
     pub fn aspect(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
         self.domains.get(domain)
+    }
+
+    pub fn set_answer(&mut self, domain: &Domain, cid: CID, answer: Answer) {
+        if let Some(aspects) = self.domains.get_mut(domain)
+            && let Some(aspect_id) = cid.chars().next()
+            && let Some(aspect_id) = aspect_id.to_digit(10)
+            && let Some(aspect) = aspects.get_mut(aspect_id as usize - 1)
+            && let Some(control) = aspect.controls.get_mut(&cid)
+        {
+            control.set_answer(answer);
+        };
     }
 
     pub fn as_simple(&self) -> IndexMap<Domain, IndexMap<CID, SimpleControl>> {

@@ -1,5 +1,8 @@
+use std::str::FromStr;
+
 use serde::Deserialize;
 use serde::Serialize;
+use strum::EnumString;
 use strum::VariantNames;
 use strum::{EnumCount, FromRepr};
 
@@ -14,6 +17,7 @@ use strum::{EnumCount, FromRepr};
     Deserialize,
     strum::Display,
     VariantNames,
+    EnumString,
 )]
 pub enum Satisfaction {
     No = 1,
@@ -39,6 +43,7 @@ impl Default for Satisfaction {
     Deserialize,
     strum::Display,
     VariantNames,
+    EnumString,
 )]
 pub enum Occurence {
     Never = 1,
@@ -65,6 +70,7 @@ impl Default for Occurence {
     Deserialize,
     strum::Display,
     VariantNames,
+    EnumString,
 )]
 pub enum Detailed {
     No = 1,
@@ -90,6 +96,7 @@ impl Default for Detailed {
     Deserialize,
     strum::Display,
     VariantNames,
+    EnumString,
 )]
 pub enum DetailedOptional {
     No = 1,
@@ -174,6 +181,20 @@ impl Answer {
         }
     }
 
+    pub fn extend_from_variant(&self, variant: &str) -> crate::Result<Answer> {
+        Ok(match self {
+            Answer::Satisfaction(_) => Answer::Satisfaction(Satisfaction::from_str(variant)?),
+            Answer::Detailed(_) => Answer::Detailed(Detailed::from_str(variant)?),
+            Answer::DetailedOptional(_) => {
+                Answer::DetailedOptional(DetailedOptional::from_str(variant)?)
+            }
+            Answer::Occurence(_) => Answer::Occurence(Occurence::from_str(variant)?),
+            Answer::Bool(_) => Answer::Bool(bool::from_str(variant)?),
+            Answer::Any(any) => Answer::Any(any.clone()),
+            Answer::None => Answer::None,
+        })
+    }
+
     pub fn as_value(&self) -> String {
         return match self {
             Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
@@ -183,6 +204,6 @@ impl Answer {
             Answer::Bool(boolean) => boolean.to_string(),
             Answer::Any(any) => any.to_string(),
             Answer::None => String::new(),
-        }
+        };
     }
 }

@@ -8,7 +8,7 @@ use dioxus_storage::{use_synced_storage, LocalStorage};
 use std::sync::Arc;
 use strum::VariantArray;
 
-use crate::components::{SidebarComponent, ControlComponent};
+use crate::components::{ControlComponent, SidebarComponent};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -25,9 +25,11 @@ fn main() {
 /// Components should be annotated with `#[component]` to support props, better error messages, and autocomplete
 #[component]
 fn App() -> Element {
-    let mut cmm: Signal<CMM> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
+    let cmm: Signal<CMM> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
         serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
     });
+
+    let mut cmm = use_context_provider(|| cmm);
 
     let read_cmm_from_file = move |file_engine: Arc<dyn FileEngine>| async move {
         let files = file_engine.files();
@@ -93,7 +95,7 @@ fn App() -> Element {
                         div {
                             class: "",
                             for (cid,control) in aspect.controls() {
-                                ControlComponent { key: cid.to_owned(), domain: *domain, cid: cid.to_owned(), control: control.clone()}
+                                ControlComponent { key: cid.to_owned() + control.answer().as_value(), domain: *domain, cid: cid.to_owned(), control: control.clone()}
                             }
                         }
                     }
