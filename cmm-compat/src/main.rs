@@ -39,8 +39,8 @@ fn main() -> anyhow::Result<()> {
     // println!("C {:#?}", aspect.capability_final_score());
     // println!("C {:#?}", aspect.capability_score());
 
-    println!("{}", toml::to_string_pretty(&cmm.as_simple()).unwrap());
-    // println!("{}", serde_json::to_string_pretty(&cmm).unwrap());
+    // println!("{}", toml::to_string_pretty(&cmm.as_simple()).unwrap());
+    println!("{}", serde_json::to_string_pretty(&cmm).unwrap());
 
     Ok(())
 }

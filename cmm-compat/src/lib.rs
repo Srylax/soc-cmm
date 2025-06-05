@@ -126,7 +126,7 @@ fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<Hash
                     Control::new(
                         row[2].to_string(),
                         row[15].as_string(),
-                        Answer::None,
+                        Answer::Title,
                         comments.remove(&cid),
                         Vec::new(),
                     ),
@@ -306,7 +306,7 @@ fn extend_answer_from_output(
             continue;
         };
         let answer = if ToCellDeserializer::is_empty(&row[3]) {
-            Answer::None
+            Answer::Title
         } else {
             Answer::Any(row[3].as_string().unwrap())
         };

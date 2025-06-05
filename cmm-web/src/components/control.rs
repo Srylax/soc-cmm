@@ -40,7 +40,7 @@ fn ControlItemComponent(
     control: ReadOnlySignal<Control>,
 ) -> Element {
     let indent = cid.read().chars().filter(|c| *c == '.').count();
-    if let Answer::None = control().answer() {
+    if let Answer::Title = control().answer() {
         if indent > 1 {
             return rsx! {
                 h5 {

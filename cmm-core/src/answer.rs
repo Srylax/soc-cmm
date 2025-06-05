@@ -121,7 +121,7 @@ pub enum Answer {
     Occurence(Occurence),               // Maturity
     Bool(bool),
     Any(String),
-    None,
+    Title,
 }
 
 impl Answer {
@@ -166,7 +166,7 @@ impl Answer {
             Answer::Occurence(_) => Occurence::VARIANTS,
             Answer::Bool(_) => &["true", "false"],
             Answer::Any(_) => &[],
-            Answer::None => &[],
+            Answer::Title => &[],
         }
     }
     pub fn variant_eq(&self, variant: &str) -> bool {
@@ -177,7 +177,7 @@ impl Answer {
             Answer::Occurence(occurence) => occurence.to_string() == variant,
             Answer::Bool(boolean) => boolean.to_string() == variant,
             Answer::Any(_) => false,
-            Answer::None => false,
+            Answer::Title => false,
         }
     }
 
@@ -191,7 +191,7 @@ impl Answer {
             Answer::Occurence(_) => Answer::Occurence(Occurence::from_str(variant)?),
             Answer::Bool(_) => Answer::Bool(bool::from_str(variant)?),
             Answer::Any(any) => Answer::Any(any.clone()),
-            Answer::None => Answer::None,
+            Answer::Title => Answer::Title,
         })
     }
 
@@ -203,7 +203,7 @@ impl Answer {
             Answer::Occurence(occurence) => occurence.to_string(),
             Answer::Bool(boolean) => boolean.to_string(),
             Answer::Any(any) => any.to_string(),
-            Answer::None => String::new(),
+            Answer::Title => String::new(),
         };
     }
 }

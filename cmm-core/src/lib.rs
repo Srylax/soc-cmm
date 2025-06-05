@@ -123,7 +123,7 @@ impl CMM {
                     aspects
                         .iter()
                         .flat_map(|aspect| &aspect.controls)
-                        .filter(|(_cid, control)| !matches!(control.answer(), Answer::None))
+                        .filter(|(_cid, control)| !matches!(control.answer(), Answer::Title))
                         .map(|(cid, control)| (cid.clone(), control.to_simple()))
                         .collect(),
                 )
