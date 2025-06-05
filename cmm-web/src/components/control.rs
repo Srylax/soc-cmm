@@ -39,6 +39,7 @@ fn ControlItemComponent(
     cid: ReadOnlySignal<CID>,
     control: ReadOnlySignal<Control>,
 ) -> Element {
+    let mut cmm = use_context::<Signal<CMM>>();
     let indent = cid.read().chars().filter(|c| *c == '.').count();
     if let Answer::Title = control().answer() {
         if indent > 1 {
@@ -64,7 +65,7 @@ fn ControlItemComponent(
             class: "indent-{indent} pt-1 pb-0.5",
             tabindex: "-1",
             details {
-                class: "bg-slate-800 border-1 border-slate-700 open:p-3 rounded text-slate-50 not-open:hover:bg-slate-700 transition-colors duration-100ms ease-in-out group",
+                class: "bg-slate-800 border-1 border-slate-700 open:p-3 rounded text-slate-50 not-open:hover:bg-slate-700 duration-100ms ease-in-out group",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
                     span {
@@ -82,7 +83,7 @@ fn ControlItemComponent(
                     }
                 },
                 div {
-                    class: "grid gap-2 mt-4 grid-cols-[60%_40%]",
+                    class: "grid gap-2 mt-4 grid-cols-[3fr_2fr]",
                     span { },
                     span {
                         class: "text-sm",
@@ -90,19 +91,20 @@ fn ControlItemComponent(
                     },
                 },
                 div {
-                    class: "grid gap-2 mt-1 grid-cols-[60%_40%]",
-                    div {
-                        class: "grid gap-2",
-                        ControlInputComponent {
-                            domain,
-                            cid,
-                            control
-                        },
+                    class: "grid gap-2 mt-1 grid-cols-[3fr_2fr]",
+                    ControlInputComponent {
+                        domain,
+                        cid,
+                        control
                     },
                     label {
                         class: "min-h-2xl flex flex-wrap",
                         textarea {
                             class: "bg-slate-700 rounded px-2 py-1.5 w-full",
+                            value: control().comment().clone().unwrap_or(String::new()),
+                            onchange: move |evt| {
+                                cmm.write().set_comment(&domain, cid(), evt.value());
+                            }
                         },
                     }
                 }
@@ -125,7 +127,10 @@ fn ControlInputComponent(
                 input {
                     class: "bg-slate-700 rounded px-2 py-1.5 w-full",
                     type: "text",
-                    value: "{content}"
+                    value: "{content}",
+                    oninput: move |evt| {
+                        cmm.write().set_answer(&domain, cid(), Answer::Any(evt.value()));
+                    }
                 }
             }
         };
@@ -138,13 +143,14 @@ fn ControlInputComponent(
                 for value in vec!["True", "False"] {
                     label {
                         key: cid.clone() + control().answer().as_value() + i,
-                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600 has-checked:border-blue-400 border-3 border-transparent w-full",
+                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 has-checked:bg-slate-600 has-checked:border-blue-400 border-3 border-transparent w-full",
                         input {
-                            class: "hidden",
+                            class: "appearance-none opacity-0",
+                            tabindex: "0",
                             type: "radio",
                             name:  "{domain}.{cid.clone()}",
                             checked: content == &(value == "True"),
-                            onclick: move |_evt| {
+                            onclick: move |_| {
                                 cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "True"));
                             }
                         },
@@ -156,22 +162,26 @@ fn ControlInputComponent(
     }
 
     rsx! {
-        for (i, variant) in control().answer().variants().into_iter().enumerate() {
-            label {
-                key: cid.clone() + control().answer().as_value() + i,
-                class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 transition-colors has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent",
-                "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
-                input {
-                    class: "hidden",
-                    type: "radio",
-                    name:  "{domain}.{cid.clone()}",
-                    value: variant.to_owned(),
-                    checked: control().answer().variant_eq(variant),
-                    onclick: move |_evt| {
-                        cmm.write().set_answer(&domain, cid(), control().answer().extend_from_variant(variant).unwrap());
+        div {
+            class: "grid gap-2",
+            for (i, variant) in control().answer().variants().into_iter().enumerate() {
+                label {
+                    key: cid.clone() + control().answer().as_value() + i,
+                    class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent has-focus:outline-2 has-focus:outline-dashed has-focus:outline-blue-400 outline-l-0",
+                    "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
+                    input {
+                        class: "appearance-none opacity-0",
+                        tabindex: "0",
+                        type: "radio",
+                        name:  "{domain}.{cid.clone()}",
+                        value: variant.to_owned(),
+                        checked: control().answer().variant_eq(variant),
+                        onclick: move |_evt| {
+                            cmm.write().set_answer(&domain, cid(), control().answer().extend_from_variant(variant).unwrap());
+                        }
                     }
+                    "{variant}"
                 }
-                "{variant}"
             }
         }
     }

@@ -114,6 +114,17 @@ impl CMM {
         };
     }
 
+    pub fn set_comment(&mut self, domain: &Domain, cid: CID, comment: String) {
+        if let Some(aspects) = self.domains.get_mut(domain)
+            && let Some(aspect_id) = cid.chars().next()
+            && let Some(aspect_id) = aspect_id.to_digit(10)
+            && let Some(aspect) = aspects.get_mut(aspect_id as usize - 1)
+            && let Some(control) = aspect.controls.get_mut(&cid)
+        {
+            control.set_comment(Some(comment));
+        };
+    }
+
     pub fn as_simple(&self) -> IndexMap<Domain, IndexMap<CID, SimpleControl>> {
         self.domains
             .iter()

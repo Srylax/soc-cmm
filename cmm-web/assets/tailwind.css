@@ -234,9 +234,6 @@
   .grid {
     display: grid;
   }
-  .hidden {
-    display: none;
-  }
   .table {
     display: table;
   }
@@ -260,6 +257,12 @@
   }
   .resize {
     resize: both;
+  }
+  .appearance-none {
+    appearance: none;
+  }
+  .grid-cols-\[3fr_2fr\] {
+    grid-template-columns: 3fr 2fr;
   }
   .grid-cols-\[60\%_40\%\] {
     grid-template-columns: 60% 40%;
@@ -290,10 +293,6 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .border-2 {
-    border-style: var(--tw-border-style);
-    border-width: 2px;
-  }
   .border-3 {
     border-style: var(--tw-border-style);
     border-width: 3px;
@@ -301,10 +300,6 @@
   .border-l-1 {
     border-left-style: var(--tw-border-style);
     border-left-width: 1px;
-  }
-  .border-l-3 {
-    border-left-style: var(--tw-border-style);
-    border-left-width: 3px;
   }
   .border-l-4 {
     border-left-style: var(--tw-border-style);
@@ -400,12 +395,18 @@
   .underline {
     text-decoration-line: underline;
   }
+  .opacity-0 {
+    opacity: 0%;
+  }
   .opacity-70 {
     opacity: 70%;
   }
   .outline {
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
+  }
+  .outline-blue-400 {
+    outline-color: var(--color-blue-400);
   }
   .transition-colors {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
@@ -415,6 +416,10 @@
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
+  }
+  .outline-dashed {
+    --tw-outline-style: dashed;
+    outline-style: dashed;
   }
   .not-in-open\:p-3 {
     &:not(:where(*:is([open], :popover-open, :open)) *) {
@@ -464,6 +469,29 @@
       @media (hover: hover) {
         border-color: var(--color-white);
       }
+    }
+  }
+  .has-focus\:outline-1 {
+    &:has(*:focus) {
+      outline-style: var(--tw-outline-style);
+      outline-width: 1px;
+    }
+  }
+  .has-focus\:outline-2 {
+    &:has(*:focus) {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+  }
+  .has-focus\:outline-blue-400 {
+    &:has(*:focus) {
+      outline-color: var(--color-blue-400);
+    }
+  }
+  .has-focus\:outline-dashed {
+    &:has(*:focus) {
+      --tw-outline-style: dashed;
+      outline-style: dashed;
     }
   }
 }
