@@ -24,8 +24,36 @@ pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<cmm_core::CMM> {
     extend_answer_from_output(&output, &mut controls);
     extend_answer_from_form_controls(&mut controls, &output, path)?;
     extend_control_from_guidance(&mut controls, &guidance);
+    nist_compat(&mut controls);
 
     Ok(CMM::from_map(controls, aspects(&output)).unwrap())
+}
+
+fn nist_compat(controls: &mut HashMap<CID, Control>) {
+    let compat = Vec::from([
+        ("S 4.15.30", Answer::DetailedOptional(DetailedOptional::No)),
+        ("S 4.15.31", Answer::DetailedOptional(DetailedOptional::No)),
+        ("S 2.17.33", Answer::DetailedOptional(DetailedOptional::No)),
+        ("S 2.17.34", Answer::DetailedOptional(DetailedOptional::No)),
+        ("S 2.17.35", Answer::DetailedOptional(DetailedOptional::No)),
+        ("S 2.17.36", Answer::DetailedOptional(DetailedOptional::No)),
+        ("S 6.15.20", Answer::DetailedOptional(DetailedOptional::No)),
+        ("M 2.2.5", Answer::Detailed(Detailed::No)),
+        ("M 2.4.5", Answer::Detailed(Detailed::No)),
+        ("M 2.4.9", Answer::Detailed(Detailed::No)),
+        ("M 3.11.1", Answer::Detailed(Detailed::No)),
+        ("M 3.11.2", Answer::Detailed(Detailed::No)),
+        ("M 3.11.3", Answer::Detailed(Detailed::No)),
+        ("B 4.6", Answer::Detailed(Detailed::No)),
+        ("P 2.2.14", Answer::Detailed(Detailed::No)),
+    ]);
+
+    for (cid, answer) in compat {
+        controls
+            .get_mut(cid)
+            .expect("Compat CID not in controls")
+            .set_answer(answer);
+    }
 }
 
 fn question_remarks(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<HashMap<CID, Control>> {
