@@ -7,7 +7,7 @@ use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{use_synced_storage, LocalStorage};
 use std::sync::Arc;
 
-use crate::components::{ControlListComponent, OverviewComponent, SidebarComponent};
+use crate::components::{ControlListComponent, OverviewComponent, SidebarComponent, ToggleComponent};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -75,17 +75,13 @@ fn App() -> Element {
 
         SidebarComponent {
             cmm: cmm,
-            button {
-                class: "px-3 py-1 m-4 bg-blue-400 rounded cursor-pointer",
+            ToggleComponent {
+                checked: darkmode(),
                 onclick: move |_| {
                     darkmode.set(!darkmode());
                 },
-                if darkmode() {
-                    "Lightmode"
-                } else {
-                    "Darkmode"
-                }
-            },
+                label: Some(String::from("Darkmode"))
+            }
         },
         main {
             class: "ml-[260px] px-8 py-4",

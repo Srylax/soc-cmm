@@ -34,6 +34,37 @@ pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>) -> Element {
 }
 
 #[component]
+fn ControlItemValuePreviewComponent(
+    domain: Domain,
+    cid: ReadOnlySignal<CID>,
+    control: ReadOnlySignal<Control>,
+) -> Element {
+    let mut cmm = use_context::<Signal<CMM>>();
+
+    let value = control().clone().answer().as_value();
+    let Answer::Bool(_) = control().answer() else {
+        return rsx! {
+            span {
+                class: "dark:bg-slate-600 bg-slate-300 rounded px-2 py-1 text-sm",
+                "{value}"
+            }
+        };
+    };
+
+    rsx! {
+        span {
+            class: "dark:bg-slate-600 bg-slate-300 cursor-pointer hover:bg-blue-300 rounded px-2 py-1 text-sm",
+            role: "button",
+            onclick: move |e| {
+                e.prevent_default();
+                cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "false"));
+            },
+            "{value}"
+        }
+    }
+}
+
+#[component]
 fn ControlItemComponent(
     domain: Domain,
     cid: ReadOnlySignal<CID>,
@@ -60,7 +91,6 @@ fn ControlItemComponent(
         };
     }
 
-    let value = control().answer().as_value();
 
     rsx! {
         div {
@@ -79,9 +109,10 @@ fn ControlItemComponent(
                         "{control().title()}"
                     },
                     div {
-                        span {
-                            class: "dark:bg-slate-600 bg-slate-300 rounded px-2 py-1 text-sm",
-                            "{value}"
+                        ControlItemValuePreviewComponent { 
+                            domain,
+                            cid,
+                            control
                         }
                     }
                 },

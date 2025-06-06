@@ -3,6 +3,8 @@ use dioxus::prelude::*;
 use dioxus_storage::{use_synced_storage, LocalStorage};
 use strum::VariantArray;
 
+use crate::components::ToggleComponent;
+
 
 #[component]
 fn NavigationLinkComponent(title: String, href: String, score: Option<f64>) -> Element {
@@ -61,18 +63,21 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
     rsx! {
         nav {
             class: "fixed z-10 h-full left-0 top-0 max-w-[280px] w-full overflow-auto",
-            button {
-                class: "px-3 py-1 m-4 bg-blue-400 rounded cursor-pointer",
-                onclick: move |_| {
-                    show_scores.set(!show_scores());
+            div {
+                class: "p-4 grid gap-y-3",
+                span {
+                    class: "text-sm font-semibold",
+                    "Settings"
                 },
-                if show_scores() {
-                    "Hide Scores"
-                } else {
-                    "Show Scores"
-                }
+                ToggleComponent {
+                    checked: show_scores(),
+                    onclick: move |_| {
+                        show_scores.set(!show_scores());
+                    },
+                    label: Some(String::from("Show scores"))
+                },
+                {children},
             },
-            {children},
             div {
                 class: "p-4",
                 NavigationSectionComponent {
