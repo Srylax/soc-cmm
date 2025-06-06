@@ -46,6 +46,7 @@ fn ControlItemComponent(
             return rsx! {
                 h5 {
                     class: "mt-4 mb-1 text-xl font-semibold",
+                    id: "{domain}.{cid}",
                     "{cid} {control().title()}"
                 }
             };
@@ -53,6 +54,7 @@ fn ControlItemComponent(
         return rsx! {
             h4 {
                 class: "mt-4 mb-1 text-xl font-semibold",
+                id: "{domain}.{cid}",
                 "{cid} {control().title()}"
             }
         };
@@ -66,6 +68,7 @@ fn ControlItemComponent(
             tabindex: "-1",
             details {
                 class: "bg-slate-800 border-1 border-slate-700 open:p-3 rounded text-slate-50 not-open:hover:bg-slate-700 duration-100ms ease-in-out group",
+                id: "{domain}.{cid}",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
                     span {
