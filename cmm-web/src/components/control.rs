@@ -67,7 +67,7 @@ fn ControlItemComponent(
             class: "indent-{indent} pt-1 pb-0.5",
             tabindex: "-1",
             details {
-                class: "bg-slate-800 border-1 border-slate-700 open:p-3 rounded text-slate-50 not-open:hover:bg-slate-700 duration-100ms ease-in-out group",
+                class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 not-open:hover:bg-slate-200 duration-100ms ease-in-out group",
                 id: "{domain}.{cid}",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
@@ -80,7 +80,7 @@ fn ControlItemComponent(
                     },
                     div {
                         span {
-                            class: "bg-slate-600 rounded px-2 py-1 text-sm",
+                            class: "dark:bg-slate-600 bg-slate-300 rounded px-2 py-1 text-sm",
                             "{value}"
                         }
                     }
@@ -103,7 +103,7 @@ fn ControlItemComponent(
                     label {
                         class: "min-h-2xl flex flex-wrap",
                         textarea {
-                            class: "bg-slate-700 rounded px-2 py-1.5 w-full",
+                            class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full",
                             value: control().comment().clone().unwrap_or(String::new()),
                             onchange: move |evt| {
                                 cmm.write().set_comment(&domain, cid(), evt.value());
@@ -128,7 +128,7 @@ fn ControlInputComponent(
         return rsx! {
             div {
                 input {
-                    class: "bg-slate-700 rounded px-2 py-1.5 w-full block",
+                    class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full block",
                     type: "text",
                     value: "{content}",
                     oninput: move |evt| {
@@ -146,7 +146,7 @@ fn ControlInputComponent(
                 for value in vec!["True", "False"] {
                     label {
                         key: format!("{}{}",cid, control().answer().as_value()),
-                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 has-checked:bg-slate-600 has-checked:border-blue-400 border-3 border-transparent w-full",
+                        class: "dark:bg-slate-700 bg-slate-200 py-1 px-2 rounded cursor-pointer dark:hover:bg-slate-600 hover:bg-slate-300 has-checked:bg-slate-200 dark:has-checked:bg-slate-600 has-checked:border-blue-300 border-3 border-transparent w-full",
                         input {
                             class: "appearance-none opacity-0",
                             tabindex: "0",
@@ -170,7 +170,7 @@ fn ControlInputComponent(
             for (i, variant) in control().answer().variants().into_iter().enumerate() {
                 label {
                     key: format!("{}{}{}",cid, control().answer().as_value(), i),
-                    class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent has-focus:outline-2 has-focus:outline-dashed has-focus:outline-blue-400 outline-l-0",
+                    class: "dark:bg-slate-700 bg-slate-200 py-1 px-2 rounded cursor-pointer dark:hover:bg-slate-600 hover:bg-slate-300 has-checked:bg-slate-200 dark:has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent has-focus:outline-2  has-focus:outline-blue-400 not-dark:not-has-focus:outline-1 not-dark:not-has-focus:outline-slate-300",
                     "data-description":  control().guidances().get(i).cloned().unwrap_or(String::new()),
                     input {
                         class: "appearance-none opacity-0",

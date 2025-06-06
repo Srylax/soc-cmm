@@ -1,7 +1,7 @@
 use cmm_core::CMM;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
-use dioxus::prelude::*;
+use dioxus::{document::document, prelude::*};
 
 use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{use_synced_storage, LocalStorage};
@@ -27,6 +27,7 @@ fn App() -> Element {
     let cmm: Signal<CMM> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
         serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
     });
+    let mut darkmode = use_synced_storage::<LocalStorage, _>("darkmode".to_owned(), || false);
 
     let mut cmm = use_context_provider(|| cmm);
 
@@ -44,6 +45,20 @@ fn App() -> Element {
             read_cmm_from_file(file_engine).await;
         }
     };
+
+    let copy_cmm = move |_: MouseEvent| async move {
+        tracing::debug!("copy");
+        let file_content = toml::to_string(&cmm).unwrap();
+    };
+
+    use_effect(move || {
+        if darkmode() {
+            document::eval("document.body.classList.add('dark');");
+        } else {
+            document::eval("document.body.classList.remove('dark');");
+        }
+    });
+
     // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
     rsx! {
         // In addition to element and text (which we will see later), rsx can contain other components. In this case,
@@ -60,20 +75,15 @@ fn App() -> Element {
 
         SidebarComponent {
             cmm: cmm,
-            div {
-                label {
-                    class: "text-sm mb-2 block",
-                    r#for: "textreader",
-                    "Upload CMM values in toml format"
+            button {
+                class: "px-3 py-1 m-4 bg-blue-400 rounded cursor-pointer",
+                onclick: move |_| {
+                    darkmode.set(!darkmode());
                 },
-                input {
-                    class: "bg-slate-800 p-1 rounded w-full",
-                    r#type: "file",
-                    accept: ".toml",
-                    multiple: false,
-                    name: "textreader",
-                    directory: false,
-                    onchange: upload_cmm,
+                if darkmode() {
+                    "Lightmode"
+                } else {
+                    "Darkmode"
                 }
             },
         },
@@ -85,6 +95,36 @@ fn App() -> Element {
                     class: "mx-auto text-6xl font-semibold",
                     "SOC CMM"
                 },
+            },
+            div {
+                class: "bg-slate-950 text-slate-50 p-4 max-w-2xl rounded mx-auto my-10 grid grid-cols-2 gap-2",
+                div {
+                    label {
+                        class: "text-sm mb-2 block",
+                        r#for: "textreader",
+                        "Upload CMM values in TOML format"
+                    },
+                    input {
+                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 w-full",
+                        r#type: "file",
+                        accept: ".toml",
+                        multiple: false,
+                        name: "textreader",
+                        directory: false,
+                        onchange: upload_cmm,
+                    },
+                },
+                div {
+                    span {
+                        class: "text-sm mb-2 block",
+                        "Download the CMM as TOML file"
+                    },
+                    button {
+                        class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 w-full",
+                        onclick: copy_cmm,
+                        "Download"
+                    }
+                }
             },
             OverviewComponent {},
             div {

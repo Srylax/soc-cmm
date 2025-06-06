@@ -8,16 +8,16 @@ use strum::VariantArray;
 fn NavigationLinkComponent(title: String, href: String, score: Option<f64>) -> Element {
     rsx! {
         li {
-            class: "text-slate-300 border-l-1 border-gray-700 has-hover:border-white pl-3 py-1 text-md",
+            class: "dark:text-slate-300 dark:border-slate-600 dark:has-hover:border-slate-50 has-hover:border-slate-800 text-slate-800 border-l-1 border-slate-300  pl-3 py-1 text-md",
             a {
-                class: "hover:text-white flex justify-between",
+                class: "dark:hover:text-slate-50 hover:text-slate-950 flex justify-between",
                 href: "#{href}",
                 alt: "{title}",
                 span {
                     "{title}"
                 },
                 span {
-                    class: if score.is_some() { "opacity-80" } else { "opacity-0" },
+                    class: if score.is_some() { "dark:opacity-80 opacity-90" } else { "opacity-0" },
                     "{(score.unwrap_or(10.0) * 10.0).round() / 10.0}"
                 }
             }
@@ -61,10 +61,6 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
     rsx! {
         nav {
             class: "fixed z-10 h-full left-0 top-0 max-w-[280px] w-full overflow-auto",
-            div {
-                class: "bg-black p-4",
-                {children}
-            },
             button {
                 class: "px-3 py-1 m-4 bg-blue-400 rounded cursor-pointer",
                 onclick: move |_| {
@@ -76,8 +72,9 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
                     "Show Scores"
                 }
             },
+            {children},
             div {
-                class: "p-4 mt-2",
+                class: "p-4",
                 NavigationSectionComponent {
                     title: "Overview",
                     href: "overview",

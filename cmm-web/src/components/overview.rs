@@ -66,7 +66,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
             }
         },
         div {
-            class: "h-2 w-full rounded block bg-blue-100 relative mb-4",
+            class: "h-2 w-full rounded block dark:bg-blue-100 bg-gray-300 relative mb-4",
             div {
                 class: "h-full absolute left-0 top-0 bg-blue-500 rounded",
                 width: "{(overall_score / 5.0 * 100.0).ceil()}%"
