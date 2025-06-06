@@ -512,6 +512,8 @@ dependencies = [
  "strum",
  "toml",
  "tracing",
+ "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]

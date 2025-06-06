@@ -15,12 +15,13 @@ toml = "0.8"
 indexmap = { version = "2.9", features = ["serde"] }
 tracing = "0.1"
 dioxus_storage = "0.1.0-alpha.1"
+wasm-bindgen-futures = "0.4.50"
 
 
-# [dependencies.web-sys]
-# version = "0.3"
-# # We need to enable all the web-sys features we want to use!
-# features = ["console", "FileSystemFileHandle", "Window"]
+[dependencies.web-sys]
+version = "0.3"
+# We need to enable all the web-sys features we want to use!
+features = ["Window", "Navigator", "Clipboard"]
 
 [features]
 default = ["web"]

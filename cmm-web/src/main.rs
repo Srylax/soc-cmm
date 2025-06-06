@@ -4,10 +4,12 @@ use cmm_core::CMM;
 use dioxus::{document::document, prelude::*};
 
 use dioxus::prelude::dioxus_elements::FileEngine;
-use dioxus_storage::{use_synced_storage, LocalStorage};
+use dioxus_storage::{LocalStorage, use_synced_storage};
 use std::sync::Arc;
 
-use crate::components::{ControlListComponent, OverviewComponent, SidebarComponent, ToggleComponent};
+use crate::components::{
+    ControlListComponent, OverviewComponent, SidebarComponent, ToggleComponent,
+};
 
 /// Define a components module that contains all shared components for our app.
 mod components;
@@ -46,10 +48,24 @@ fn App() -> Element {
         }
     };
 
+    let mut download_text = use_signal(|| "Copy");
+
     let copy_cmm = move |_: MouseEvent| async move {
-        tracing::debug!("copy");
-        let file_content = toml::to_string(&cmm).unwrap();
+        let file_content = toml::to_string(&cmm.read().as_simple()).unwrap();
+        let cb = web_sys::window().unwrap().navigator().clipboard();
+        if wasm_bindgen_futures::JsFuture::from(cb.write_text(&file_content))
+            .await
+            .is_ok()
+        {
+            *download_text.write() = "Copied ✅";
+        }
     };
+
+    // Revert to copy if cmm has changed
+    use_effect(move || {
+        cmm.read();
+        *download_text.write() = "Copy";
+    });
 
     use_effect(move || {
         if darkmode() {
@@ -113,12 +129,12 @@ fn App() -> Element {
                 div {
                     span {
                         class: "text-sm mb-2 block",
-                        "Download the CMM as TOML file"
+                        "Copy the CMM as TOML file"
                     },
                     button {
                         class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 w-full",
                         onclick: copy_cmm,
-                        "Download"
+                        "{download_text()}"
                     }
                 }
             },
