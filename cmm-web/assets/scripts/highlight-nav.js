@@ -1,5 +1,4 @@
 let visibleElements = [];
-
 const intersectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -27,6 +26,7 @@ const intersectionObserver = new IntersectionObserver(
     const targetNavLink = document.querySelector(
       `nav a[href="#${topElement.id}"]`,
     );
+    // window.history.replaceState(null, null, "#" + topElement.id);
     if (targetNavLink) {
       targetNavLink.classList.add("current");
     }

@@ -1,4 +1,4 @@
-use cmm_core::{CMM, Domain};
+use cmm_core::{Domain, CMM};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
@@ -9,12 +9,10 @@ pub fn OverviewComponent() -> Element {
     use_effect(move || {
         // this line is required, else the use effect wont update
         let _ = cmm.read();
-        document::eval(
-            r#"
+        document::eval(r#"
             const event = new Event("updateChart");
             document.dispatchEvent(event);
-            "#,
-        );
+            "#);
     });
 
     rsx! {
@@ -28,15 +26,20 @@ pub fn OverviewComponent() -> Element {
             },
         },
         div {
-            class: "w-full max-w-3xl mx-auto mt-8",
+            class: "w-full max-w-5xl mx-auto mt-8 mb-16",
             id: "domain-scores",
             h2 {
                 class: "text-3xl mb-4",
                 id: "overview",
                 "Overview"
             },
-            for domain in Domain::VARIANTS {
-                DomainOverviewComponent { domain: *domain }
+            div {
+                class: "grid grid-cols-2 gap-x-8",
+                for domain in Domain::VARIANTS {
+                    div {
+                        DomainOverviewComponent { domain: *domain }
+                    }
+                }
             }
         }
     }
@@ -82,12 +85,12 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
             tbody {
                 for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
                     tr {
-                        key: format!("{}{}_{}",aspect.title(), aspect.maturity_score(), aspect.capability_score()),
+                        key: aspect.title() + aspect.maturity_score() + "_" + aspect.capability_score(),
                         td {
                             "{i + 1}. {aspect.title()}"
                         },
                         td {
-                            "{aspect.maturity_score()}"
+                            "{(aspect.maturity_score() * 100.0).round() / 100.0}"
                         }
                     }
                 }
