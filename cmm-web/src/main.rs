@@ -1,7 +1,7 @@
 use cmm_core::CMM;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
-use dioxus::{document::document, prelude::*};
+use dioxus::prelude::*;
 
 use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{LocalStorage, use_synced_storage};
