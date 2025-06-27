@@ -19,9 +19,9 @@ pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>) -> Element {
                 }
                 div {
                     class: "",
-                    for (cid,control) in aspect.controls() {
+                    for (cid, control) in aspect.controls() {
                         ControlItemComponent {
-                            key: format!("{}{}", cid, control.answer().as_value()),
+                            key: format!("{cid}{domain}"),
                             domain: *domain,
                             cid: cid.to_owned(),
                             control: control.clone()
