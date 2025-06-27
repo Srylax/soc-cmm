@@ -104,14 +104,12 @@ impl CMM {
     }
 
     pub fn aspect_maturity_score(&self, domain: &Domain) -> Option<f64> {
-        let Some(aspects) = self.aspect(domain) else {
-            return None;
-        };
+        let aspects = self.aspect(domain)?;
         let scores: Vec<f64> = aspects
-            .into_iter()
+            .iter()
             .map(|aspect| aspect.maturity_score())
             .collect();
-        Some(scores.iter().sum::<f64>() / scores.iter().count() as f64)
+        Some(scores.iter().sum::<f64>() / scores.len() as f64)
     }
 
     pub fn set_answer(&mut self, domain: &Domain, cid: CID, answer: Answer) {
