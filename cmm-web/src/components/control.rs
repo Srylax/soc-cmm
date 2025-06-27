@@ -11,7 +11,7 @@ pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>) -> Element {
                 id: "variant-{domain}",
                 "{domain}"
             },
-            for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
+            for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
                 h3 {
                     class: "text-2xl mb-2 mt-6 font-semibold",
                     id: "aspect-{domain}-{i + 1}",
@@ -91,7 +91,6 @@ fn ControlItemComponent(
         };
     }
 
-
     rsx! {
         div {
             class: "indent-{indent} pt-1 pb-0.5",
@@ -109,7 +108,7 @@ fn ControlItemComponent(
                         "{control().title()}"
                     },
                     div {
-                        ControlItemValuePreviewComponent { 
+                        ControlItemValuePreviewComponent {
                             domain,
                             cid,
                             control
@@ -198,7 +197,7 @@ fn ControlInputComponent(
     rsx! {
         div {
             class: "grid gap-2",
-            for (i, variant) in control().answer().variants().into_iter().enumerate() {
+            for (i, variant) in control().answer().variants().iter().enumerate() {
                 label {
                     key: format!("{}{}{}",cid, control().answer().as_value(), i),
                     class: "dark:bg-slate-700 bg-slate-200 py-1 px-2 rounded cursor-pointer dark:hover:bg-slate-600 hover:bg-slate-300 has-checked:bg-slate-200 dark:has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent has-focus:outline-2  has-focus:outline-blue-400 not-dark:not-has-focus:outline-1 not-dark:not-has-focus:outline-slate-300",

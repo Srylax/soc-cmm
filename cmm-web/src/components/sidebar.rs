@@ -1,10 +1,9 @@
-use cmm_core::{Domain, CMM};
+use cmm_core::{CMM, Domain};
 use dioxus::prelude::*;
-use dioxus_storage::{use_synced_storage, LocalStorage};
+use dioxus_storage::{LocalStorage, use_synced_storage};
 use strum::VariantArray;
 
 use crate::components::ToggleComponent;
-
 
 #[component]
 fn NavigationLinkComponent(title: String, href: String, score: Option<f64>) -> Element {
@@ -28,7 +27,12 @@ fn NavigationLinkComponent(title: String, href: String, score: Option<f64>) -> E
 }
 
 #[component]
-fn NavigationSectionComponent(title: String, href: String, score: Option<f64>, children: Element) -> Element {
+fn NavigationSectionComponent(
+    title: String,
+    href: String,
+    score: Option<f64>,
+    children: Element,
+) -> Element {
     let mut score_str = String::new();
     if let Some(s) = score {
         score_str = ((s * 10.0).round() / 10.0).to_string();
@@ -90,7 +94,7 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
                         title: "{domain}",
                         href: "variant-{domain}",
                         score: if show_scores() { cmm().aspect_maturity_score(domain) } else { None },
-                        for (i, aspect) in cmm.read().aspect(&domain).unwrap().into_iter().enumerate() {
+                        for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
                             NavigationLinkComponent {
                                 title: "{i + 1}. {aspect.title()}",
                                 href: "aspect-{domain}-{i + 1}",
