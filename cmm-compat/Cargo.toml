@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.98"
-calamine = { git = "https://github.com/prophittcorey/calamine.git", branch = "fix/zip-3.0" }
+calamine = "0.28"
 roxmltree = "0.20.0"
 zip = "3.0"
 cmm-core = { path = "../cmm-core" }
