@@ -11,25 +11,21 @@ pub struct SimpleControl {
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
     pub nist_only: bool,
+    #[serde(skip_serializing_if = "<&bool>::not")]
+    #[serde(default)]
+    pub bookmark: bool,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Control {
     title: String,
-
-    // #[serde(skip_serializing_if = "Option::is_none")]
-    // #[serde(default)]
     remark: Option<String>,
-
-    // #[serde(skip_serializing_if = "Vec::is_empty")]
-    // #[serde(default)]
     guidances: Vec<String>,
-
-    // #[serde(skip_serializing_if = "Option::is_none")]
-    // #[serde(default)]
     comment: Option<String>,
-
     answer: Answer,
+    #[serde(skip_serializing_if = "<&bool>::not")]
+    #[serde(default)]
+    bookmark: bool,
 
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
@@ -51,6 +47,7 @@ impl Control {
             comment,
             answer,
             nist_only: false,
+            bookmark: false,
         }
     }
     pub fn guidance(&self) -> Option<&String> {
@@ -95,11 +92,16 @@ impl Control {
         self.nist_only = nist_only;
     }
 
+    pub fn toggle_bookmarks(&mut self) {
+        self.bookmark = !self.bookmark;
+    }
+
     pub fn to_simple(&self) -> SimpleControl {
         SimpleControl {
             answer: self.answer.clone(),
             comment: self.comment.clone(),
             nist_only: self.nist_only,
+            bookmark: self.bookmark,
         }
     }
 }

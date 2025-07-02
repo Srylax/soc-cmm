@@ -3,10 +3,10 @@
 //! component  to be used in our app.
 
 mod control;
-mod sidebar;
 mod overview;
+mod sidebar;
 mod toggle;
 pub use control::ControlListComponent;
-pub use sidebar::SidebarComponent;
 pub use overview::OverviewComponent;
+pub use sidebar::SidebarComponent;
 pub use toggle::ToggleComponent;

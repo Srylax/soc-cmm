@@ -1,10 +1,11 @@
-use cmm_core::CMM;
+use cmm_core::{CMM, Domain, aspect::Aspect};
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
 use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{LocalStorage, use_synced_storage};
+use indexmap::IndexMap;
 use std::sync::Arc;
 
 use crate::components::{
@@ -29,6 +30,7 @@ fn App() -> Element {
     let cmm: Signal<CMM> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
         serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
     });
+
     let mut darkmode = use_synced_storage::<LocalStorage, _>("darkmode".to_owned(), || false);
 
     let mut cmm = use_context_provider(|| cmm);
