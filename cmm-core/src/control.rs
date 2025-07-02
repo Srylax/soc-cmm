@@ -92,7 +92,11 @@ impl Control {
         self.nist_only = nist_only;
     }
 
-    pub fn toggle_bookmarks(&mut self) {
+    pub fn bookmark(&self) -> bool {
+        self.bookmark
+    }
+
+    pub fn toggle_bookmark(&mut self) {
         self.bookmark = !self.bookmark;
     }
 

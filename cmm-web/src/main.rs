@@ -143,8 +143,18 @@ fn App() -> Element {
             OverviewComponent {},
             div {
                 class: "max-w-3xl mx-auto",
-                ControlListComponent {
-                    cmm: cmm,
+                div {
+                    class: "pinned-list",
+                    ControlListComponent {
+                        cmm: cmm,
+                        pinned: true
+                    },
+                },
+                div {
+                    ControlListComponent {
+                        cmm: cmm,
+                        pinned: false
+                    }
                 }
             }
         }

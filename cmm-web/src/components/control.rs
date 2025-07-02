@@ -3,28 +3,35 @@ use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
-pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>) -> Element {
+pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element {
     rsx! {
         for domain in Domain::VARIANTS {
-            h2 {
-                class: "text-3xl mb-2 mt-6 font-semibold",
-                id: "variant-{domain}",
-                "{domain}"
-            },
+            if !pinned {
+                h2 {
+                    class: "text-3xl mb-2 mt-6 font-semibold",
+                    id: "variant-{domain}",
+                    "{domain}"
+                },
+            }
             for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
-                h3 {
-                    class: "text-2xl mb-2 mt-6 font-semibold",
-                    id: "aspect-{domain}-{i + 1}",
-                    "{i + 1}. {aspect.title()}"
+                if !pinned {
+                    h3 {
+                        class: "text-2xl mb-2 mt-6 font-semibold",
+                        id: "aspect-{domain}-{i + 1}",
+                        "{i + 1}. {aspect.title()}"
+                    }
                 }
                 div {
                     class: "",
                     for (cid, control) in aspect.controls() {
-                        ControlItemComponent {
-                            key: format!("{cid}{domain}"),
-                            domain: *domain,
-                            cid: cid.to_owned(),
-                            control: control.clone()
+                        if (pinned && control.bookmark()) || !pinned {
+                            ControlItemComponent {
+                                key: format!("{cid}{domain}"),
+                                domain: *domain,
+                                cid: cid.to_owned(),
+                                control: control.clone(),
+                                pinned
+                            }
                         }
                     }
                 }
@@ -69,6 +76,7 @@ fn ControlItemComponent(
     domain: Domain,
     cid: ReadOnlySignal<CID>,
     control: ReadOnlySignal<Control>,
+    pinned: bool,
 ) -> Element {
     let mut cmm = use_context::<Signal<CMM>>();
     let indent = cid.read().chars().filter(|c| *c == '.').count();
@@ -96,11 +104,14 @@ fn ControlItemComponent(
             class: "indent-{indent} pt-1 pb-0.5",
             tabindex: "-1",
             details {
-                class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 not-open:hover:bg-slate-200 duration-100ms ease-in-out group",
+                class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 not-open:hover:bg-slate-200 duration-100ms ease-in-out group group/details",
                 id: "{domain}.{cid}",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
                     span {
+                        if pinned {
+                            "{domain} > "
+                        },
                         span {
                             class: "opacity-70 mr-2",
                             "{cid}"
@@ -108,10 +119,24 @@ fn ControlItemComponent(
                         "{control().title()}"
                     },
                     div {
-                        ControlItemValuePreviewComponent {
-                            domain,
-                            cid,
-                            control
+                        class: "flex",
+                        div {
+                            class: if !control().bookmark() { "bookmark-button" },
+                            button {
+                                class: "cursor-pointer bg-slate-300 hover:bg-slate-400 text-white p-1 mr-2 rounded text-xs",
+                                onclick: move |_| {
+                                    cmm.write().toggle_bookmark(&domain, cid());
+                                },
+                                "⭐"
+                            },
+                        },
+                        div {
+                            class: "h-full",
+                            ControlItemValuePreviewComponent {
+                                domain,
+                                cid,
+                                control
+                            }
                         }
                     }
                 },

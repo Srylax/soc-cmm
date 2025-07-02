@@ -1184,3 +1184,7 @@ td, th {
     }
   }
 }
+
+details:not(:hover) .bookmark-button {
+    opacity: 0;
+}

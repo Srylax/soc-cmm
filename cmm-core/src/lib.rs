@@ -134,6 +134,17 @@ impl CMM {
         };
     }
 
+    pub fn toggle_bookmark(&mut self, domain: &Domain, cid: CID) {
+        if let Some(aspects) = self.domains.get_mut(domain)
+            && let Some(aspect_id) = cid.chars().next()
+            && let Some(aspect_id) = aspect_id.to_digit(10)
+            && let Some(aspect) = aspects.get_mut(aspect_id as usize - 1)
+            && let Some(control) = aspect.controls.get_mut(&cid)
+        {
+            control.toggle_bookmark();
+        };
+    }
+
     pub fn as_simple(&self) -> IndexMap<Domain, IndexMap<CID, SimpleControl>> {
         self.domains
             .iter()

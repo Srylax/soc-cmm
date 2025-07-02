@@ -38,3 +38,7 @@ td,
 th {
     @apply border dark:border-slate-600 border-slate-400 p-2;
 }
+
+details:not(:hover) .bookmark-button {
+    opacity: 0;
+}
