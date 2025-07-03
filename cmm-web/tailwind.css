@@ -39,6 +39,6 @@ th {
     @apply border dark:border-slate-600 border-slate-400 p-2;
 }
 
-details:not(:hover) .bookmark-button {
+details:not(:hover) .bookmark-button span:first-child {
     opacity: 0;
 }
