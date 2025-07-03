@@ -7,7 +7,7 @@ use cmm_core::{
 };
 
 fn main() -> anyhow::Result<()> {
-    let soc_cmm = args().nth(1).unwrap_or("../soc-cmm-2.3.4.xlsx".to_owned());
+    let soc_cmm = args().nth(1).expect("You need to provide a path");
 
     let cmm = from_xlsx(soc_cmm)?;
 
