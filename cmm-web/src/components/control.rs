@@ -119,19 +119,17 @@ fn ControlItemComponent(
                         "{control().title()}"
                     },
                     div {
-                        class: "flex",
+                        class: if !control().bookmark() { "bookmark-button" },
                         div {
-                            class: if !control().bookmark() { "bookmark-button" },
-                            button {
-                                class: "cursor-pointer bg-slate-300 hover:bg-slate-400 text-white p-1 mr-2 rounded text-xs",
+                            class: "flex",
+                            span {
+                                role: "button",
+                                class: "flex items-center cursor-pointer bg-slate-300 dark:bg-slate-600 hover:bg-blue-300 text-white py-1 px-2 mr-2 rounded text-xs",
                                 onclick: move |_| {
                                     cmm.write().toggle_bookmark(&domain, cid());
                                 },
                                 "⭐"
                             },
-                        },
-                        div {
-                            class: "h-full",
                             ControlItemValuePreviewComponent {
                                 domain,
                                 cid,
