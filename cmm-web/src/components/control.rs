@@ -3,8 +3,9 @@ use dioxus::prelude::*;
 use dioxus_free_icons::{icons::fa_solid_icons::FaStar as FasStar, icons::fa_regular_icons::FaStar, Icon};
 use strum::VariantArray;
 
+
 #[component]
-pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element {
+pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element {
     rsx! {
         for domain in Domain::VARIANTS {
             if !pinned {
@@ -37,37 +38,6 @@ pub fn ControlListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element {
                     }
                 }
             }
-        }
-    }
-}
-
-#[component]
-fn ControlItemValuePreviewComponent(
-    domain: Domain,
-    cid: ReadOnlySignal<CID>,
-    control: ReadOnlySignal<Control>,
-) -> Element {
-    let mut cmm = use_context::<Signal<CMM>>();
-
-    let value = control().clone().answer().as_value();
-    let Answer::Bool(_) = control().answer() else {
-        return rsx! {
-            span {
-                class: "dark:bg-slate-600 bg-slate-300 rounded px-2 py-1 text-sm",
-                "{value}"
-            }
-        };
-    };
-
-    rsx! {
-        span {
-            class: "dark:bg-slate-600 bg-slate-300 cursor-pointer hover:bg-blue-300 rounded px-2 py-1 text-sm",
-            role: "button",
-            onclick: move |e| {
-                e.prevent_default();
-                cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "false"));
-            },
-            "{value}"
         }
     }
 }
@@ -254,6 +224,37 @@ fn ControlInputComponent(
                     "{variant}"
                 }
             }
+        }
+    }
+}
+
+#[component]
+fn ControlItemValuePreviewComponent(
+    domain: Domain,
+    cid: ReadOnlySignal<CID>,
+    control: ReadOnlySignal<Control>,
+) -> Element {
+    let mut cmm = use_context::<Signal<CMM>>();
+
+    let value = control().clone().answer().as_value();
+    let Answer::Bool(_) = control().answer() else {
+        return rsx! {
+            span {
+                class: "dark:bg-slate-600 bg-slate-300 rounded px-2 py-1 text-sm",
+                "{value}"
+            }
+        };
+    };
+
+    rsx! {
+        span {
+            class: "dark:bg-slate-600 bg-slate-300 cursor-pointer hover:bg-blue-300 rounded px-2 py-1 text-sm",
+            role: "button",
+            onclick: move |e| {
+                e.prevent_default();
+                cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "false"));
+            },
+            "{value}"
         }
     }
 }

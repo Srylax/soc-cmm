@@ -1,19 +1,19 @@
-use cmm_core::{CMM, Domain, aspect::Aspect};
+use cmm_core::CMM;
 // The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
 // need dioxus
 use dioxus::prelude::*;
 
 use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_storage::{LocalStorage, use_synced_storage};
-use indexmap::IndexMap;
 use std::sync::Arc;
 
 use crate::components::{
-    ControlListComponent, OverviewComponent, SidebarComponent, ToggleComponent,
+    ControlsListComponent, OverviewComponent, SidebarComponent, ToggleComponent,
 };
 
 /// Define a components module that contains all shared components for our app.
 mod components;
+mod utils;
 
 fn main() {
     // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
@@ -145,13 +145,13 @@ fn App() -> Element {
                 class: "max-w-3xl mx-auto",
                 div {
                     class: "pinned-list",
-                    ControlListComponent {
+                    ControlsListComponent {
                         cmm: cmm,
                         pinned: true
                     },
                 },
                 div {
-                    ControlListComponent {
+                    ControlsListComponent {
                         cmm: cmm,
                         pinned: false
                     }

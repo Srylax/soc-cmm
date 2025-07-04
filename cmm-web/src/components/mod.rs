@@ -6,7 +6,7 @@ mod control;
 mod overview;
 mod sidebar;
 mod toggle;
-pub use control::ControlListComponent;
+pub use control::ControlsListComponent;
 pub use overview::OverviewComponent;
 pub use sidebar::SidebarComponent;
 pub use toggle::ToggleComponent;
