@@ -16,6 +16,7 @@ indexmap = { version = "2.9", features = ["serde"] }
 tracing = "0.1"
 dioxus_storage = "0.1.0-alpha.1"
 wasm-bindgen-futures = "0.4.50"
+dioxus-free-icons = { version = "0.9", features = ["font-awesome-regular", "font-awesome-solid"]}
 
 
 [dependencies.web-sys]

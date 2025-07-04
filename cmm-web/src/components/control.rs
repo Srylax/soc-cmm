@@ -1,5 +1,6 @@
 use cmm_core::{CID, CMM, Domain, answer::Answer, control::Control};
 use dioxus::prelude::*;
+use dioxus_free_icons::{icons::fa_solid_icons::FaStar as FasStar, icons::fa_regular_icons::FaStar, Icon};
 use strum::VariantArray;
 
 #[component]
@@ -128,7 +129,21 @@ fn ControlItemComponent(
                                 onclick: move |_| {
                                     cmm.write().toggle_bookmark(&domain, cid());
                                 },
-                                "⭐"
+                                if control().bookmark() {
+                                    Icon {
+                                        width: 15,
+                                        height: 15,
+                                        fill: "white",
+                                        icon: FasStar
+                                    }
+                                } else {
+                                    Icon {
+                                        width: 15,
+                                        height: 15,
+                                        fill: "white",
+                                        icon: FaStar
+                                    }
+                                }
                             },
                             ControlItemValuePreviewComponent {
                                 domain,
