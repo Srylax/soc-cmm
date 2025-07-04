@@ -1,17 +1,16 @@
-use std::{collections::HashMap, env::args};
+use std::env::args;
 
 use cmm_compat::from_xlsx;
-use cmm_core::{
-    Domain,
-    answer::{Answer, Detailed},
-};
+use cmm_core::
+    Domain
+;
 
 fn main() -> anyhow::Result<()> {
     let soc_cmm = args().nth(1).expect("You need to provide a path");
 
     let cmm = from_xlsx(soc_cmm)?;
 
-    let aspect = cmm.aspect(&Domain::Business).unwrap().get(0).unwrap();
+    let _aspect = cmm.aspect(&Domain::Business).unwrap().get(0).unwrap();
     // let mut keys = aspect
     //     .controls()
     //     .iter()

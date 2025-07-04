@@ -1,6 +1,5 @@
-use cmm_core::{CID, CMM, Domain, answer::Answer, control::SimpleControl};
+use cmm_core::{CMM, Domain, answer::Answer};
 
-use indexmap::IndexMap;
 use strum::VariantArray;
 
 #[test]
