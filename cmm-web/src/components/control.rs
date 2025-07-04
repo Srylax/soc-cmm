@@ -1,7 +1,8 @@
 use cmm_core::{CID, CMM, Domain, answer::Answer, control::Control};
 use dioxus::prelude::*;
-use dioxus_free_icons::{icons::fa_solid_icons::FaStar as FasStar, icons::fa_regular_icons::FaStar, Icon};
 use strum::VariantArray;
+
+use crate::components::{SmallButtonComponent, StarButtonComponent};
 
 
 #[component]
@@ -93,27 +94,11 @@ fn ControlItemComponent(
                         class: if !control().bookmark() { "bookmark-button" },
                         div {
                             class: "flex",
-                            span {
-                                role: "button",
-                                class: "flex items-center cursor-pointer bg-slate-300 dark:bg-slate-600 hover:bg-blue-300 text-white py-1 px-2 mr-2 rounded text-xs",
+                            StarButtonComponent {
                                 onclick: move |_| {
                                     cmm.write().toggle_bookmark(&domain, cid());
                                 },
-                                if control().bookmark() {
-                                    Icon {
-                                        width: 15,
-                                        height: 15,
-                                        fill: "white",
-                                        icon: FasStar
-                                    }
-                                } else {
-                                    Icon {
-                                        width: 15,
-                                        height: 15,
-                                        fill: "white",
-                                        icon: FaStar
-                                    }
-                                }
+                                active: control().bookmark()
                             },
                             ControlItemValuePreviewComponent {
                                 domain,
@@ -236,25 +221,22 @@ fn ControlItemValuePreviewComponent(
 ) -> Element {
     let mut cmm = use_context::<Signal<CMM>>();
 
-    let value = control().clone().answer().as_value();
     let Answer::Bool(_) = control().answer() else {
         return rsx! {
-            span {
-                class: "dark:bg-slate-600 bg-slate-300 rounded px-2 py-1 text-sm",
-                "{value}"
+            SmallButtonComponent {
+                "{control().answer().as_value()}"
             }
         };
+
     };
 
     rsx! {
-        span {
-            class: "dark:bg-slate-600 bg-slate-300 cursor-pointer hover:bg-blue-300 rounded px-2 py-1 text-sm",
-            role: "button",
-            onclick: move |e| {
-                e.prevent_default();
-                cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "false"));
+        SmallButtonComponent {
+            onclick: move |evt: MouseEvent| {
+                evt.prevent_default();
+                cmm.write().set_answer(&domain, cid(), Answer::Bool(control().answer().eq(&Answer::Bool(false))));
             },
-            "{value}"
+            "{control().answer().as_value()}"
         }
     }
 }

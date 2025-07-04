@@ -1,7 +1,11 @@
 use dioxus::prelude::*;
 
 #[component]
-pub fn ToggleComponent(checked: bool, onclick: EventHandler<MouseEvent>, label: Option<String>) -> Element {
+pub fn ToggleComponent(
+    checked: bool,
+    onclick: EventHandler<MouseEvent>,
+    label: Option<String>,
+) -> Element {
     rsx! {
         div {
             class: "flex items-center",
