@@ -1,12 +1,29 @@
 use cmm_core::{CID, CMM, Domain, answer::Answer, control::Control};
 use dioxus::prelude::*;
+use indexmap::IndexMap;
 use strum::VariantArray;
 
 use crate::components::{SmallButtonComponent, StarButtonComponent};
 
-
 #[component]
 pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element {
+    let indent_list = |controls: &IndexMap<CID, Control>| -> Vec<Vec<(CID, Control)>> {
+        let mut output: Vec<Vec<(CID, Control)>> = vec![];
+        let mut current_list: Vec<(CID, Control)> = vec![];
+        let mut current_indent: usize = 0;
+        for (cid, control) in controls {
+            let indent = cid.chars().filter(|c| *c == '.').count();
+            if indent != current_indent {
+                current_indent = indent;
+                output.push(current_list.clone());
+                current_list.clear();
+            }
+            current_list.push((cid.into(), control.clone()));
+        }
+        output.push(current_list.clone());
+        output
+    };
+
     rsx! {
         for domain in Domain::VARIANTS {
             if !pinned {
@@ -16,24 +33,32 @@ pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element 
                     "{domain}"
                 },
             }
-            for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
-                if !pinned {
-                    h3 {
-                        class: "text-2xl mb-2 mt-6 font-semibold",
-                        id: "aspect-{domain}-{i + 1}",
-                        "{i + 1}. {aspect.title()}"
+            div {
+                for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
+                    if !pinned {
+                        h3 {
+                            class: "text-2xl mb-2 mt-6 font-semibold",
+                            id: "aspect-{domain}-{i + 1}",
+                            "{i + 1}. {aspect.title()}"
+                        }
                     }
-                }
-                div {
-                    class: "",
-                    for (cid, control) in aspect.controls() {
-                        if (pinned && control.bookmark()) || !pinned {
-                            ControlItemComponent {
-                                key: format!("{cid}{domain}"),
-                                domain: *domain,
-                                cid: cid.to_owned(),
-                                control: control.clone(),
-                                pinned
+                    div {
+                        class: "",
+                        for indent_items in indent_list(aspect.controls()) {
+                            if indent_items.len() > 0 {
+                                div {
+                                    for (cid, control) in indent_items {
+                                        if (pinned && control.bookmark()) || !pinned {
+                                            ControlItemComponent {
+                                                key: format!("{cid}{domain}"),
+                                                domain: *domain,
+                                                cid: cid.to_owned(),
+                                                control: control.clone(),
+                                                pinned
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -121,7 +146,8 @@ fn ControlItemComponent(
                     ControlInputComponent {
                         domain,
                         cid,
-                        control
+                        control,
+                        pinned
                     },
                     label {
                         class: "min-h-2xl flex flex-wrap",
@@ -144,6 +170,7 @@ fn ControlInputComponent(
     domain: Domain,
     cid: ReadOnlySignal<String>,
     control: ReadOnlySignal<Control>,
+    pinned: bool
 ) -> Element {
     let mut cmm = use_context::<Signal<CMM>>();
 
@@ -174,7 +201,7 @@ fn ControlInputComponent(
                             class: "appearance-none opacity-0",
                             tabindex: "0",
                             type: "radio",
-                            name:  "{domain}.{cid.clone()}",
+                            name:  "{domain}.{cid.clone()}.{pinned}",
                             checked: content == &(value == "True"),
                             onclick: move |_| {
                                 cmm.write().set_answer(&domain, cid(), Answer::Bool(value == "True"));
@@ -199,7 +226,7 @@ fn ControlInputComponent(
                         class: "appearance-none opacity-0",
                         tabindex: "0",
                         type: "radio",
-                        name:  "{domain}.{cid.clone()}",
+                        name:  "{domain}.{cid.clone()}.{pinned}",
                         value: variant.to_owned(),
                         checked: control().answer().variant_eq(variant),
                         onclick: move |_evt| {
@@ -227,7 +254,6 @@ fn ControlItemValuePreviewComponent(
                 "{control().answer().as_value()}"
             }
         };
-
     };
 
     rsx! {
