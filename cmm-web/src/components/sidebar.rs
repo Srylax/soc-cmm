@@ -14,7 +14,7 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
 
     rsx! {
         button {
-            class: "fixed z-30 left-0 top-5 cursor-pointer bg-white rounded-r p-2 lg:hidden lg:invisible",
+            class: "fixed z-30 left-0 top-5 cursor-pointer bg-white rounded-r p-2 lg:hidden lg:invisible print:hidden",
             class: if sidebar_open() { "left-[260px] translate-x-1/2" } else { "shadow" },
             onclick: move |_1| {
                 sidebar_open.set(!sidebar_open());
@@ -37,14 +37,14 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
             }
         },
         span {
-            class: "fixed z-10 h-full w-full bg-black opacity-30 lg:hidden lg:invisible",
+            class: "fixed z-10 h-full w-full bg-black opacity-30 lg:hidden lg:invisible print:hidden",
             class: if !sidebar_open() { "invisible hidden" },
             onclick: move |_1| {
                 sidebar_open.set(!sidebar_open());
             }
         },
         nav {
-            class: "fixed z-20 h-full left-0 top-0 max-w-[280px] w-full overflow-auto bg-white no-scrollbar",
+            class: "fixed z-20 h-full left-0 top-0 max-w-[280px] w-full overflow-auto bg-white dark:bg-slate-900 no-scrollbar print:hidden",
             class: if !sidebar_open() { "not-lg:invisible not-lg:hidden" },
             div {
                 class: "p-4 grid gap-y-3",
@@ -66,6 +66,11 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
                 NavigationSectionComponent {
                     title: "Overview",
                     href: "overview",
+                    score: None
+                },
+                NavigationSectionComponent {
+                    title: "Pinned",
+                    href: "pinned",
                     score: None
                 },
                 for domain in Domain::VARIANTS {

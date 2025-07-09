@@ -51,10 +51,10 @@
     }
     const labels = [];
     const values = [];
-    document.querySelectorAll("#domain-scores tbody tr").forEach((tr) => {
-      labels.push(tr.querySelector("td:first-child").innerText);
+    document.querySelectorAll("#domain-scores [data-aspect-value]").forEach((aspect) => {
+      labels.push(aspect.innerText);
       values.push(
-        Number.parseFloat(tr.querySelector("td:last-child").innerText)
+        Number.parseFloat(aspect.dataset.aspectValue)
       );
     });
     chart.data.labels = labels;

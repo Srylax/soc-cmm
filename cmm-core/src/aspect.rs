@@ -25,6 +25,13 @@ impl Aspect {
         Ok(Self { controls, title })
     }
 
+    pub fn has_pinned_items(&self) -> bool {
+        self.controls
+            .iter()
+            .filter(|(_cid, control)| control.bookmark())
+            .count() > 0
+    }
+
     pub fn controls(&self) -> &IndexMap<CID, Control> {
         &self.controls
     }

@@ -1,41 +1,19 @@
-use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent}, utils::round};
+use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, SectionTitleComponent}, utils::round};
 use cmm_core::{CMM, Domain};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use dioxus_free_icons::{icons::fa_solid_icons::FaStar, Icon};
 
 #[component]
 pub fn OverviewComponent() -> Element {
     let cmm = use_context::<Signal<CMM>>();
 
-    use_effect(move || {
-        // this line is required, else the use effect wont update
-        let _ = cmm.read();
-        document::eval(
-            r#"
-            const event = new Event("updateChart");
-            document.dispatchEvent(event);
-            "#,
-        );
-    });
-
     rsx! {
-        div {
-            class: "w-full max-w-4xl mx-auto",
-            div {
-                class: "w-full h-[500px] bg-slate-200 py-4 rounded",
-                canvas {
-                    class: "rounded",
-                },
-            },
-        },
         div {
             class: "w-full max-w-3xl mx-auto mt-8 mb-16",
             id: "domain-scores",
-            h2 {
-                class: "text-3xl mb-4",
+            SectionTitleComponent { 
                 id: "overview",
-                "Overview"
+                text: "Overview"
             },
             div {
                 class: "grid grid-cols-2 gap-4",
@@ -73,7 +51,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                     div {
                         class: "flex items-center gap-2",
                         div {
-                            class: "bg-blue-500 inset-shadow-xs inset-shadow-blue-300 rounded-xl p-3 aspect-square",
+                            class: "bg-blue-500 print:hidden rounded-xl p-3 aspect-square",
                             DomainIconComponent {
                                 width: 20,
                                 height: 20,
@@ -99,17 +77,23 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
             },
             div {
                 class: "mt-4 bg-slate-50 rounded-2xl p-4 border-1 border-slate-200 dark:border-slate-500 dark:bg-slate-600",
-                for (i, aspect) in cmm.read().aspect(&domain).unwrap().iter().enumerate() {
+                for (_i, aspect) in cmm.read().aspect(&domain).unwrap().iter().enumerate() {
                     div {
                         key: format!("{}{}_{}", aspect.title(), aspect.maturity_score(), aspect.capability_score()),
                         span {
                             class: "text-[10px] text-right",
+                            "data-aspect-value": "{round(aspect.maturity_score(), 2)}",
                             "{aspect.title()}"
                         },
                         div {
+                            div {
+                                class: "not-print:hidden",
+                                "{round(aspect.maturity_score() / 5.0 * 100.0, 2)}%"
+                            },
                             BadToGoodProgressBarComponent {
                                 max: 5.0,
-                                value: aspect.maturity_score()
+                                value: aspect.maturity_score(),
+                                tooltip_prefix: "{aspect.title()} maturity: "
                             },
                             if aspect.capability_score().is_normal() {
                                 div {
@@ -117,6 +101,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                                     BadToGoodProgressBarComponent {
                                         max: 5.0,
                                         value: aspect.capability_score(),
+                                        tooltip_prefix: "{aspect.title()} capability: "
                                     }
                                 }
                             }

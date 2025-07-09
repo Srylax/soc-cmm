@@ -27,7 +27,7 @@ pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element 
     rsx! {
         for domain in Domain::VARIANTS {
             if !pinned {
-                h2 {
+                h3 {
                     class: "text-3xl mb-2 mt-6 font-semibold",
                     id: "variant-{domain}",
                     "{domain}"
@@ -36,7 +36,7 @@ pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element 
             div {
                 for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
                     if !pinned {
-                        h3 {
+                        h4 {
                             class: "text-2xl mb-2 mt-6 font-semibold",
                             id: "aspect-{domain}-{i + 1}",
                             "{i + 1}. {aspect.title()}"
@@ -80,7 +80,7 @@ fn ControlItemComponent(
     if let Answer::Title = control().answer() {
         if indent > 1 {
             return rsx! {
-                h5 {
+                h6 {
                     class: "mt-4 mb-1 text-xl font-semibold",
                     id: "{domain}.{cid}",
                     "{cid} {control().title()}"
@@ -88,7 +88,7 @@ fn ControlItemComponent(
             };
         }
         return rsx! {
-            h4 {
+            h5 {
                 class: "mt-4 mb-1 text-xl font-semibold",
                 id: "{domain}.{cid}",
                 "{cid} {control().title()}"

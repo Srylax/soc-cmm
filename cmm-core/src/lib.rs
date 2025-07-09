@@ -103,6 +103,18 @@ impl CMM {
         self.domains.get(domain)
     }
 
+    pub fn has_pinned_items(&self) -> bool {
+        self.domains
+            .iter()
+            .filter(|(_domain, aspects)| {
+                aspects
+                    .iter()
+                    .filter(|aspect| aspect.has_pinned_items())
+                    .count() > 0
+            })
+            .count() > 0
+    }
+
     pub fn cmm_maturity_score(&self) -> f64 {
         self.domains
             .iter()

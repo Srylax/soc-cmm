@@ -6,7 +6,7 @@ use crate::components::SmallButtonComponent;
 #[component]
 pub fn StarButtonComponent(
     active: bool,
-    onclick: EventHandler<MouseEvent>,
+    onclick: Option<EventHandler<MouseEvent>>,
 ) -> Element {
     rsx! {
         SmallButtonComponent {

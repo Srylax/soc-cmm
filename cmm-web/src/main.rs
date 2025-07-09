@@ -4,11 +4,12 @@ use cmm_core::CMM;
 use dioxus::prelude::*;
 
 use dioxus::prelude::dioxus_elements::FileEngine;
+use dioxus_free_icons::{icons::fa_solid_icons::FaCopy, Icon};
 use dioxus_storage::{LocalStorage, use_synced_storage};
 use std::sync::Arc;
 
 use crate::components::{
-    ControlsListComponent, OverviewComponent, SidebarComponent, ToggleComponent,
+    ChartComponent, ControlsListComponent, OverviewComponent, SectionTitleComponent, SidebarComponent, StarButtonComponent, ToggleComponent
 };
 
 /// Define a components module that contains all shared components for our app.
@@ -111,15 +112,16 @@ fn App() -> Element {
                 },
             },
             div {
-                class: "bg-slate-950 text-slate-50 p-4 max-w-2xl rounded mx-auto my-10 grid grid-cols-2 gap-2",
+                class: "bg-slate-950 text-slate-50 p-4 max-w-2xl rounded-2xl mx-auto my-10 grid grid-cols-2 gap-2 print:hidden",
                 div {
+                    class: "bg-slate-200 border-1 border-slate-300 p-4 rounded-2xl dark:border-slate-700 dark:bg-slate-900",
                     label {
                         class: "text-sm mb-2 block",
                         r#for: "textreader",
                         "Upload CMM values in TOML format"
                     },
                     input {
-                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 w-full",
+                        class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 w-full border-1 border-slate-500",
                         r#type: "file",
                         accept: ".toml",
                         multiple: false,
@@ -129,26 +131,51 @@ fn App() -> Element {
                     },
                 },
                 div {
+                    class: "bg-slate-200 border-1 border-slate-300 p-4 rounded-2xl dark:border-slate-700 dark:bg-slate-900",
                     span {
                         class: "text-sm mb-2 block",
                         "Copy the CMM as TOML file"
                     },
                     button {
-                        class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 w-full",
+                        class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 border-1 border-slate-500 w-full flex items-center gap-x-2",
                         onclick: copy_cmm,
+                        Icon {
+                            width: 15,
+                            height: 15,
+                            fill: "white",
+                            icon: FaCopy
+                        },
                         "{download_text()}"
                     }
                 }
             },
+            ChartComponent {},
             OverviewComponent {},
             div {
                 class: "max-w-3xl mx-auto",
-                div {
-                    class: "pinned-list",
-                    ControlsListComponent {
-                        cmm: cmm,
-                        pinned: true
+                SectionTitleComponent {
+                    id: "pinned",
+                    text: "Pinned"
+                },
+                if cmm().has_pinned_items() {
+                    div {
+                        class: "pinned-list",
+                        ControlsListComponent {
+                            cmm: cmm,
+                            pinned: true
+                        },
                     },
+                } else {
+                    div {
+                        class: "opacity-60",
+                        key: "no-pinned-{cmm().has_pinned_items()}",
+                        "No pinned items. Click",
+                        div {
+                            class: "inline-block ml-2 translate-y-[2px] pointer-events-none",
+                            StarButtonComponent { active: false },
+                        },
+                        "on a control to pin it!"
+                    }
                 },
                 div {
                     ControlsListComponent {
