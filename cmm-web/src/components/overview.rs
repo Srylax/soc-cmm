@@ -39,6 +39,17 @@ pub fn OverviewComponent() -> Element {
             },
             div {
                 class: "grid grid-cols-2 gap-4",
+                div {
+                    class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center",
+                    div {
+                        class: "text-slate-50 text-8xl font-extrabold text-shadow",
+                        "{round(cmm().cmm_maturity_score() / cmm().cmm_max_maturity_score() * 100.0, 1)}%"
+                    },
+                    div {
+                        class: "text-slate-50 text-right opacity-80",
+                        "SOC maturity score"
+                    }
+                }
                 for domain in Domain::VARIANTS {
                     DomainOverviewComponent { domain: *domain }
                 }
@@ -62,7 +73,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                     div {
                         class: "flex items-center gap-2",
                         div {
-                            class: "bg-blue-500 rounded-xl p-3 aspect-square",
+                            class: "bg-blue-500 inset-shadow-xs inset-shadow-blue-300 rounded-xl p-3 aspect-square",
                             DomainIconComponent {
                                 width: 20,
                                 height: 20,
@@ -85,18 +96,6 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                         "{round(overall_score / 5.0 * 100.0, 0)}%",
                     }
                 },
-                // div {
-                //     class: "grid items-center gap-2 mb-1 grid-cols-[6rem_1fr]",
-                //     span {
-                //         class: "text-sm",
-                //         "Total maturity"
-                //     },
-                //     BadToGoodProgressBarComponent {
-                //         value: overall_score,
-                //         height: 2,
-                //         max: 5.0
-                //     },
-                // },
             },
             div {
                 class: "mt-4 bg-slate-50 rounded-2xl p-4 border-1 border-slate-200 dark:border-slate-500 dark:bg-slate-600",

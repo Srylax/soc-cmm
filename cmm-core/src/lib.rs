@@ -103,6 +103,19 @@ impl CMM {
         self.domains.get(domain)
     }
 
+    pub fn cmm_maturity_score(&self) -> f64 {
+        self.domains
+            .iter()
+            .map(|(domain, _aspect)| { 
+                self.aspect_maturity_score(&domain).unwrap_or(0.0)
+            })
+            .sum()
+    }
+
+    pub fn cmm_max_maturity_score(&self) -> f64 {
+        self.domains.len() as f64 * 5.0
+    }
+
     pub fn aspect_maturity_score(&self, domain: &Domain) -> Option<f64> {
         let aspects = self.aspect(domain)?;
         let scores: Vec<f64> = aspects
