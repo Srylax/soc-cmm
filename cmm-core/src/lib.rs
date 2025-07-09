@@ -136,6 +136,14 @@ impl CMM {
             .collect();
         Some(scores.iter().sum::<f64>() / scores.len() as f64)
     }
+    pub fn aspect_capability_score(&self, domain: &Domain) -> Option<f64> {
+        let aspects = self.aspect(domain)?;
+        let scores: Vec<f64> = aspects
+            .iter()
+            .map(|aspect| aspect.capability_score())
+            .collect();
+        Some(scores.iter().sum::<f64>() / scores.len() as f64)
+    }
 
     pub fn set_answer(&mut self, domain: &Domain, cid: CID, answer: Answer) {
         if let Some(aspects) = self.domains.get_mut(domain)

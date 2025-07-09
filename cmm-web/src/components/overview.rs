@@ -40,6 +40,7 @@ pub fn OverviewComponent() -> Element {
 fn DomainOverviewComponent(domain: Domain) -> Element {
     let cmm = use_context::<Signal<CMM>>();
     let overall_score = (cmm().aspect_maturity_score(&domain).unwrap() * 10.0).ceil() / 10.0;
+    let overall_capability_score = (cmm().aspect_capability_score(&domain).unwrap() * 10.0).ceil() / 10.0;
 
     rsx! {
         div {
@@ -63,6 +64,17 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                             class: "text-2xl font-semibold",
                             "{domain}"
                         },
+                    }
+                    if overall_capability_score.is_normal() {
+                        div {
+                            class: "text-xl text-center grid",
+                            title: "{overall_capability_score} / 5",
+                            small {
+                                class: "text-xs",
+                                "Capability"
+                            }
+                            "{round(overall_capability_score / 5.0 * 100.0, 0)}%",
+                        }
                     }
                     div {
                         class: "text-xl text-center grid",
