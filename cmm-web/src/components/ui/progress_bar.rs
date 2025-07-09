@@ -29,12 +29,20 @@ pub fn BadToGoodProgressBarComponent(
     height: Option<u32>,
 ) -> Element {
     let percentage = value / max * 100.0;
-    let class = if percentage < 25.0 {
+    let class = if percentage < 12.5 {
+        "bg-red-600"
+    } else if percentage < 25.0 {
         "bg-red-500"
+    } else if percentage < 37.5 {
+        "bg-orange-500"
     } else if percentage < 50.0 {
         "bg-orange-400"
-    } else if percentage < 90.0 {
+    } else if percentage < 62.5 {
         "bg-yellow-400"
+    } else if percentage < 75.0 {
+        "bg-yellow-300"
+    } else if percentage < 87.5 {
+        "bg-green-400"
     } else {
         "bg-green-500"
     };
