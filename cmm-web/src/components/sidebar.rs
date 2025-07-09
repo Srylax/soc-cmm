@@ -3,16 +3,49 @@ use dioxus::prelude::*;
 use dioxus_storage::{LocalStorage, use_synced_storage};
 use strum::VariantArray;
 use crate::utils::round;
+use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
 use crate::components::ToggleComponent;
 
 #[component]
 pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
     let mut show_scores = use_synced_storage::<LocalStorage, _>("show_scores".to_owned(), || false);
+    let mut sidebar_open = use_signal(|| false);
 
     rsx! {
+        button {
+            class: "fixed z-30 left-0 top-5 cursor-pointer bg-white rounded-r p-2 md:hidden md:invisible",
+            class: if sidebar_open() { "left-[260px] translate-x-1/2" } else { "shadow" },
+            onclick: move |_1| {
+                sidebar_open.set(!sidebar_open());
+            },
+            if sidebar_open() {
+                Icon {
+                    height: 20,
+                    width: 20,
+                    fill: "black",
+                    class: "rotate-45",
+                    icon: FaPlus
+                }
+            } else {
+                Icon {
+                    height: 20,
+                    width: 20,
+                    fill: "black",
+                    icon: FaBars
+                }
+            }
+        },
+        span {
+            class: "fixed z-10 h-full w-full bg-black opacity-30 md:hidden md:invisible",
+            class: if !sidebar_open() { "invisible hidden" },
+            onclick: move |_1| {
+                sidebar_open.set(!sidebar_open());
+            }
+        },
         nav {
-            class: "fixed z-10 h-full left-0 top-0 max-w-[280px] w-full overflow-auto",
+            class: "fixed z-20 h-full left-0 top-0 max-w-[280px] w-full overflow-auto bg-white no-scrollbar",
+            class: if !sidebar_open() { "not-md:invisible not-md:hidden" },
             div {
                 class: "p-4 grid gap-y-3",
                 span {

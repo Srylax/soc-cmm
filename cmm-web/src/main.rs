@@ -102,7 +102,7 @@ fn App() -> Element {
             }
         },
         main {
-            class: "ml-[260px] px-8 py-4",
+            class: "md:ml-[260px] px-8 py-4",
             div {
                 class: "flex mt-10 mb-6",
                 h1 {
