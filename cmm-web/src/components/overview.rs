@@ -1,4 +1,4 @@
-use crate::utils::round;
+use crate::{components::ProgressBarComponent, components::BadToGoodProgressBarComponent, utils::round};
 use cmm_core::{CMM, Domain};
 use dioxus::prelude::*;
 use strum::VariantArray;
@@ -37,11 +37,9 @@ pub fn OverviewComponent() -> Element {
                 "Overview"
             },
             div {
-                class: "grid grid-cols-2 gap-x-8",
+                class: "grid grid-cols-2 gap-4",
                 for domain in Domain::VARIANTS {
-                    div {
-                        DomainOverviewComponent { domain: *domain }
-                    }
+                    DomainOverviewComponent { domain: *domain }
                 }
             }
         }
@@ -55,45 +53,45 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
 
     rsx! {
         div {
-            class: "flex mt-6 justify-between items-center mb-2 w-full",
-            h2 {
-                class: "text-2xl",
-                "{domain}"
-            },
+            class: "w-full bg-slate-100 p-4 rounded",
             div {
-                class: "text-xl",
-                title: "{overall_score} / 5",
-                "{round(overall_score / 5.0 * 100.0, 0)}%",
-            }
-        },
-        div {
-            class: "h-2 w-full rounded block dark:bg-blue-100 bg-gray-300 relative mb-4",
-            div {
-                class: "h-full absolute left-0 top-0 bg-blue-500 rounded",
-                width: "{round(overall_score / 5.0 * 100.0, 0)}%"
-            }
-        },
-        table {
-            class: "w-full table-fixed",
-            thead {
-                tr {
-                    th {
-                        "Aspect"
-                    }
-                    th {
-                        "Maturity Score"
-                    }
+                class: "flex justify-between items-center mb-2 w-full",
+                h2 {
+                    class: "text-2xl",
+                    "{domain}"
+                },
+                div {
+                    class: "text-xl",
+                    title: "{overall_score} / 5",
+                    "{round(overall_score / 5.0 * 100.0, 0)}%",
                 }
             },
-            tbody {
+            BadToGoodProgressBarComponent {
+                value: overall_score,
+                height: 2,
+                max: 5.0
+            },
+            div {
+                class: "mt-2",
                 for (i, aspect) in cmm.read().aspect(&domain).unwrap().iter().enumerate() {
-                    tr {
+                    div {
                         key: format!("{}{}_{}", aspect.title(), aspect.maturity_score(), aspect.capability_score()),
-                        td {
-                            "{i + 1}. {aspect.title()}"
+                        span {
+                            class: "text-xs",
+                            "{aspect.title()}"
                         },
-                        td {
-                            "{round(aspect.maturity_score(), 2)}"
+                        BadToGoodProgressBarComponent {
+                            max: 5.0,
+                            value: aspect.maturity_score()
+                        },
+                        if aspect.capability_score().is_normal() {
+                            div {
+                                class: "mt-1",
+                                BadToGoodProgressBarComponent {
+                                    max: 5.0,
+                                    value: aspect.capability_score(),
+                                }
+                            }
                         }
                     }
                 }

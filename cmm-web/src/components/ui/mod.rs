@@ -3,6 +3,8 @@
 mod toggle;
 mod star_btn;
 mod small_btn;
+mod progress_bar;
 pub use toggle::ToggleComponent;
 pub use star_btn::StarButtonComponent;
 pub use small_btn::SmallButtonComponent;
+pub use progress_bar::{BadToGoodProgressBarComponent, ProgressBarComponent};
