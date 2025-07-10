@@ -114,7 +114,7 @@ fn App() -> Element {
             div {
                 class: "bg-slate-950 text-slate-50 p-4 max-w-2xl rounded-2xl mx-auto my-10 grid grid-cols-2 gap-2 print:hidden",
                 div {
-                    class: "bg-slate-200 border-1 border-slate-300 p-4 rounded-2xl dark:border-slate-700 dark:bg-slate-900",
+                    class: "border-1 p-4 rounded-2xl border-slate-700 bg-slate-900",
                     label {
                         class: "text-sm mb-2 block",
                         r#for: "textreader",
@@ -131,7 +131,7 @@ fn App() -> Element {
                     },
                 },
                 div {
-                    class: "bg-slate-200 border-1 border-slate-300 p-4 rounded-2xl dark:border-slate-700 dark:bg-slate-900",
+                    class: "border-1 p-4 rounded-2xl border-slate-700 bg-slate-900",
                     span {
                         class: "text-sm mb-2 block",
                         "Copy the CMM as TOML file"
