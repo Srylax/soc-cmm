@@ -14,6 +14,9 @@
       }, 500);
       return;
     }
+    if (chart != null) {
+      return;
+    }
 
     chart = new Chart(ctx, {
       type: "radar",
