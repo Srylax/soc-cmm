@@ -62,6 +62,7 @@ pub type CID = String;
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct CMM {
     domains: IndexMap<Domain, Vec<Aspect>>,
+    custom_description: Option<String>
 }
 
 impl CMM {
@@ -96,7 +97,7 @@ impl CMM {
                 .collect::<Result<Vec<Aspect>>>()?;
             domains.insert(*domain, aspects);
         }
-        Ok(Self { domains })
+        Ok(Self { domains, custom_description: None })
     }
 
     pub fn aspect(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
@@ -221,5 +222,9 @@ impl CMM {
             }
         }
         Ok(())
+    }
+
+    pub fn custom_description(&self) -> &Option<String> {
+        &self.custom_description
     }
 }

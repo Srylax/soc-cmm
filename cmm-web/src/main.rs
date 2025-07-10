@@ -7,6 +7,7 @@ use dioxus::prelude::dioxus_elements::FileEngine;
 use dioxus_free_icons::{icons::fa_solid_icons::FaCopy, Icon};
 use dioxus_storage::{LocalStorage, use_synced_storage};
 use std::sync::Arc;
+use dioxus_markdown::Markdown;
 
 use crate::components::{
     ChartComponent, ControlsListComponent, OverviewComponent, SectionTitleComponent, SidebarComponent, StarButtonComponent, ToggleComponent
@@ -155,6 +156,14 @@ fn App() -> Element {
                             icon: FaCopy
                         },
                         "{download_text()}"
+                    }
+                }
+            },
+            if cmm().custom_description().is_some() {
+                div {
+                    class: "max-w-2xl mx-auto",
+                    Markdown { 
+                        src: cmm().custom_description().clone().unwrap() 
                     }
                 }
             },
