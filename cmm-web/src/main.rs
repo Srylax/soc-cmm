@@ -33,6 +33,7 @@ fn App() -> Element {
     });
 
     let mut darkmode = use_synced_storage::<LocalStorage, _>("darkmode".to_owned(), || false);
+    let mut show_percentage = use_synced_storage::<LocalStorage, _>("show_percentage".to_owned(), || true);
 
     let mut cmm = use_context_provider(|| cmm);
 
@@ -94,13 +95,21 @@ fn App() -> Element {
 
         SidebarComponent {
             cmm: cmm,
+            show_percentage: show_percentage(),
             ToggleComponent {
                 checked: darkmode(),
                 onclick: move |_| {
                     darkmode.set(!darkmode());
                 },
-                label: Some(String::from("Darkmode"))
-            }
+                label: "Darkmode"
+            },
+            ToggleComponent {
+                checked: show_percentage(),
+                onclick: move |_| {
+                    show_percentage.set(!show_percentage());
+                },
+                label: "Show Percentage"
+            },
         },
         main {
             class: "lg:ml-[260px] px-8 py-4",
@@ -150,7 +159,9 @@ fn App() -> Element {
                 }
             },
             ChartComponent {},
-            OverviewComponent {},
+            OverviewComponent {
+                show_percentage: show_percentage()
+            },
             div {
                 class: "max-w-3xl mx-auto",
                 SectionTitleComponent {
@@ -178,6 +189,7 @@ fn App() -> Element {
                     }
                 },
                 div {
+                    class: "mt-16",
                     ControlsListComponent {
                         cmm: cmm,
                         pinned: false

@@ -8,14 +8,22 @@ use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::Fa
 use crate::components::ToggleComponent;
 
 #[component]
-pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
+pub fn SidebarComponent(
+    cmm: Signal<CMM>,
+    show_percentage: bool, 
+    children: Element
+) -> Element {
     let mut show_scores = use_synced_storage::<LocalStorage, _>("show_scores".to_owned(), || false);
     let mut sidebar_open = use_signal(|| false);
 
     rsx! {
         button {
             class: "fixed z-30 left-0 top-5 cursor-pointer bg-white rounded-r p-2 lg:hidden lg:invisible print:hidden",
-            class: if sidebar_open() { "left-[260px] translate-x-1/2" } else { "shadow" },
+            class: if sidebar_open() { 
+                "left-[260px] translate-x-1/2" 
+            } else { 
+                "shadow"
+            },
             onclick: move |_1| {
                 sidebar_open.set(!sidebar_open());
             },
@@ -57,7 +65,7 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
                     onclick: move |_| {
                         show_scores.set(!show_scores());
                     },
-                    label: Some(String::from("Show scores"))
+                    label: "Show scores"
                 },
                 {children},
             },
@@ -66,23 +74,36 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
                 NavigationSectionComponent {
                     title: "Overview",
                     href: "overview",
-                    score: None
+                    score: None,
+                    show_percentage: show_percentage,
                 },
                 NavigationSectionComponent {
                     title: "Pinned",
                     href: "pinned",
-                    score: None
+                    score: None,
+                    show_percentage: show_percentage,
                 },
                 for domain in Domain::VARIANTS {
                     NavigationSectionComponent {
                         title: "{domain}",
                         href: "variant-{domain}",
-                        score: if show_scores() { cmm().aspect_maturity_score(domain) } else { None },
+                        score: if show_scores() { 
+                            cmm().aspect_maturity_score(domain)
+                        } else {
+                            None
+                        },
+                        show_percentage: show_percentage,
+
                         for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
                             NavigationLinkComponent {
                                 title: "{i + 1}. {aspect.title()}",
                                 href: "aspect-{domain}-{i + 1}",
-                                score: if show_scores() { Some(aspect.maturity_score()) } else { None },
+                                show_percentage: show_percentage,
+                                score: if show_scores() { 
+                                    Some(aspect.maturity_score()) 
+                                } else {
+                                    None
+                                }
                             }
                         }
                     }
@@ -93,20 +114,35 @@ pub fn SidebarComponent(cmm: Signal<CMM>, children: Element) -> Element {
 }
 
 #[component]
-fn NavigationLinkComponent(title: String, href: String, score: Option<f64>) -> Element {
+fn NavigationLinkComponent(
+    title: String, 
+    href: String, 
+    score: Option<f64>,
+    show_percentage: bool
+) -> Element {
     rsx! {
         li {
             class: "dark:text-slate-300 dark:border-slate-600 dark:has-hover:border-slate-50 has-hover:border-slate-800 text-slate-800 border-l-1 border-slate-300  pl-3 py-1 text-md",
             a {
-                class: "dark:hover:text-slate-50 hover:text-slate-950 flex justify-between",
+                class: "dark:hover:text-slate-50 hover:text-slate-950 flex justify-between gap-x-1",
                 href: "#{href}",
                 alt: "{title}",
                 span {
                     "{title}"
                 },
                 span {
-                    class: if score.is_some() { "dark:opacity-80 opacity-90" } else { "opacity-0" },
-                    "{round(score.unwrap_or(10.0), 1)}"
+                    // element should always exist to prevent layout shift
+                    class: if score.is_some() { 
+                        "dark:opacity-80 opacity-90" 
+                    } else { 
+                        "opacity-0" 
+                    },
+                    if show_percentage {
+                        "{round(score.unwrap_or(0.0) / 5.0 * 100.0, 0)}%"
+                    } else {
+                        // again, 10.0 because layout shift
+                        "{round(score.unwrap_or(10.0), 1)}"
+                    }
                 }
             }
         }
@@ -118,11 +154,16 @@ fn NavigationSectionComponent(
     title: String,
     href: String,
     score: Option<f64>,
+    show_percentage: bool,
     children: Element,
 ) -> Element {
     let mut score_str = String::new();
     if let Some(s) = score {
-        score_str = ((s * 10.0).round() / 10.0).to_string();
+        if show_percentage {
+            score_str = format!("{}%", round(s / 5.0 * 100.0, 0));
+        } else {
+            score_str = ((s * 10.0).round() / 10.0).to_string();
+        }
     };
     rsx! {
         div {

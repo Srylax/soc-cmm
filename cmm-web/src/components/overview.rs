@@ -4,7 +4,9 @@ use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
-pub fn OverviewComponent() -> Element {
+pub fn OverviewComponent(
+    show_percentage: bool
+) -> Element {
     let cmm = use_context::<Signal<CMM>>();
 
     rsx! {
@@ -21,15 +23,25 @@ pub fn OverviewComponent() -> Element {
                     class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center",
                     div {
                         class: "text-slate-50 text-8xl font-extrabold text-shadow",
-                        "{round(cmm().cmm_maturity_score() / cmm().cmm_max_maturity_score() * 100.0, 1)}%"
+                        if show_percentage {
+                            "{round(cmm().cmm_maturity_score() / cmm().cmm_max_maturity_score() * 100.0, 1)}%"
+                        } else {
+                            "{round(cmm().cmm_maturity_score(), 1)}"
+                        }
                     },
                     div {
                         class: "text-slate-50 text-right opacity-80",
-                        "SOC maturity score"
+                        "SOC maturity score",
+                        if !show_percentage {
+                            " (max {round(cmm().cmm_max_maturity_score(), 1)})"
+                        }
                     }
                 }
                 for domain in Domain::VARIANTS {
-                    DomainOverviewComponent { domain: *domain }
+                    DomainOverviewComponent { 
+                        show_percentage: show_percentage, 
+                        domain: *domain 
+                    }
                 }
             }
         }
@@ -37,7 +49,7 @@ pub fn OverviewComponent() -> Element {
 }
 
 #[component]
-fn DomainOverviewComponent(domain: Domain) -> Element {
+fn DomainOverviewComponent(domain: Domain, show_percentage: bool) -> Element {
     let cmm = use_context::<Signal<CMM>>();
     let overall_score = (cmm().aspect_maturity_score(&domain).unwrap() * 10.0).ceil() / 10.0;
     let overall_capability_score = (cmm().aspect_capability_score(&domain).unwrap() * 10.0).ceil() / 10.0;
@@ -73,7 +85,11 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                                 class: "text-xs",
                                 "Capability"
                             }
-                            "{round(overall_capability_score / 5.0 * 100.0, 0)}%",
+                            if show_percentage {
+                                "{round(overall_capability_score / 5.0 * 100.0, 0)}%",
+                            } else {
+                                "{round(overall_capability_score, 1)}",
+                            }
                         }
                     }
                     div {
@@ -83,7 +99,11 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                             class: "text-xs",
                             "Maturity"
                         }
-                        "{round(overall_score / 5.0 * 100.0, 0)}%",
+                        if show_percentage {
+                            "{round(overall_score / 5.0 * 100.0, 0)}%",
+                        } else {
+                            "{round(overall_score, 1)}",
+                        }
                     }
                 },
             },
@@ -100,7 +120,11 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                         div {
                             div {
                                 class: "not-print:hidden",
-                                "{round(aspect.maturity_score() / 5.0 * 100.0, 2)}%"
+                                if show_percentage {
+                                    "{round(aspect.maturity_score() / 5.0 * 100.0, 2)}%"
+                                } else {
+                                    "{round(aspect.maturity_score(), 2)}"
+                                }
                             },
                             BadToGoodProgressBarComponent {
                                 max: 5.0,
