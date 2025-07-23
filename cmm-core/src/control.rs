@@ -25,12 +25,6 @@ impl Control {
             bookmark: false,
         }
     }
-    // pub fn guidance(&self) -> Option<&String> {
-    //     self.answer
-    //         .maturity_score()
-    //         .or(self.answer.capability_score())
-    //         .and_then(|score| self.guidances.get(score as usize))
-    // }
 
     pub fn answer(&self) -> &Answer {
         &self.answer
