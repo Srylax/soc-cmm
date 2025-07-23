@@ -4,11 +4,9 @@ use indexmap::IndexMap;
 use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashMap;
-use std::hash::Hash;
 use std::mem::discriminant;
 use std::num::ParseIntError;
 use std::str::ParseBoolError;
-use strum::Display;
 
 use answer::Answer;
 use itertools::Itertools;

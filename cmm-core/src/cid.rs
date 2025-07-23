@@ -1,4 +1,4 @@
-use strum::Display;
+use std::fmt::Display;
 
 use serde::{Deserialize, Serialize};
 use strum::VariantArray;
@@ -6,7 +6,7 @@ use strum::VariantArray;
 use crate::CmmError;
 
 #[derive(
-    VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, Display,
+    VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, strum::Display,
 )]
 pub enum Domain {
     Business,
@@ -42,6 +42,16 @@ impl Domain {
 pub struct CID {
     domain: Domain,
     id: [u8; 4],
+}
+
+impl Display for CID {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}.{}.{}.{}.{}",
+            self.domain, self.id[0], self.id[1], self.id[2], self.id[3]
+        )
+    }
 }
 
 impl CID {
