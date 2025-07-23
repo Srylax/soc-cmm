@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use std::str::FromStr;
 
 use serde::Deserialize;
@@ -195,24 +196,36 @@ impl Answer {
         })
     }
 
-    pub fn as_value(&self) -> String {
-        match self {
-            Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
-            Answer::Detailed(detailed) => detailed.to_string(),
-            Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string(),
-            Answer::Occurence(occurence) => occurence.to_string(),
-            Answer::Bool(boolean) => boolean.to_string(),
-            Answer::Any(any) => any.to_string(),
-            Answer::Title => String::new(),
-        }
-    }
     pub fn is_capability(&self) -> bool {
         matches!(self, Answer::DetailedOptional(_))
     }
+
     pub fn is_maturity(&self) -> bool {
         match self {
             Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_) => true,
             _ => false,
         }
+    }
+}
+
+impl Display for Answer {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if matches!(self, Answer::Title) {
+            return Ok(());
+        }
+        write!(f, "{}", self)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_answer_to_string() {
+        assert_eq!(
+            format!("{}", Answer::DetailedOptional(DetailedOptional::Averagely)),
+            String::from("Averagely")
+        )
     }
 }
