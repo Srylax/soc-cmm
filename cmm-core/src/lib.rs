@@ -105,23 +105,23 @@ impl Schema {
 }
 
 impl CMM {
-    pub fn control(&self, cid: CID) -> Option<&mut Control> {
+    pub fn control(&mut self, cid: &CID) -> Option<&mut Control> {
         self.controls.get_mut(cid)
     }
 
-    pub fn set_answer(&mut self, cid: CID, answer: Answer) {
+    pub fn set_answer(&mut self, cid: &CID, answer: Answer) {
         if let Some(control) = self.control(cid) {
             control.set_answer(answer);
         }
     }
 
-    pub fn set_comment(&mut self, cid: CID, comment: String) {
+    pub fn set_comment(&mut self, cid: &CID, comment: Option<String>) {
         if let Some(control) = self.control(cid) {
             control.set_comment(comment);
         }
     }
 
-    pub fn toggle_bookmark(&mut self, cid: CID) {
+    pub fn toggle_bookmark(&mut self, cid: &CID) {
         if let Some(control) = self.control(cid) {
             control.toggle_bookmark();
         }
@@ -134,7 +134,6 @@ impl CMM {
             .count()
             > 0
     }
-
 
     // This is the only place where a CID with prefix is expected because it needs to be globally unique in the hashmap
     pub fn from_map(
@@ -177,7 +176,6 @@ impl CMM {
         self.domains.get(domain)
     }
 
-   
     pub fn cmm_maturity_score(&self) -> f64 {
         self.domains
             .iter()
