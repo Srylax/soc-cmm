@@ -127,6 +127,15 @@ impl CMM {
         }
     }
 
+    pub fn has_pinned_items(&self) -> bool {
+        self.controls
+            .iter()
+            .filter(|(_cid, control)| control.bookmark())
+            .count()
+            > 0
+    }
+
+
     // This is the only place where a CID with prefix is expected because it needs to be globally unique in the hashmap
     pub fn from_map(
         mut controls: HashMap<String, Control>,
@@ -168,20 +177,7 @@ impl CMM {
         self.domains.get(domain)
     }
 
-    pub fn has_pinned_items(&self) -> bool {
-        self.domains
-            .iter()
-            .filter(|(_domain, aspects)| {
-                aspects
-                    .iter()
-                    .filter(|aspect| aspect.has_pinned_items())
-                    .count()
-                    > 0
-            })
-            .count()
-            > 0
-    }
-
+   
     pub fn cmm_maturity_score(&self) -> f64 {
         self.domains
             .iter()
