@@ -73,7 +73,12 @@ pub struct CMM {
 
 impl CMM {
     /// Only used by cmm-compar
-    pub fn new(mut controls: IndexMap<CID, Control>) -> Result<Self> {}
+    pub fn new(mut controls: IndexMap<CID, Control>) -> Result<Self> {
+        CMM {
+            controls: IndexMap::new(),
+            notes: String::new(),
+        }
+    }
 
     pub fn by_aspect(&self, aspect_id: u8) -> impl Iterator<Item = (&CID, &Control)> {
         self.controls
@@ -100,6 +105,28 @@ impl Schema {
 }
 
 impl CMM {
+    pub fn control(&self, cid: CID) -> Option<&mut Control> {
+        self.controls.get_mut(cid)
+    }
+
+    pub fn set_answer(&mut self, cid: CID, answer: Answer) {
+        if let Some(control) = self.control(cid) {
+            control.set_answer(answer);
+        }
+    }
+
+    pub fn set_comment(&mut self, cid: CID, comment: String) {
+        if let Some(control) = self.control(cid) {
+            control.set_comment(comment);
+        }
+    }
+
+    pub fn toggle_bookmark(&mut self, cid: CID) {
+        if let Some(control) = self.control(cid) {
+            control.toggle_bookmark();
+        }
+    }
+
     // This is the only place where a CID with prefix is expected because it needs to be globally unique in the hashmap
     pub fn from_map(
         mut controls: HashMap<String, Control>,
@@ -183,39 +210,6 @@ impl CMM {
         Some(scores.iter().sum::<f64>() / scores.len() as f64)
     }
 
-    pub fn set_answer(&mut self, domain: &Domain, cid: CID, answer: Answer) {
-        if let Some(aspects) = self.domains.get_mut(domain)
-            && let Some(aspect_id) = cid.chars().next()
-            && let Some(aspect_id) = aspect_id.to_digit(10)
-            && let Some(aspect) = aspects.get_mut(aspect_id as usize - 1)
-            && let Some(control) = aspect.controls.get_mut(&cid)
-        {
-            control.set_answer(answer);
-        };
-    }
-
-    pub fn set_comment(&mut self, domain: &Domain, cid: CID, comment: String) {
-        if let Some(aspects) = self.domains.get_mut(domain)
-            && let Some(aspect_id) = cid.chars().next()
-            && let Some(aspect_id) = aspect_id.to_digit(10)
-            && let Some(aspect) = aspects.get_mut(aspect_id as usize - 1)
-            && let Some(control) = aspect.controls.get_mut(&cid)
-        {
-            control.set_comment(Some(comment));
-        };
-    }
-
-    pub fn toggle_bookmark(&mut self, domain: &Domain, cid: CID) {
-        if let Some(aspects) = self.domains.get_mut(domain)
-            && let Some(aspect_id) = cid.chars().next()
-            && let Some(aspect_id) = aspect_id.to_digit(10)
-            && let Some(aspect) = aspects.get_mut(aspect_id as usize - 1)
-            && let Some(control) = aspect.controls.get_mut(&cid)
-        {
-            control.toggle_bookmark();
-        };
-    }
-
     pub fn as_simple(&self) -> IndexMap<Domain, IndexMap<CID, SimpleControl>> {
         self.domains
             .iter()
@@ -264,4 +258,9 @@ impl CMM {
     pub fn custom_description(&self) -> &Option<String> {
         &self.custom_description
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
 }
