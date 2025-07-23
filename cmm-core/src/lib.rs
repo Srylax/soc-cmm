@@ -19,8 +19,8 @@ pub mod control;
 
 use thiserror::Error;
 
-use crate::cid::CID;
 use crate::cid::Domain;
+use crate::cid::CID;
 
 pub(crate) type Result<T> = std::result::Result<T, CmmError>;
 #[derive(Error, Debug)]
@@ -71,17 +71,54 @@ pub struct CMM {
 
 impl CMM {
     /// Only used by cmm-compar
-    pub fn new(mut controls: IndexMap<CID, Control>) -> Result<Self> {
+    pub fn new(mut controls: IndexMap<CID, Control>) -> Self {
         CMM {
             controls: IndexMap::new(),
             notes: String::new(),
         }
     }
 
-    pub fn by_aspect(&self, aspect_id: u8) -> impl Iterator<Item = (&CID, &Control)> {
+    pub fn controls_by_aspect(&self, domain: &Domain, aspect_id: u8) -> impl Iterator<Item = (&CID, &Control)> {
         self.controls
             .iter()
-            .filter(move |(cid, _control)| cid.aspect_id() == aspect_id)
+            .filter(move |(cid, _control)| cid.aspect_id() == aspect_id && cid.domain().eq(domain))
+    }
+
+    pub fn controls_by_domain(&self, domain: &Domain) -> impl Iterator<Item = (&CID, &Control)> {
+        self.controls
+            .iter()
+            .filter(move |(cid, _control)| cid.domain().eq(domain))
+    }
+}
+
+/// let controls = soc_data.by_domain(domain) -> Vec<&Control>
+/// soc_data.capability(controls) -> Score
+/// soc_data.maturity(controls) -> Score
+
+/// data.maturity_overall()
+/// data.maturity_for_controls(controls)
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct Score {
+    score: f64,
+    max: f64,
+}
+
+impl Score {
+    pub fn from(score: f64, max: f64) -> Self {
+        Self { score, max }
+    }
+
+    pub fn as_percentage(&self) -> f64 {
+        self.score / self.max * 100.0
+    }
+
+    pub fn score(&self) -> f64 {
+        self.score
+    }
+
+    pub fn max(&self) -> f64 {
+        self.max
     }
 }
 
@@ -170,18 +207,14 @@ impl CMM {
         })
     }
 
-    pub fn aspect(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
-        self.domains.get(domain)
+    pub fn maturity_score_overall(&self) -> Score {
+        self
+            .controls_by_domain(domain)
     }
 
-    pub fn cmm_maturity_score(&self) -> f64 {
-        self.domains
-            .iter()
-            .map(|(domain, _aspect)| self.aspect_maturity_score(domain).unwrap_or(0.0))
-            .sum()
-    }
+    pub fn maturity_score_domain(&self, domain: Domain) -> Score {}
 
-    pub fn cmm_max_maturity_score(&self) -> f64 {
+    pub fn overall_max_maturity_score(&self) -> f64 {
         self.domains.len() as f64 * 5.0
     }
 

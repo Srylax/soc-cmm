@@ -58,6 +58,10 @@ impl CID {
     pub fn aspect_id(&self) -> u8 {
         self.id[1]
     }
+
+    pub fn domain(&self) -> Domain {
+        self.domain
+    }
 }
 
 impl TryFrom<String> for CID {
