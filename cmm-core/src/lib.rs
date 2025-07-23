@@ -1,11 +1,12 @@
 use aspect::Aspect;
 use control::Control;
-use control::SimpleControl;
 use indexmap::IndexMap;
 use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashMap;
+use std::hash::Hash;
 use std::mem::discriminant;
+use std::num::ParseIntError;
 use std::str::ParseBoolError;
 use strum::Display;
 
@@ -15,9 +16,13 @@ use strum::VariantArray;
 
 pub mod answer;
 pub mod aspect;
+pub mod cid;
 pub mod control;
 
 use thiserror::Error;
+
+use crate::cid::CID;
+use crate::cid::Domain;
 
 pub(crate) type Result<T> = std::result::Result<T, CmmError>;
 #[derive(Error, Debug)]
@@ -28,41 +33,70 @@ pub enum CmmError {
     DiscriminantMismatch(Answer, Answer),
     #[error("Aspect with missing title found")]
     MissingAspectTitle,
+    #[error("CID parsing error: No Domain in short format found")]
+    CIDMissingDomain,
+    #[error("CID parsing error: Identifier is malformed {0}")]
+    CIDMalformed(#[from] ParseIntError),
     #[error(transparent)]
     StrumParseError(#[from] strum::ParseError),
     #[error(transparent)]
     ParseBoolError(#[from] ParseBoolError),
 }
 
-#[derive(
-    VariantArray, Hash, Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, Display,
-)]
-pub enum Domain {
-    Business,
-    People,
-    Process,
-    Technology,
-    Services,
+/// Only contains the soc-cmm values at its most simple form (CID->Control)
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
+pub struct CMM {
+    // History
+    //
+    //
+    // struct Values {
+    // controls: IndexMap<CID, Control>
+    // custom_description: Option<String>
+    // version: String
+    // }
+    //
+    // struct Structure {
+    // aspects: HashMap<Domain, Vec<Aspect>>
+    // remarks: HashMap<CID, String>
+    // guidances: IndexMap<CID, String>
+    // }
+    //
+    // structure.aspects(domain) -> Vec<Aspect>
+    // values1.controls(aspect) -> Vec<Control>
+    // values2.controls(aspect) -> Vec<Control>
+    // structure.guidance(control) -> String
+    // structure.remark(control) -> String
+    //
+    controls: IndexMap<CID, Control>,
+    notes: String,
 }
 
-impl Domain {
-    fn short(&self) -> char {
-        match self {
-            Domain::People => 'P',
-            Domain::Business => 'B',
-            Domain::Process => 'M',
-            Domain::Technology => 'T',
-            Domain::Services => 'S',
-        }
+impl CMM {
+    /// Only used by cmm-compar
+    pub fn new(mut controls: IndexMap<CID, Control>) -> Result<Self> {}
+
+    pub fn by_aspect(&self, aspect_id: u8) -> impl Iterator<Item = (&CID, &Control)> {
+        self.controls
+            .iter()
+            .filter(move |(cid, _control)| cid.aspect_id() == aspect_id)
     }
 }
 
-pub type CID = String;
-
+/// This is the soc-cmm schema and only contains Meta Information.
+/// Changes will be made only between soc-cmm versions. The whole struct will be loaded at compile time.
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
-pub struct CMM {
-    domains: IndexMap<Domain, Vec<Aspect>>,
-    custom_description: Option<String>
+pub struct Schema {
+    /// AspectId = index+1, Aspects are only an index and a title
+    aspects: HashMap<Domain, Vec<String>>,
+    guidances: HashMap<CID, Vec<String>>,
+    remarks: HashMap<CID, String>,
+    titles: HashMap<CID, String>,
+}
+
+impl Schema {
+    pub fn guidances(&self, cid: CID) -> Option<&Vec<String>> {
+        self.guidances.get(&cid)
+    }
 }
 
 impl CMM {
@@ -97,7 +131,10 @@ impl CMM {
                 .collect::<Result<Vec<Aspect>>>()?;
             domains.insert(*domain, aspects);
         }
-        Ok(Self { domains, custom_description: None })
+        Ok(Self {
+            domains,
+            custom_description: None,
+        })
     }
 
     pub fn aspect(&self, domain: &Domain) -> Option<&Vec<Aspect>> {
@@ -111,17 +148,17 @@ impl CMM {
                 aspects
                     .iter()
                     .filter(|aspect| aspect.has_pinned_items())
-                    .count() > 0
+                    .count()
+                    > 0
             })
-            .count() > 0
+            .count()
+            > 0
     }
 
     pub fn cmm_maturity_score(&self) -> f64 {
         self.domains
             .iter()
-            .map(|(domain, _aspect)| { 
-                self.aspect_maturity_score(&domain).unwrap_or(0.0)
-            })
+            .map(|(domain, _aspect)| self.aspect_maturity_score(domain).unwrap_or(0.0))
             .sum()
     }
 
