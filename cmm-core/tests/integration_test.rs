@@ -24,9 +24,9 @@ fn test_toml_format() {
         r#"notes = "Hello world!"
 
 ["Business.1.2"]
-comment = "Comment!"
 type = "DetailedOptional"
 answer = "Fully"
+comment = "Comment!"
 "#,
         toml::to_string(&cmm).unwrap(),
     );

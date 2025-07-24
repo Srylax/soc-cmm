@@ -26,6 +26,11 @@ pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<SOCData> {
     extend_answer_from_form_controls(&mut controls, &output, path)?;
     nist_compat(&mut controls);
 
+    let controls = controls
+        .into_iter()
+        .filter(|(_cid, control)| !matches!(control.answer(), Answer::Title))
+        .collect();
+
     Ok(SOCData::from_map(controls))
 }
 
@@ -74,7 +79,7 @@ fn nist_compat(controls: &mut HashMap<CID, Control>) {
             .get_mut(&cid.parse().unwrap())
             .expect("Compat CID not in controls");
         control.set_answer(answer);
-        control.set_nist_only(cid != "P 2.2.14");
+        control.set_nist_only(cid != "People.2.2.14");
     }
 }
 
@@ -114,21 +119,43 @@ fn comments(workbook: &mut Xlsx<BufReader<File>>) -> anyhow::Result<HashMap<CID,
     for (sheet, domain) in sheets {
         let range = workbook.worksheet_range(sheet)?;
 
-        let comments: HashMap<CID, Control> = range
+        let mut comments: HashMap<CID, String> = range
             .rows()
-            .skip_while(|row| row[1].to_string() != "Comments and/or Remarks")
+            .skip_while(|row| row[1] != "Comments and/or Remarks")
             .skip(1)
             .filter(|row| row[11].is_string() && row[13].is_string())
             .map(|row| {
                 (
-                    format!("{}.{}", domain, row[11].to_string())
-                        .parse()
-                        .unwrap(),
-                    Control::new(Answer::Title, Some(row[13].to_string())),
+                    format!("{}.{}", domain, row[11]).parse().unwrap(),
+                    row[13].to_string(),
                 )
             })
             .collect();
-        cids.extend(comments);
+
+        let controls = range
+            .rows()
+            .skip(9)
+            .take_while(|row| row[1] != "Comments and/or Remarks")
+            .filter(|row| {
+                row[1]
+                    .to_string()
+                    .chars()
+                    .next()
+                    .map(|char| char.is_ascii_digit())
+                    .unwrap_or(false)
+            })
+            .map(|row| {
+                let cid: CID = format!(
+                    "{}.{}",
+                    domain,
+                    row[1].to_string().split_whitespace().next().unwrap()
+                )
+                .parse()
+                .unwrap();
+
+                (cid, Control::new(Answer::Title, comments.remove(&cid)))
+            });
+        cids.extend(controls);
     }
     Ok(cids)
 }
@@ -148,7 +175,9 @@ fn extend_answer_from_output(
     });
 
     for row in cids {
-        let Some(control) = controls.get_mut(&to_cid(&row[0].to_string()).unwrap()) else {
+        let Some(control) = controls
+            .get_mut(&to_cid(&row[0].to_string()).expect(&format!("CID not found {}", row[0])))
+        else {
             eprintln!("Output contains unlisted CID: {}", row[0].to_string());
             continue;
         };
@@ -259,6 +288,9 @@ fn to_cid(str: &str) -> anyhow::Result<CID> {
         .replace("M ", "Process.")
         .replace("B ", "Business.")
         .replace("T ", "Technology.")
-        .replace("S ", "Services.");
+        .replace("S ", "Services.")
+        .replace(" - Scope", "")
+        .replace(" - Security incident Management", "")
+        .replace(" - Security Analysis", "");
     Ok(id.parse()?)
 }
