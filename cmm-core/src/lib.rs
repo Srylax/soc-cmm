@@ -16,6 +16,7 @@ pub mod answer;
 pub mod aspect;
 pub mod cid;
 pub mod control;
+pub mod score;
 
 use thiserror::Error;
 
