@@ -1,0 +1,49 @@
+/// {
+///      "aspects": {
+///          "People": {
+///              ["Title"],
+///              ["Title"],
+///          }
+///      },
+///      "control_schemas": {
+///          "P.1.0": {
+///              "guidances": ["Str"],
+///              "remarks": "",
+///              "title": "",
+///          }
+///      }
+/// }
+use std::collections::HashMap;
+
+use serde::{Deserialize, Serialize};
+
+use crate::cid::{CID, Domain};
+
+/// This is the soc-cmm schema and only contains Meta Information.
+/// Changes will be made only between soc-cmm versions. The whole struct will be loaded at compile time.
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
+pub struct Schema {
+    /// AspectId = index+1, Aspects are only an index and a title
+    aspects: HashMap<Domain, Vec<String>>,
+    control_schemas: HashMap<CID, ControlSchema>,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
+pub struct ControlSchema {
+    guidances: Vec<String>,
+    remarks: String,
+    title: String,
+}
+
+impl Schema {
+    pub fn aspects(&self, domain: &Domain) -> Vec<&String> {
+        self.aspects
+            .get(domain)
+            .map(|vec| vec.iter().collect())
+            .unwrap_or_default()
+    }
+
+    pub fn control_schema(&self, cid: &CID) -> Option<&ControlSchema> {
+        self.control_schemas.get(cid)
+    }
+}

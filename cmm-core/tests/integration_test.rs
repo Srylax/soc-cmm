@@ -1,8 +1,8 @@
 use cmm_core::{
-    CMM,
     answer::{Answer, DetailedOptional},
     cid::CID,
     control::Control,
+    data::SOCData,
 };
 use indexmap::IndexMap;
 
@@ -17,7 +17,7 @@ fn test_toml_format() {
             Some(String::from("Comment!")),
         ),
     );
-    let cmm = CMM::from(controls, Some("Hello world!".to_string()));
+    let cmm = SOCData::from(controls, Some("Hello world!".to_string()));
     assert_eq!(
         r#"notes = "Hello world!"
 
@@ -28,4 +28,16 @@ answer = "Fully"
 "#,
         toml::to_string(&cmm).unwrap(),
     );
+}
+
+#[test]
+fn test_multiline_notes() {
+    let src = r#"notes = """
+# Hello World!
+
+Line breaks **woo**!
+"""
+"#;
+    let parsed_cmm: SOCData = toml::from_str(src).unwrap();
+    assert_eq!(src, toml::to_string(&parsed_cmm).unwrap());
 }
