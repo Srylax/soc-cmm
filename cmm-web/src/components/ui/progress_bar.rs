@@ -37,13 +37,11 @@ pub fn ProgressBarComponent(
 
 #[component]
 pub fn BadToGoodProgressBarComponent(
-    max: f64,
-    value: f64,
+    score: Score,
     height: Option<u32>,
     tooltip_prefix: Option<String>
 ) -> Element {
-    let percentage = value / max * 100.0;
-    let class = if percentage < 12.5 {
+    let class = if score.as_percentage() < 12.5 {
         "bg-red-600"
     } else if percentage < 25.0 {
         "bg-red-500"
@@ -62,8 +60,8 @@ pub fn BadToGoodProgressBarComponent(
     };
     rsx! {
         ProgressBarComponent {
-            max,
-            value,
+            max: score.max(),
+            value: score.value(),
             height,
             class,
             tooltip: if tooltip_prefix.is_some() { 

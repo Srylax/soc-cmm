@@ -23,14 +23,15 @@ fn App() -> Element {
 
     let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
         // TODO: SOCData::fromSchema?
-        SOCData::from(IndexMap::new(), None)
+        SOCData::new(IndexMap::new(), None)
     });
     let mut data = use_context_provider(|| data);
 
     let settings = use_synced_storage::<LocalStorage, _>("settings".to_owned(), || {
         AppSettings {
             darkmode: false,
-            show_percentage: false
+            show_percentage: false,
+            show_scores: true
         }
     });
     let mut settings = use_context_provider(|| settings);
@@ -51,6 +52,7 @@ fn App() -> Element {
         document::Script { src: asset!("/assets/scripts/chart.js"), defer: true }
 
         SidebarComponent {
+            schema,
             SettingsComponent { settings }
         },
         main {
@@ -72,7 +74,7 @@ fn App() -> Element {
                 }
             },
             ChartComponent {},
-            OverviewComponent { },
+            OverviewComponent { schema },
             div {
                 class: "max-w-3xl mx-auto",
                 SectionTitleComponent {

@@ -46,7 +46,7 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
 /// Score can be either over an Range of controls (0-5max)
 /// Or over the whole soc-cmm itself, each domain calculated seperately
 /// 5 domains 0-5 = 0-25max
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Clone, Eq)]
 pub struct Score {
     score: f64,
     max: f64,

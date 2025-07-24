@@ -1,17 +1,18 @@
-use cmm_core::cid::Domain;
+use cmm_core::{cid::Domain, schema::Schema, score::Score};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use crate::utils::{round, use_app_settings, use_soc_data};
+use crate::{components::ScoreComponent, utils::{use_app_settings, use_soc_data}};
 use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
 
 #[component]
 pub fn SidebarComponent(
+    schema: Schema,
     children: Element
 ) -> Element {
     let settings = use_app_settings();
     let data = use_soc_data();
-    
+
     let mut sidebar_open = use_signal(|| false);
 
     rsx! {
@@ -65,36 +66,21 @@ pub fn SidebarComponent(
                 NavigationSectionComponent {
                     title: "Overview",
                     href: "overview",
-                    score: None,
-                    show_percentage: settings().show_percentage,
                 },
                 NavigationSectionComponent {
                     title: "Pinned",
                     href: "pinned",
-                    score: None,
-                    show_percentage: settings().show_percentage,
                 },
                 for domain in Domain::VARIANTS {
                     NavigationSectionComponent {
                         title: "{domain}",
                         href: "variant-{domain}",
-                        score: if settings().show_scores { 
-                            data().aspect_maturity_score(domain)
-                        } else {
-                            None
-                        },
-                        show_percentage: settings().show_percentage,
-
-                        for (i, aspect) in data().aspect(domain).unwrap().iter().enumerate() {
+                        score: data().maturity_score_by_domain(domain),
+                        for (i, aspect) in schema.aspects(domain).iter().enumerate() {
                             NavigationLinkComponent {
-                                title: "{i + 1}. {aspect.title()}",
+                                title: "{i + 1}. {aspect}",
                                 href: "aspect-{domain}-{i + 1}",
-                                show_percentage: settings().show_percentage,
-                                score: if settings().show_scores() { 
-                                    Some(aspect.maturity_score()) 
-                                } else {
-                                    None
-                                }
+                                score: data().maturity_score_by_aspect(domain, i as u8),
                             }
                         }
                     }
@@ -108,32 +94,23 @@ pub fn SidebarComponent(
 fn NavigationLinkComponent(
     title: String, 
     href: String, 
-    score: Option<f64>,
-    show_percentage: bool
+    score: Score,
 ) -> Element {
+
     rsx! {
         li {
             class: "dark:text-slate-300 dark:border-slate-600 dark:has-hover:border-slate-50 has-hover:border-slate-800 text-slate-800 border-l-1 border-slate-300  pl-3 py-1 text-md",
             a {
                 class: "dark:hover:text-slate-50 hover:text-slate-950 flex justify-between gap-x-1",
                 href: "#{href}",
-                alt: "{title}",
+                alt: "Move to {title}",
                 span {
                     "{title}"
                 },
                 span {
                     // element should always exist to prevent layout shift
-                    class: if score.is_some() { 
-                        "dark:opacity-80 opacity-90" 
-                    } else { 
-                        "opacity-0" 
-                    },
-                    if show_percentage {
-                        "{round(score.unwrap_or(0.0) / 5.0 * 100.0, 0)}%"
-                    } else {
-                        // again, 10.0 because layout shift
-                        "{round(score.unwrap_or(10.0), 1)}"
-                    }
+                    class: "dark:opacity-80 opacity-90",
+                    SidebarScoreComponent { score }
                 }
             }
         }
@@ -144,18 +121,9 @@ fn NavigationLinkComponent(
 fn NavigationSectionComponent(
     title: String,
     href: String,
-    score: Option<f64>,
-    show_percentage: bool,
+    score: Score,
     children: Element,
 ) -> Element {
-    let mut score_str = String::new();
-    if let Some(s) = score {
-        if show_percentage {
-            score_str = format!("{}%", round(s / 5.0 * 100.0, 0));
-        } else {
-            score_str = ((s * 10.0).round() / 10.0).to_string();
-        }
-    };
     rsx! {
         div {
             class: "mb-4",
@@ -168,7 +136,7 @@ fn NavigationSectionComponent(
                 },
                 span {
                     class: "opacity-80",
-                    "{score_str}"
+                    SidebarScoreComponent { score }
                 }
             },
             ol {
