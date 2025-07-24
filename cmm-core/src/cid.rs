@@ -75,7 +75,11 @@ impl TryFrom<String> for CID {
             .ok_or(CmmError::CIDMissingDomain)?;
         let mut ids: [u8; 4] = [0; 4];
         for id in ids.iter_mut() {
-            *id = u8::from_str_radix(parts.next().unwrap_or_default(), 10)?;
+            if let Some(part) = parts.next() {
+                *id = part.parse::<u8>()?;
+            } else {
+                *id = 0;
+            };
         }
         Ok(CID { domain, id: ids })
     }
@@ -107,7 +111,6 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
     fn test_cid_invalid_domain() {
         assert!(CID::try_from("A.1.2.3.4".to_string()).is_err());
     }
