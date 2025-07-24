@@ -1,11 +1,10 @@
 use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_soc_data}};
-use cmm_core::{cid::Domain, schema::Schema};
+use cmm_core::cid::Domain;
 use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
 pub fn OverviewComponent() -> Element {
-    let schema = use_schema();
     let data = use_soc_data();
     let settings = use_app_settings();
 
@@ -39,7 +38,6 @@ pub fn OverviewComponent() -> Element {
                 for domain in Domain::VARIANTS {
                     DomainOverviewComponent { 
                         domain: *domain,
-                        schema
                     }
                 }
             }
@@ -48,9 +46,10 @@ pub fn OverviewComponent() -> Element {
 }
 
 #[component]
-fn DomainOverviewComponent(domain: Domain, schema: Schema) -> Element {
+fn DomainOverviewComponent(domain: Domain) -> Element {
     let settings = use_app_settings();
     let data = use_soc_data();
+    let schema = use_schema();
 
     let overall_score = data().maturity_score_by_domain(&domain);
     let overall_capability_score = data().capability_score_by_domain(&domain);
@@ -81,22 +80,28 @@ fn DomainOverviewComponent(domain: Domain, schema: Schema) -> Element {
                     if overall_capability_score.score().is_normal() {
                         div {
                             class: "text-xl text-center grid",
-                            title: "{overall_capability_score} / 5",
+                            title: "{overall_capability_score.score()} / {overall_capability_score.max()}",
                             small {
                                 class: "text-xs",
                                 "Capability"
                             },
-                            ScoreComponent { score: overall_capability_score, precision: 1 }
+                            ScoreComponent { 
+                                score: overall_capability_score, 
+                                precision: 1 
+                            }
                         }
                     }
                     div {
                         class: "text-xl text-center grid",
-                        title: "{overall_score} / 5",
+                        title: "{overall_score.score()} / {overall_score.max()}",
                         small {
                             class: "text-xs",
                             "Maturity"
                         },
-                        ScoreComponent { score: overall_score, precision: 1 }
+                        ScoreComponent { 
+                            score: overall_score, 
+                            precision: 1 
+                        }
                     }
                 },
             },
@@ -112,26 +117,26 @@ fn DomainOverviewComponent(domain: Domain, schema: Schema) -> Element {
                         ),
                         span {
                             class: "text-[10px] text-right",
-                            "data-aspect-value": "{round(data().maturity_score_by_aspect(domain, i).score(), 2)}",
+                            "data-aspect-value": "{round(data().maturity_score_by_aspect(&domain, i as u8).score(), 2)}",
                             "{aspect}"
                         },
                         div {
                             div {
                                 class: "not-print:hidden",
                                 ScoreComponent { 
-                                    score: data().maturity_score_by_aspect(domain, i), 
+                                    score: data().maturity_score_by_aspect(&domain, i as u8), 
                                     precision: 2 
                                 }
                             },
                             BadToGoodProgressBarComponent {
-                                score: data().maturity_score_by_aspect(domain, i),
+                                score: data().maturity_score_by_aspect(&domain, i as u8),
                                 tooltip_prefix: "{aspect} maturity: "
                             },
-                            if data().capability_score_by_aspect(domain, i).score().is_normal() {
+                            if data().capability_score_by_aspect(&domain, i as u8).score().is_normal() {
                                 div {
                                     class: "mt-1",
                                     BadToGoodProgressBarComponent {
-                                        score: data().capability_score_by_aspect(domain, i),
+                                        score: data().capability_score_by_aspect(&domain, i as u8),
                                         tooltip_prefix: "{aspect} capability: "
                                     }
                                 }

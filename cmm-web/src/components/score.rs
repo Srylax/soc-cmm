@@ -26,7 +26,7 @@ pub fn SidebarScoreComponent(score: Option<Score>) -> Element {
     let settings = use_app_settings();
 
     if !settings().show_scores {
-        rsx!()
+        return rsx!();
     }
     rsx!( ScoreComponent { score, precision: 1 })
 }

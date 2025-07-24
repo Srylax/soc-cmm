@@ -122,4 +122,10 @@ impl SOCData {
             .map(|(_cid, control)| control)
             .maturity_score()
     }
+
+    pub fn capability_score_by_aspect(&self, domain: &Domain, aspect_id: u8) -> Score {
+        self.controls_by_aspect(domain, aspect_id)
+            .map(|(_cid, control)| control)
+            .capability_score()
+    }
 }
