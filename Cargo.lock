@@ -567,6 +567,7 @@ dependencies = [
  "dioxus-markdown",
  "dioxus_storage",
  "indexmap 2.10.0",
+ "serde",
  "serde_json",
  "strum",
  "toml 0.8.2",

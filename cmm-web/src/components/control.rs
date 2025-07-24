@@ -1,12 +1,12 @@
-use cmm_core::{CID, CMM, Domain, answer::Answer, control::Control};
+use cmm_core::{answer::Answer, control::Control, data::SOCData, Domain, CID, CMM};
 use dioxus::prelude::*;
 use indexmap::IndexMap;
-use strum::VariantArray;
 
-use crate::components::{SmallButtonComponent, StarButtonComponent};
+use crate::{components::{SmallButtonComponent, StarButtonComponent}, utils::use_soc_data};
 
 #[component]
-pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element {
+pub fn ControlsListComponent(pinned: bool) -> Element {
+    let data = use_context::<Signal<SOCData>>();
     let indent_list = |controls: &IndexMap<CID, Control>| -> Vec<Vec<(CID, Control)>> {
         let mut output: Vec<Vec<(CID, Control)>> = vec![];
         let mut current_list: Vec<(CID, Control)> = vec![];
@@ -34,7 +34,7 @@ pub fn ControlsListComponent(cmm: ReadOnlySignal<CMM>, pinned: bool) -> Element 
                 },
             }
             div {
-                for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
+                for (i, aspect) in data().aspect(domain).unwrap().iter().enumerate() {
                     if !pinned {
                         h4 {
                             class: "text-2xl mb-2 mt-6 font-semibold",
@@ -75,7 +75,7 @@ fn ControlItemComponent(
     control: ReadOnlySignal<Control>,
     pinned: bool,
 ) -> Element {
-    let mut cmm = use_context::<Signal<CMM>>();
+    let mut data = use_soc_data();
     let indent = cid.read().chars().filter(|c| *c == '.').count();
     if let Answer::Title = control().answer() {
         if indent > 1 {
@@ -155,7 +155,7 @@ fn ControlItemComponent(
                             class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full",
                             value: control().comment().clone().unwrap_or(String::new()),
                             onchange: move |evt| {
-                                cmm.write().set_comment(&domain, cid(), evt.value());
+                                data().set_comment(&domain, cid(), evt.value());
                             }
                         },
                     }

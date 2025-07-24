@@ -1,19 +1,17 @@
-use cmm_core::{CMM, Domain};
+use cmm_core::cid::Domain;
 use dioxus::prelude::*;
-use dioxus_storage::{LocalStorage, use_synced_storage};
 use strum::VariantArray;
-use crate::utils::round;
+use crate::utils::{round, use_app_settings, use_soc_data};
 use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
-use crate::components::ToggleComponent;
 
 #[component]
 pub fn SidebarComponent(
-    cmm: Signal<CMM>,
-    show_percentage: bool, 
     children: Element
 ) -> Element {
-    let mut show_scores = use_synced_storage::<LocalStorage, _>("show_scores".to_owned(), || false);
+    let settings = use_app_settings();
+    let data = use_soc_data();
+    
     let mut sidebar_open = use_signal(|| false);
 
     rsx! {
@@ -60,13 +58,6 @@ pub fn SidebarComponent(
                     class: "text-sm font-semibold",
                     "Settings"
                 },
-                ToggleComponent {
-                    checked: show_scores(),
-                    onclick: move |_| {
-                        show_scores.set(!show_scores());
-                    },
-                    label: "Show scores"
-                },
                 {children},
             },
             div {
@@ -75,31 +66,31 @@ pub fn SidebarComponent(
                     title: "Overview",
                     href: "overview",
                     score: None,
-                    show_percentage: show_percentage,
+                    show_percentage: settings().show_percentage,
                 },
                 NavigationSectionComponent {
                     title: "Pinned",
                     href: "pinned",
                     score: None,
-                    show_percentage: show_percentage,
+                    show_percentage: settings().show_percentage,
                 },
                 for domain in Domain::VARIANTS {
                     NavigationSectionComponent {
                         title: "{domain}",
                         href: "variant-{domain}",
-                        score: if show_scores() { 
-                            cmm().aspect_maturity_score(domain)
+                        score: if settings().show_scores { 
+                            data().aspect_maturity_score(domain)
                         } else {
                             None
                         },
-                        show_percentage: show_percentage,
+                        show_percentage: settings().show_percentage,
 
-                        for (i, aspect) in cmm.read().aspect(domain).unwrap().iter().enumerate() {
+                        for (i, aspect) in data().aspect(domain).unwrap().iter().enumerate() {
                             NavigationLinkComponent {
                                 title: "{i + 1}. {aspect.title()}",
                                 href: "aspect-{domain}-{i + 1}",
-                                show_percentage: show_percentage,
-                                score: if show_scores() { 
+                                show_percentage: settings().show_percentage,
+                                score: if settings().show_scores() { 
                                     Some(aspect.maturity_score()) 
                                 } else {
                                     None
