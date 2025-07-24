@@ -201,19 +201,24 @@ impl Answer {
     }
 
     pub fn is_maturity(&self) -> bool {
-        match self {
-            Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_) => true,
-            _ => false,
-        }
+        matches!(
+            self,
+            Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_)
+        )
     }
 }
 
 impl Display for Answer {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if matches!(self, Answer::Title) {
-            return Ok(());
+        match self {
+            Answer::Satisfaction(satisfaction) => write!(f, "{satisfaction}"),
+            Answer::Detailed(detailed) => write!(f, "{detailed}"),
+            Answer::DetailedOptional(detailed_optional) => write!(f, "{detailed_optional}"),
+            Answer::Occurence(occurence) => write!(f, "{occurence}"),
+            Answer::Bool(bool) => write!(f, "{bool}"),
+            Answer::Any(any) => write!(f, "{any}"),
+            Answer::Title => Ok(()),
         }
-        write!(f, "{}", self)
     }
 }
 
@@ -226,6 +231,7 @@ mod tests {
         assert_eq!(
             format!("{}", Answer::DetailedOptional(DetailedOptional::Averagely)),
             String::from("Averagely")
-        )
+        );
+        assert_eq!(format!("{}", Answer::Title), String::new());
     }
 }
