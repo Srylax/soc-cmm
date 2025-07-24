@@ -1,4 +1,3 @@
-use aspect::Aspect;
 use control::Control;
 use indexmap::IndexMap;
 use serde::Deserialize;
@@ -13,7 +12,6 @@ use itertools::Itertools;
 use strum::VariantArray;
 
 pub mod answer;
-pub mod aspect;
 pub mod cid;
 pub mod control;
 pub mod score;
