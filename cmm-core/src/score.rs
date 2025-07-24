@@ -21,10 +21,7 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
             .flat_map(|cap| cap.answer().max_score())
             .sum::<u8>() as f64;
 
-        Score {
-            score: 5.0 * (total_score / max_score),
-            max: 5.0,
-        }
+        Score::new(5.0 * (total_score / max_score), 5.0)
     }
 
     fn maturity_score(self) -> Score {
@@ -42,13 +39,13 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
             .flat_map(|cap| cap.answer().max_score())
             .sum::<u8>() as f64;
 
-        Score {
-            score: 5.0 * (total_score / max_score),
-            max: 5.0,
-        }
+        Score::new(5.0 * (total_score / max_score), 5.0)
     }
 }
 
+/// Score can be either over an Range of controls (0-5max)
+/// Or over the whole soc-cmm itself, each domain calculated seperately
+/// 5 domains 0-5 = 0-25max
 #[derive(Debug, PartialEq, Clone)]
 pub struct Score {
     score: f64,
@@ -56,7 +53,7 @@ pub struct Score {
 }
 
 impl Score {
-    pub fn from(score: f64, max: f64) -> Self {
+    pub fn new(score: f64, max: f64) -> Self {
         Self { score, max }
     }
 
