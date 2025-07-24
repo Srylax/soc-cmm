@@ -206,6 +206,20 @@ impl Answer {
             Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_)
         )
     }
+
+    pub fn is_default(&self) -> bool {
+        match self {
+            Answer::Satisfaction(satisfaction) => matches!(satisfaction, Satisfaction::No),
+            Answer::Detailed(detailed) => matches!(detailed, Detailed::No),
+            Answer::DetailedOptional(detailed_optional) => {
+                matches!(detailed_optional, DetailedOptional::No)
+            }
+            Answer::Occurence(occurence) => matches!(occurence, Occurence::Never),
+            Answer::Bool(bool) => !bool,
+            Answer::Any(str) => !str.is_empty(),
+            Answer::Title => true,
+        }
+    }
 }
 
 impl Display for Answer {

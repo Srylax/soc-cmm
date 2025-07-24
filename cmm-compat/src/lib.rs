@@ -28,7 +28,7 @@ pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<SOCData> {
 
     let controls = controls
         .into_iter()
-        .filter(|(_cid, control)| !matches!(control.answer(), Answer::Title))
+        .filter(|(_cid, control)| !control.is_default())
         .collect();
 
     Ok(SOCData::from_map(controls))

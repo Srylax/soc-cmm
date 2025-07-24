@@ -58,4 +58,8 @@ impl Control {
     pub fn toggle_bookmark(&mut self) {
         self.bookmark = !self.bookmark;
     }
+
+    pub fn is_default(&self) -> bool {
+        self.answer.is_default() && self.comment.is_none() && !self.bookmark
+    }
 }
