@@ -1,16 +1,16 @@
 use cmm_core::{cid::Domain, schema::Schema, score::Score};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use crate::{components::ScoreComponent, utils::{use_app_settings, use_soc_data}};
+use crate::{components::ScoreComponent, utils::{use_app_settings, use_schema, use_soc_data}};
 use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
 
 #[component]
 pub fn SidebarComponent(
-    schema: Schema,
     children: Element
 ) -> Element {
     let settings = use_app_settings();
+    let schema = use_schema();
     let data = use_soc_data();
 
     let mut sidebar_open = use_signal(|| false);

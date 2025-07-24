@@ -28,16 +28,6 @@ pub struct Schema {
     control_schemas: HashMap<CID, ControlSchema>,
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
-pub struct ControlSchema {
-    #[serde(skip_serializing_if = "Vec::is_empty")]
-    #[serde(default = "Vec::new")]
-    guidances: Vec<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    remarks: Option<String>,
-    title: String,
-}
-
 impl Schema {
     pub fn aspects(&self, domain: &Domain) -> Vec<&String> {
         self.aspects
@@ -48,5 +38,30 @@ impl Schema {
 
     pub fn control_schema(&self, cid: &CID) -> Option<&ControlSchema> {
         self.control_schemas.get(cid)
+    }
+}
+
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
+pub struct ControlSchema {
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(default = "Vec::new")]
+    guidances: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    remarks: Option<String>,
+    title: String,
+}
+
+impl ControlSchema {
+    pub fn title(&self) -> &String {
+        &self.title
+    }
+
+    pub fn guidances(&self) -> &Vec<String> {
+        &self.guidances
+    }
+
+    pub fn remarks(&self) -> &Option<String> {
+        &self.remarks
     }
 }

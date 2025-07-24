@@ -1,10 +1,11 @@
-use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_soc_data}};
-use cmm_core::cid::Domain;
+use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_soc_data}};
+use cmm_core::{cid::Domain, schema::Schema};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
 pub fn OverviewComponent() -> Element {
+    let schema = use_schema();
     let data = use_soc_data();
     let settings = use_app_settings();
 

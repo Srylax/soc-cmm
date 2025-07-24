@@ -1,4 +1,4 @@
-use cmm_core::data::SOCData;
+use cmm_core::{data::SOCData, schema::Schema};
 use dioxus::{hooks::use_context, signals::Signal};
 
 use crate::components::AppSettings;
@@ -21,4 +21,8 @@ pub fn use_soc_data() -> Signal<SOCData> {
 
 pub fn use_app_settings() -> Signal<AppSettings> {
     use_context::<Signal<AppSettings>>()
+}
+
+pub fn use_schema() -> Schema {
+    use_context::<Schema>()
 }

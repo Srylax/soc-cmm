@@ -19,7 +19,9 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-    let schema: Schema = serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap();
+    let schema: Schema = use_context_provider(|| {
+        serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
+    });
 
     let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
         // TODO: SOCData::fromSchema?
@@ -52,7 +54,6 @@ fn App() -> Element {
         document::Script { src: asset!("/assets/scripts/chart.js"), defer: true }
 
         SidebarComponent {
-            schema,
             SettingsComponent { settings }
         },
         main {
@@ -74,7 +75,7 @@ fn App() -> Element {
                 }
             },
             ChartComponent {},
-            OverviewComponent { schema },
+            OverviewComponent { },
             div {
                 class: "max-w-3xl mx-auto",
                 SectionTitleComponent {

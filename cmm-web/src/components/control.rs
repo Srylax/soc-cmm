@@ -1,24 +1,28 @@
-use cmm_core::{answer::Answer, control::Control, data::SOCData, Domain, CID, CMM};
+use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control};
 use dioxus::prelude::*;
 use indexmap::IndexMap;
+use strum::VariantArray;
 
-use crate::{components::{SmallButtonComponent, StarButtonComponent}, utils::use_soc_data};
+use crate::{components::{SmallButtonComponent, StarButtonComponent}, utils::{use_schema, use_soc_data}};
 
 #[component]
 pub fn ControlsListComponent(pinned: bool) -> Element {
-    let data = use_context::<Signal<SOCData>>();
+    let data = use_soc_data();
+    let schema = use_schema();
+
     let indent_list = |controls: &IndexMap<CID, Control>| -> Vec<Vec<(CID, Control)>> {
         let mut output: Vec<Vec<(CID, Control)>> = vec![];
         let mut current_list: Vec<(CID, Control)> = vec![];
         let mut current_indent: usize = 0;
         for (cid, control) in controls {
-            let indent = cid.chars().filter(|c| *c == '.').count();
+            // TODO: use the array?
+            let indent = cid.to_string().chars().filter(|c| *c == '.').count();
             if indent != current_indent {
                 current_indent = indent;
                 output.push(current_list.clone());
                 current_list.clear();
             }
-            current_list.push((cid.into(), control.clone()));
+            current_list.push((*cid, control.clone()));
         }
         output.push(current_list.clone());
         output
@@ -34,33 +38,33 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                 },
             }
             div {
-                for (i, aspect) in data().aspect(domain).unwrap().iter().enumerate() {
+                for (i, aspect) in schema.aspects(domain).iter().enumerate() {
                     if !pinned {
                         h4 {
                             class: "text-2xl mb-2 mt-6 font-semibold",
                             id: "aspect-{domain}-{i + 1}",
-                            "{i + 1}. {aspect.title()}"
+                            "{i + 1}. {aspect}"
                         }
                     }
                     div {
                         class: "",
-                        for indent_items in indent_list(aspect.controls()) {
-                            if indent_items.len() > 0 {
-                                div {
-                                    for (cid, control) in indent_items {
-                                        if (pinned && control.bookmark()) || !pinned {
-                                            ControlItemComponent {
-                                                key: format!("{cid}{domain}"),
-                                                domain: *domain,
-                                                cid: cid.to_owned(),
-                                                control: control.clone(),
-                                                pinned
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        // for indent_items in indent_list(data().controls_by_aspect(domain, i)) {
+                        //     if indent_items.len() > 0 {
+                        //         div {
+                        //             for (cid, control) in indent_items {
+                        //                 if (pinned && control.bookmark()) || !pinned {
+                        //                     ControlItemComponent {
+                        //                         key: format!("{cid}{domain}"),
+                        //                         domain: *domain,
+                        //                         cid: cid.to_owned(),
+                        //                         control: control.clone(),
+                        //                         pinned
+                        //                     }
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     }
                 }
             }
@@ -76,14 +80,18 @@ fn ControlItemComponent(
     pinned: bool,
 ) -> Element {
     let mut data = use_soc_data();
-    let indent = cid.read().chars().filter(|c| *c == '.').count();
+    let schema = use_schema();
+
+    let ctrl_schema = schema.control_schema(&cid()).unwrap();
+    
+    let indent = cid().to_string().chars().filter(|c| *c == '.').count();
     if let Answer::Title = control().answer() {
         if indent > 1 {
             return rsx! {
                 h6 {
                     class: "mt-4 mb-1 text-xl font-semibold",
                     id: "{domain}.{cid}",
-                    "{cid} {control().title()}"
+                    "{cid} {ctrl_schema.title()}"
                 }
             };
         }

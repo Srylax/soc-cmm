@@ -1,4 +1,4 @@
-use cmm_core::Domain;
+use cmm_core::cid::Domain;
 use dioxus::prelude::*;
 use dioxus_free_icons::{
     icons::fa_solid_icons::{
