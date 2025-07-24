@@ -32,6 +32,8 @@ pub enum CmmError {
     MissingAspectTitle,
     #[error("CID parsing error: No Domain in short format found")]
     CIDMissingDomain,
+    #[error("CID parsing error: Cannot contain zero in the id")]
+    CIDInvalidZero,
     #[error("CID parsing error: Identifier is malformed {0}")]
     CIDMalformed(#[from] ParseIntError),
     #[error(transparent)]

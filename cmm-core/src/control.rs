@@ -6,6 +6,7 @@ use std::ops::Not;
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Control {
     comment: Option<String>,
+    #[serde(flatten)]
     answer: Answer,
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
