@@ -1,7 +1,7 @@
 use std::{fmt::Display, str::FromStr};
 
 use serde::{Deserialize, Serialize};
-use serde_with::{DeserializeFromStr, SerializeDisplay, serde_as};
+use serde_with::{DeserializeFromStr, SerializeDisplay};
 use strum::VariantArray;
 
 use crate::CmmError;

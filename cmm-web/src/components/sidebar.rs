@@ -1,7 +1,7 @@
-use cmm_core::{cid::Domain, schema::Schema, score::Score};
+use cmm_core::{cid::Domain, score::Score};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use crate::{components::ScoreComponent, utils::{use_app_settings, use_schema, use_soc_data}};
+use crate::{components::SidebarScoreComponent, utils::{use_schema, use_soc_data}};
 use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
 
@@ -9,7 +9,6 @@ use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::Fa
 pub fn SidebarComponent(
     children: Element
 ) -> Element {
-    let settings = use_app_settings();
     let schema = use_schema();
     let data = use_soc_data();
 
@@ -75,12 +74,12 @@ pub fn SidebarComponent(
                     NavigationSectionComponent {
                         title: "{domain}",
                         href: "variant-{domain}",
-                        score: data().maturity_score_by_domain(domain),
-                        for (i, aspect) in schema.aspects(domain).iter().enumerate() {
+                        score: data().maturity_score_by_domain(&domain),
+                        for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
                             NavigationLinkComponent {
                                 title: "{i + 1}. {aspect}",
                                 href: "aspect-{domain}-{i + 1}",
-                                score: data().maturity_score_by_aspect(domain, i as u8),
+                                score: data().maturity_score_by_aspect(&domain, i as u8),
                             }
                         }
                     }
@@ -121,7 +120,7 @@ fn NavigationLinkComponent(
 fn NavigationSectionComponent(
     title: String,
     href: String,
-    score: Score,
+    score: Option<Score>,
     children: Element,
 ) -> Element {
     rsx! {

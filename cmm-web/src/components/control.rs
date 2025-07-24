@@ -48,23 +48,23 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                     }
                     div {
                         class: "",
-                        // for indent_items in indent_list(data().controls_by_aspect(domain, i)) {
-                        //     if indent_items.len() > 0 {
-                        //         div {
-                        //             for (cid, control) in indent_items {
-                        //                 if (pinned && control.bookmark()) || !pinned {
-                        //                     ControlItemComponent {
-                        //                         key: format!("{cid}{domain}"),
-                        //                         domain: *domain,
-                        //                         cid: cid.to_owned(),
-                        //                         control: control.clone(),
-                        //                         pinned
-                        //                     }
-                        //                 }
-                        //             }
-                        //         }
-                        //     }
-                        // }
+                        for indent_items in indent_list(data().controls_by_aspect(&domain, i as u8)) {
+                            if indent_items.len() > 0 {
+                                div {
+                                    for (cid, control) in indent_items {
+                                        if (pinned && control.bookmark()) || !pinned {
+                                            ControlItemComponent {
+                                                key: format!("{cid}{domain}"),
+                                                domain: *domain,
+                                                cid: cid.to_owned(),
+                                                control: control.clone(),
+                                                pinned
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

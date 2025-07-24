@@ -1,4 +1,4 @@
-use cmm_core::{data::SOCData, schema::Schema, CMM};
+use cmm_core::{data::SOCData, schema::Schema};
 use dioxus::prelude::*;
 
 use dioxus_storage::{LocalStorage, use_synced_storage};
@@ -27,7 +27,7 @@ fn App() -> Element {
         // TODO: SOCData::fromSchema?
         SOCData::new(IndexMap::new(), None)
     });
-    let mut data = use_context_provider(|| data);
+    let data = use_context_provider(|| data);
 
     let settings = use_synced_storage::<LocalStorage, _>("settings".to_owned(), || {
         AppSettings {
@@ -36,7 +36,7 @@ fn App() -> Element {
             show_scores: true
         }
     });
-    let mut settings = use_context_provider(|| settings);
+    let settings = use_context_provider(|| settings);
 
 
     // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
