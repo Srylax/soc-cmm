@@ -30,8 +30,11 @@ pub struct Schema {
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct ControlSchema {
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(default = "Vec::new")]
     guidances: Vec<String>,
-    remarks: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    remarks: Option<String>,
     title: String,
 }
 

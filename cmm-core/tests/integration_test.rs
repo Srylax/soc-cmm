@@ -3,8 +3,10 @@ use cmm_core::{
     cid::CID,
     control::Control,
     data::SOCData,
+    schema::Schema,
 };
 use indexmap::IndexMap;
+use pretty_assertions::assert_eq;
 
 /// Test if the format is as defined
 #[test]
@@ -40,4 +42,9 @@ Line breaks **woo**!
 "#;
     let parsed_cmm: SOCData = toml::from_str(src).unwrap();
     assert_eq!(src, toml::to_string(&parsed_cmm).unwrap());
+}
+
+#[test]
+fn test_soc_cmm_2_3_4() {
+    serde_json::from_str::<Schema>(include_str!("../../scheme-2.3.4.json")).unwrap();
 }
