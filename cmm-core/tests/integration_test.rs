@@ -19,7 +19,7 @@ fn test_toml_format() {
             Some(String::from("Comment!")),
         ),
     );
-    let cmm = SOCData::from(controls, Some("Hello world!".to_string()));
+    let cmm = SOCData::new(controls, Some("Hello world!".to_string()));
     assert_eq!(
         r#"notes = "Hello world!"
 

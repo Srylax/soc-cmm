@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 use strum::VariantArray;
@@ -19,14 +21,20 @@ pub struct SOCData {
 
 impl SOCData {
     /// Only used by cmm-compat
-    pub fn new(mut controls: IndexMap<CID, Control>) -> Self {
+    pub fn from_map(mut controls: HashMap<CID, Control>) -> Self {
+        let mut indexmap = IndexMap::new();
+        for (cid, control) in controls.drain() {
+            indexmap.insert(cid, control);
+        }
+        indexmap.sort_keys();
         SOCData {
-            controls: IndexMap::new(),
+            controls: indexmap,
             notes: None,
         }
     }
 
-    pub fn from(controls: IndexMap<CID, Control>, notes: Option<String>) -> Self {
+    pub fn new(mut controls: IndexMap<CID, Control>, notes: Option<String>) -> Self {
+        controls.sort_keys();
         SOCData { controls, notes }
     }
 
@@ -95,5 +103,17 @@ impl SOCData {
                 .score();
         }
         Score::new(score, Domain::VARIANTS.len() as f64 * 5.0)
+    }
+
+    pub fn capability_score_by_domain(&self, domain: &Domain) -> Score {
+        self.controls_by_domain(domain)
+            .map(|(_cid, control)| control)
+            .capability_score()
+    }
+
+    pub fn maturity_score_by_domain(&self, domain: &Domain) -> Score {
+        self.controls_by_domain(domain)
+            .map(|(_cid, control)| control)
+            .capability_score()
     }
 }
