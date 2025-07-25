@@ -116,7 +116,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                         ),
                         span {
                             class: "text-[10px] text-right",
-                            "data-aspect-value": "{round(data().maturity_score_by_aspect(&domain, i as u8).score(), 2)}",
+                            "data-aspect-value": "{round(data().maturity_score_by_aspect(&domain, i as u8 + 1).score(), 2)}",
                             "{aspect}"
                         },
                         div {
