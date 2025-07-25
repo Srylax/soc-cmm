@@ -58,6 +58,10 @@ impl CID {
     pub fn domain(&self) -> Domain {
         self.domain
     }
+
+    pub fn indent(&self) -> usize {
+        self.id.iter().filter(|&id| *id != 0u8).count()
+    }
 }
 
 impl FromStr for CID {
@@ -143,5 +147,13 @@ mod tests {
         cids.sort();
 
         assert_eq!(correct_order, cids);
+    }
+
+    #[test]
+    fn test_cid_indent() {
+        assert_eq!("People.3".parse::<CID>().unwrap().indent(), 1);
+        assert_eq!("People.3.1".parse::<CID>().unwrap().indent(), 2);
+        assert_eq!("People.3.12.1".parse::<CID>().unwrap().indent(), 3);
+    
     }
 }

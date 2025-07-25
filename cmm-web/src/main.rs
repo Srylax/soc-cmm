@@ -6,7 +6,7 @@ use indexmap::IndexMap;
 use dioxus_markdown::Markdown;
 
 use crate::components::{
-    AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent, SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent, ToggleComponent
+    AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent, SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent
 };
 
 mod components;
@@ -19,12 +19,11 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-    let schema: Schema = use_context_provider(|| {
+    let _: Schema = use_context_provider(|| {
         serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
     });
 
     let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
-        // TODO: SOCData::fromSchema?
         SOCData::new(IndexMap::new(), None)
     });
     let data = use_context_provider(|| data);
@@ -38,11 +37,7 @@ fn App() -> Element {
     });
     let settings = use_context_provider(|| settings);
 
-
-    // The `rsx!` macro lets us define HTML inside of rust. It expands to an Element with all of our HTML inside.
     rsx! {
-        // In addition to element and text (which we will see later), rsx can contain other components. In this case,
-        // we are using the `document::Link` component to add a link to our favicon and main CSS file into the head of our app.
         document::Link { rel: "apple-touch-icon", sizes: "180x180", href: asset!("/assets/apple-touch-icon.png") }
         document::Link { rel: "icon", type: "image/png", sizes: "16x16", href: asset!("/assets/favicon-16x16.png") }
         document::Link { rel: "icon", type: "image/png", sizes: "32x32", href: asset!("/assets/favicon-32x32.png") }
@@ -85,10 +80,9 @@ fn App() -> Element {
                 if data().has_pinned_items() {
                     div {
                         class: "pinned-list",
-                        // ControlsListComponent {
-                        //     cmm: cmm,
-                        //     pinned: true
-                        // },
+                        ControlsListComponent {
+                            pinned: true
+                        },
                     },
                 } else {
                     div {
@@ -104,10 +98,9 @@ fn App() -> Element {
                 },
                 div {
                     class: "mt-16",
-                    // ControlsListComponent {
-                    //     cmm: cmm,
-                    //     pinned: false
-                    // }
+                    ControlsListComponent {
+                        pinned: false
+                    }
                 }
             }
         }

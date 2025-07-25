@@ -1,4 +1,5 @@
 //! Components::UI is used to defined common UI elements like buttons, forms, and modals.
+#![allow(unused_imports)]
 
 mod toggle;
 mod star_btn;

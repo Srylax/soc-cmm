@@ -1,6 +1,5 @@
 use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control, schema::ControlSchema};
 use dioxus::prelude::*;
-use indexmap::IndexMap;
 use strum::VariantArray;
 
 use crate::{components::{SmallButtonComponent, StarButtonComponent}, utils::{use_schema, use_soc_data}};
@@ -10,13 +9,12 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
     let data = use_soc_data();
     let schema = use_schema();
 
-    let indent_list = |controls: &IndexMap<CID, Control>| -> Vec<Vec<(CID, Control)>> {
+    let indent_list = |controls: Vec<(&CID, &Control)>| -> Vec<Vec<(CID, Control)>> {
         let mut output: Vec<Vec<(CID, Control)>> = vec![];
         let mut current_list: Vec<(CID, Control)> = vec![];
-        let mut current_indent: usize = 0;
+        let mut current_indent: usize = 1;
         for (cid, control) in controls {
-            // TODO: use the array?
-            let indent = cid.to_string().chars().filter(|c| *c == '.').count();
+            let indent = cid.indent();
             if indent != current_indent {
                 current_indent = indent;
                 output.push(current_list.clone());
@@ -47,8 +45,7 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                         }
                     }
                     div {
-                        class: "",
-                        for indent_items in indent_list(data().controls_by_aspect(&domain, i as u8)) {
+                        for indent_items in indent_list(data().controls_by_aspect(&domain, i as u8).collect()) {
                             if indent_items.len() > 0 {
                                 div {
                                     for (cid, control) in indent_items {

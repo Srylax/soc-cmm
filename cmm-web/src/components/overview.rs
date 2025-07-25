@@ -47,7 +47,6 @@ pub fn OverviewComponent() -> Element {
 
 #[component]
 fn DomainOverviewComponent(domain: Domain) -> Element {
-    let settings = use_app_settings();
     let data = use_soc_data();
     let schema = use_schema();
 
@@ -80,7 +79,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                     if overall_capability_score.score().is_normal() {
                         div {
                             class: "text-xl text-center grid",
-                            title: "{overall_capability_score.score()} / {overall_capability_score.max()}",
+                            title: "{overall_capability_score}",
                             small {
                                 class: "text-xs",
                                 "Capability"
@@ -93,7 +92,7 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                     }
                     div {
                         class: "text-xl text-center grid",
-                        title: "{overall_score.score()} / {overall_score.max()}",
+                        title: "{overall_score}",
                         small {
                             class: "text-xs",
                             "Maturity"

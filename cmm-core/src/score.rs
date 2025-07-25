@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::control::Control;
 
 pub trait ScoreCalculator {
@@ -67,6 +69,12 @@ impl Score {
 
     pub fn max(&self) -> f64 {
         self.max
+    }
+}
+
+impl Display for Score {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}/{}", &self.score().round(), &self.max().round())
     }
 }
 
