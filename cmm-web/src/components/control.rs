@@ -88,7 +88,7 @@ fn ControlItemComponent(
                 h6 {
                     class: "mt-4 mb-1 text-xl font-semibold",
                     id: "{domain}.{cid}",
-                    "{cid} {ctrl_schema.title()}"
+                    "{cid().as_short_string()} {ctrl_schema.title()}"
                 }
             };
         }
@@ -96,7 +96,7 @@ fn ControlItemComponent(
             h5 {
                 class: "mt-4 mb-1 text-xl font-semibold",
                 id: "{domain}.{cid}",
-                "{cid} {ctrl_schema.title()}"
+                "{cid().as_short_string()} {ctrl_schema.title()}"
             }
         };
     }
@@ -107,7 +107,7 @@ fn ControlItemComponent(
             tabindex: "-1",
             details {
                 class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 not-open:hover:bg-slate-200 duration-100ms ease-in-out group group/details",
-                id: "{domain}.{cid}",
+                id: "{cid}",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
                     span {
@@ -116,7 +116,7 @@ fn ControlItemComponent(
                         },
                         span {
                             class: "opacity-70 mr-2",
-                            "{cid}"
+                            "{cid().as_short_string()}"
                         },
                         "{ctrl_schema.title()}"
                     },
@@ -186,7 +186,7 @@ fn ControlInputComponent(
             div {
                 input {
                     class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full block",
-                    type: "text",
+                    r#type: "text",
                     value: "{content}",
                     oninput: move |evt| {
                         data.write().set_answer(
@@ -214,8 +214,8 @@ fn ControlInputComponent(
                         input {
                             class: "appearance-none opacity-0",
                             tabindex: "0",
-                            type: "radio",
-                            name:  "{domain}.{&cid}.{pinned}",
+                            r#type: "radio",
+                            name:  "{cid}.{pinned}",
                             checked: content == &(value == "True"),
                             onclick: move |_| {
                                 data.write().set_answer(
@@ -251,8 +251,8 @@ fn ControlInputComponent(
                     input {
                         class: "appearance-none opacity-0",
                         tabindex: "0",
-                        type: "radio",
-                        name:  "{domain}.{cid.clone()}.{pinned}",
+                        r#type: "radio",
+                        name:  "{cid}.{pinned}",
                         value: variant.to_owned(),
                         checked: control().answer().variant_eq(variant),
                         onclick: move |_evt| {

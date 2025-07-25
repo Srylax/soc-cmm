@@ -15,10 +15,20 @@ label:after {
     @apply block opacity-75 text-sm;
 }
 
+.indent-3,
 .indent-2 {
-    @apply pl-3 ml-1 border-l-1 dark:border-slate-600 border-slate-300;
+    @apply ml-1 border-l-1 dark:border-slate-600 border-slate-300;
 }
 
+.indent-2 {
+    @apply pl-3;
+}
+
+.indent-3 {
+    @apply pl-6;
+}
+
+.indent-3 + div:not(.indent-3),
 .indent-2 + div:not(.indent-2) {
     @apply mt-2;
 }
