@@ -1,5 +1,6 @@
 use std::{fmt::Display, str::FromStr};
 
+use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use serde_with::{DeserializeFromStr, SerializeDisplay};
 use strum::VariantArray;
@@ -39,14 +40,7 @@ pub struct CID {
 
 impl Display for CID {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let mut cid = self.domain.to_string();
-        for id in self.id.iter() {
-            if *id != 0 {
-                cid.push_str(&format!(".{id}"));
-            }
-        }
-
-        write!(f, "{cid}")
+        write!(f, "{}.{}", self.domain, self.as_short_string())
     }
 }
 
@@ -61,6 +55,10 @@ impl CID {
 
     pub fn indent(&self) -> usize {
         self.id.iter().filter(|&id| *id != 0u8).count()
+    }
+
+    pub fn as_short_string(&self) -> String {
+        self.id.iter().filter(|&id| *id != 0u8).join(".")
     }
 }
 
@@ -147,6 +145,13 @@ mod tests {
         cids.sort();
 
         assert_eq!(correct_order, cids);
+    }
+
+    #[test]
+    fn test_cid_as_short_string() {
+        assert_eq!("People.3".parse::<CID>().unwrap().as_short_string(), "3".to_string());
+        assert_eq!("People.3.1".parse::<CID>().unwrap().as_short_string(), "3.1".to_string());
+        assert_eq!("People.3.12.1".parse::<CID>().unwrap().as_short_string(), "3.12.1".to_string());
     }
 
     #[test]
