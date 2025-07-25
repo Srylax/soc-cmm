@@ -51,7 +51,7 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                                     for (cid, control) in indent_items {
                                         if (pinned && control.bookmark()) || !pinned {
                                             ControlItemComponent {
-                                                key: format!("{cid}{domain}"),
+                                                key: "{cid}",
                                                 domain: *domain,
                                                 cid: cid.to_owned(),
                                                 control: control.clone(),
@@ -76,7 +76,7 @@ fn ControlItemComponent(
     control: ReadOnlySignal<Control>,
     pinned: bool,
 ) -> Element {
-    let data = use_soc_data();
+    let mut data = use_soc_data();
     let schema = use_schema();
 
     let ctrl_schema = schema.control_schema(&cid()).unwrap();
@@ -126,7 +126,7 @@ fn ControlItemComponent(
                             class: "flex",
                             StarButtonComponent {
                                 onclick: move |_| {
-                                    data().toggle_bookmark(&cid());
+                                    data.write().toggle_bookmark(&cid());
                                 },
                                 active: control().bookmark()
                             },
@@ -161,7 +161,7 @@ fn ControlItemComponent(
                             class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full",
                             value: control().comment().clone().unwrap_or(String::new()),
                             onchange: move |evt| {
-                                data().set_comment(&cid(), Some(evt.value()));
+                                data.write().set_comment(&cid(), Some(evt.value()));
                             }
                         },
                     }
@@ -179,7 +179,7 @@ fn ControlInputComponent(
     control_schema: ControlSchema,
     pinned: bool
 ) -> Element {
-    let data = use_soc_data();
+    let mut data = use_soc_data();
 
     if let Answer::Any(content) = control().answer() {
         return rsx! {
@@ -189,7 +189,7 @@ fn ControlInputComponent(
                     type: "text",
                     value: "{content}",
                     oninput: move |evt| {
-                        data().set_answer(
+                        data.write().set_answer(
                             &cid(), 
                             Answer::Any(evt.value())
                         );
@@ -218,7 +218,7 @@ fn ControlInputComponent(
                             name:  "{domain}.{&cid}.{pinned}",
                             checked: content == &(value == "True"),
                             onclick: move |_| {
-                                data().set_answer(
+                                data.write().set_answer(
                                     &cid(), 
                                     Answer::Bool(value == "True")
                                 );
@@ -256,7 +256,7 @@ fn ControlInputComponent(
                         value: variant.to_owned(),
                         checked: control().answer().variant_eq(variant),
                         onclick: move |_evt| {
-                            data().set_answer(
+                            data.write().set_answer(
                                 &cid(), 
                                 control()
                                     .answer()
@@ -278,7 +278,7 @@ fn ControlItemValuePreviewComponent(
     cid: ReadOnlySignal<CID>,
     control: ReadOnlySignal<Control>,
 ) -> Element {
-    let data = use_soc_data();
+    let mut data = use_soc_data();
 
     let Answer::Bool(_) = control().answer() else {
         return rsx! {
@@ -292,7 +292,7 @@ fn ControlItemValuePreviewComponent(
         SmallButtonComponent {
             onclick: move |evt: MouseEvent| {
                 evt.prevent_default();
-                data()
+                data.write()
                     .set_answer(
                         &cid(), 
                         Answer::Bool(

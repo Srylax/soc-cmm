@@ -12,7 +12,6 @@ pub struct AppSettings {
 
 #[component]
 pub fn SettingsComponent(settings: Signal<AppSettings>) -> Element {
-
     use_effect(move || {
         if settings().darkmode {
             document::eval("document.body.classList.add('dark');");
@@ -25,21 +24,21 @@ pub fn SettingsComponent(settings: Signal<AppSettings>) -> Element {
         ToggleComponent {
             checked: settings().darkmode,
             onclick: move |_| {
-                settings().darkmode = !settings().darkmode;
+                settings.write().darkmode = !settings().darkmode;
             },
             label: "Darkmode"
         },
         ToggleComponent {
             checked: settings().show_scores,
             onclick: move |_| {
-                settings().show_scores = !settings().show_scores;
+                settings.write().show_scores = !settings().show_scores;
             },
             label: "Show Scores"
         },
         ToggleComponent {
             checked: settings().show_percentage,
             onclick: move |_| {
-                settings().show_percentage = !settings().show_percentage;
+                settings.write().show_percentage = !settings().show_percentage;
             },
             label: "Show Percentage"
         },
