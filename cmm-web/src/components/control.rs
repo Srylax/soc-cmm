@@ -1,6 +1,7 @@
 use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control, schema::ControlSchema};
 use dioxus::prelude::*;
 use strum::VariantArray;
+use dioxus_free_icons::{icons::fa_solid_icons::FaCircleInfo, Icon};
 
 use crate::{components::{SmallButtonComponent, StarButtonComponent}, utils::{use_schema, use_soc_data}};
 
@@ -136,6 +137,20 @@ fn ControlItemComponent(
                                 control
                             }
                         }
+                    }
+                },
+                if ctrl_schema.remarks().is_some() {
+                    div {
+                        class: "mt-4 opacity-90 rounded py-2 px-3 dark:bg-slate-900 bg-slate-200 flex gap-x-2",
+                        div {
+                            class: "mt-0.5 block",
+                            Icon {
+                                height: 18,
+                                width: 18,
+                                icon: FaCircleInfo
+                            }
+                        },
+                        "{ctrl_schema.remarks().clone().unwrap()}"
                     }
                 },
                 div {
