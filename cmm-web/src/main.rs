@@ -2,7 +2,6 @@ use cmm_core::{data::SOCData, schema::Schema};
 use dioxus::prelude::*;
 
 use dioxus_storage::{LocalStorage, use_synced_storage};
-use indexmap::IndexMap;
 use dioxus_markdown::Markdown;
 
 use crate::components::{
@@ -24,7 +23,7 @@ fn App() -> Element {
     });
 
     let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
-        SOCData::new(IndexMap::new(), None)
+        toml::from_str(include_str!("../../data-2.3.4.toml")).unwrap()
     });
     let data = use_context_provider(|| data);
 
@@ -69,7 +68,7 @@ fn App() -> Element {
                     }
                 }
             },
-            ChartComponent {},
+            ChartComponent { },
             OverviewComponent { },
             div {
                 class: "max-w-3xl mx-auto",

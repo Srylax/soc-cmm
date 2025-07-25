@@ -12,7 +12,7 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
     let indent_list = |controls: Vec<(&CID, &Control)>| -> Vec<Vec<(CID, Control)>> {
         let mut output: Vec<Vec<(CID, Control)>> = vec![];
         let mut current_list: Vec<(CID, Control)> = vec![];
-        let mut current_indent: usize = 1;
+        let mut current_indent: usize = 0;
         for (cid, control) in controls {
             let indent = cid.indent();
             if indent != current_indent {
@@ -45,7 +45,7 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                         }
                     }
                     div {
-                        for indent_items in indent_list(data().controls_by_aspect(&domain, i as u8).collect()) {
+                        for indent_items in indent_list(data().controls_by_aspect(&domain, i as u8 + 1).collect()) {
                             if indent_items.len() > 0 {
                                 div {
                                     for (cid, control) in indent_items {
@@ -81,7 +81,7 @@ fn ControlItemComponent(
 
     let ctrl_schema = schema.control_schema(&cid()).unwrap();
     
-    let indent = cid().to_string().chars().filter(|c| *c == '.').count();
+    let indent = cid().indent() - 1;
     if let Answer::Title = control().answer() {
         if indent > 1 {
             return rsx! {

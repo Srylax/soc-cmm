@@ -136,21 +136,21 @@ impl Answer {
             Answer::Satisfaction(_) | Answer::Occurence(_) | Answer::Detailed(_)
         )
     }
-    pub fn maturity_score(&self) -> Option<u8> {
+    pub fn maturity_score(&self) -> Option<u32> {
         match self {
-            Answer::Satisfaction(satisfaction) => Some(*satisfaction as u8),
-            Answer::Occurence(occurence) => Some(*occurence as u8),
-            Answer::Detailed(detailed) => Some(*detailed as u8),
+            Answer::Satisfaction(satisfaction) => Some(*satisfaction as u32),
+            Answer::Occurence(occurence) => Some(*occurence as u32),
+            Answer::Detailed(detailed) => Some(*detailed as u32),
             _ => None,
         }
     }
-    pub fn capability_score(&self) -> Option<u8> {
+    pub fn capability_score(&self) -> Option<u32> {
         match self {
-            Answer::DetailedOptional(detailed_optional) => Some(*detailed_optional as u8),
+            Answer::DetailedOptional(detailed_optional) => Some(*detailed_optional as u32),
             _ => None,
         }
     }
-    pub fn max_score(&self) -> Option<u8> {
+    pub fn max_score(&self) -> Option<u32> {
         match self {
             Answer::Satisfaction(_)
             | Answer::Occurence(_)

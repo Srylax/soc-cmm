@@ -79,7 +79,7 @@ pub fn SidebarComponent(
                             NavigationLinkComponent {
                                 title: "{i + 1}. {aspect}",
                                 href: "aspect-{domain}-{i + 1}",
-                                score: data().maturity_score_by_aspect(&domain, i as u8),
+                                score: data().maturity_score_by_aspect(&domain, i as u8 + 1),
                             }
                         }
                     }

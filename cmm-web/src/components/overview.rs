@@ -111,8 +111,8 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                         key: format!(
                             "{}_{}_{}", 
                             aspect, 
-                            data().maturity_score_by_aspect(domain, i).score(), 
-                            data().capability_score_by_aspect(domain, i).score()
+                            data().maturity_score_by_aspect(domain, i + 1).score(), 
+                            data().capability_score_by_aspect(domain, i + 1).score()
                         ),
                         span {
                             class: "text-[10px] text-right",
@@ -123,19 +123,19 @@ fn DomainOverviewComponent(domain: Domain) -> Element {
                             div {
                                 class: "not-print:hidden",
                                 ScoreComponent { 
-                                    score: data().maturity_score_by_aspect(&domain, i as u8), 
+                                    score: data().maturity_score_by_aspect(&domain, i as u8 + 1), 
                                     precision: 2 
                                 }
                             },
                             BadToGoodProgressBarComponent {
-                                score: data().maturity_score_by_aspect(&domain, i as u8),
+                                score: data().maturity_score_by_aspect(&domain, i as u8 + 1),
                                 tooltip_prefix: "{aspect} maturity: "
                             },
-                            if data().capability_score_by_aspect(&domain, i as u8).score().is_normal() {
+                            if data().capability_score_by_aspect(&domain, i as u8 + 1).score().is_normal() {
                                 div {
                                     class: "mt-1",
                                     BadToGoodProgressBarComponent {
-                                        score: data().capability_score_by_aspect(&domain, i as u8),
+                                        score: data().capability_score_by_aspect(&domain, i as u8 + 1),
                                         tooltip_prefix: "{aspect} capability: "
                                     }
                                 }

@@ -17,11 +17,11 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
         let total_score = controls_in_scope
             .iter()
             .flat_map(|cap| cap.answer().capability_score())
-            .sum::<u8>() as f64;
+            .sum::<u32>() as f64;
         let max_score = controls_in_scope
             .iter()
             .flat_map(|cap| cap.answer().max_score())
-            .sum::<u8>() as f64;
+            .sum::<u32>() as f64;
 
         Score::new(5.0 * (total_score / max_score), 5.0)
     }
@@ -35,11 +35,11 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
         let total_score = controls_in_scope
             .iter()
             .flat_map(|cap| cap.answer().maturity_score())
-            .sum::<u8>() as f64;
+            .sum::<u32>() as f64;
         let max_score = controls_in_scope
             .iter()
             .flat_map(|cap| cap.answer().max_score())
-            .sum::<u8>() as f64;
+            .sum::<u32>() as f64;
 
         Score::new(5.0 * (total_score / max_score), 5.0)
     }
