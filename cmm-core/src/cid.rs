@@ -52,7 +52,7 @@ impl Display for CID {
 
 impl CID {
     pub fn aspect_id(&self) -> u8 {
-        self.id[1]
+        self.id[0]
     }
 
     pub fn domain(&self) -> Domain {
@@ -154,6 +154,5 @@ mod tests {
         assert_eq!("People.3".parse::<CID>().unwrap().indent(), 1);
         assert_eq!("People.3.1".parse::<CID>().unwrap().indent(), 2);
         assert_eq!("People.3.12.1".parse::<CID>().unwrap().indent(), 3);
-    
     }
 }

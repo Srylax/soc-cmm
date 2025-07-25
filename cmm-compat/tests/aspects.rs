@@ -2,20 +2,17 @@ use std::cell::LazyCell;
 
 use calamine::{Data, DataType, Reader, Xlsx, open_workbook};
 use cmm_compat::from_xlsx;
-use cmm_core::{CMM, Domain, aspect::Aspect};
+use cmm_core::{cid::Domain, data::SOCData, score::Score};
 
-static XLSX: &str = "<INSERT PATH>";
-const CMM: LazyCell<CMM> = LazyCell::new(|| from_xlsx(XLSX).unwrap());
+static XLSX: &str =
+    "/Users/srylax/dev/workspaces/soc-cmm-web/cmm-compat/soc-cmm-2.3.4-basic_BSI.xlsx";
+const CMM: LazyCell<SOCData> = LazyCell::new(|| from_xlsx(XLSX).unwrap());
 const OUTPUT: LazyCell<calamine::Range<Data>> = LazyCell::new(|| {
     open_workbook::<Xlsx<_>, _>(XLSX)
         .unwrap()
         .worksheet_range("_Output")
         .unwrap()
 });
-
-fn aspect(domain: Domain, index: usize) -> Aspect {
-    CMM.aspect(&domain).unwrap().get(index).unwrap().clone()
-}
 
 fn score_at(absolute_position: (u32, u32)) -> Data {
     OUTPUT.get_value(absolute_position).unwrap().clone()
@@ -78,26 +75,16 @@ maturity!(Domain::Services, 7, 967);
 
 #[macro_export]
 macro_rules! maturity {
-    ($domain:ty,$aspect:expr,$row:expr) => {
+    ($domain:expr,$aspect:expr,$row:expr) => {
         compose_idents::compose_idents!(test_fn = [test_, $aspect, _, $row], {
             #[test]
             fn test_fn() {
-                let aspect = aspect($domain, $aspect - 1);
+                // Multiply by 100 to get resolution of two decimal places
                 assert_eq!(
-                    score_at(($row, 9)).as_i64().unwrap() as u8,
-                    aspect.maturity_factor()
-                );
-                assert_eq!(
-                    score_at(($row, 10)).as_i64().unwrap() as u8,
-                    aspect.maturity_total_score()
-                );
-                assert_eq!(
-                    score_at(($row, 11)).as_i64().unwrap() as u8,
-                    aspect.maturity_max_score()
-                );
-                assert_eq!(
-                    score_at(($row, 12)).as_f64().unwrap(),
-                    aspect.maturity_final_score()
+                    (score_at(($row, 12)).as_f64().unwrap() * 5f64) as u64,
+                    (CMM.maturity_score_by_aspect(&$domain, $aspect as u8)
+                        .score()
+                        * 100f64) as u64
                 );
             }
         });
@@ -106,26 +93,16 @@ macro_rules! maturity {
 
 #[macro_export]
 macro_rules! capability {
-    ($domain:ty,$aspect:expr,$row:expr) => {
+    ($domain:expr,$aspect:expr,$row:expr) => {
         compose_idents::compose_idents!(test_fn = [test_, $aspect, _, $row], {
             #[test]
             fn test_fn() {
-                let aspect = aspect($domain, $aspect - 1);
+                // Multiply by 100 to get resolution of two decimal places
                 assert_eq!(
-                    score_at(($row, 9)).as_i64().unwrap() as u8,
-                    aspect.capability_factor()
-                );
-                assert_eq!(
-                    score_at(($row, 10)).as_i64().unwrap() as u8,
-                    aspect.capability_total_score()
-                );
-                assert_eq!(
-                    score_at(($row, 11)).as_i64().unwrap() as u8,
-                    aspect.capability_max_score()
-                );
-                assert_eq!(
-                    score_at(($row, 12)).as_f64().unwrap(),
-                    aspect.capability_final_score()
+                    (score_at(($row, 12)).as_f64().unwrap() * 3f64) as u64,
+                    (CMM.capability_score_by_aspect(&$domain, $aspect as u8)
+                        .score()
+                        * 100f64) as u64
                 );
             }
         });

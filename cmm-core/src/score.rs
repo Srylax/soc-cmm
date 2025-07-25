@@ -14,6 +14,8 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
             .filter(|cap| cap.answer().capability_in_scope() && !cap.nist_only())
             .collect();
 
+        let count = controls_in_scope.len() as f64;
+
         let total_score = controls_in_scope
             .iter()
             .flat_map(|cap| cap.answer().capability_score())
@@ -23,7 +25,7 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
             .flat_map(|cap| cap.answer().max_score())
             .sum::<u32>() as f64;
 
-        Score::new(5.0 * (total_score / max_score), 5.0)
+        Score::new(3.0 * ((total_score - count) / (max_score - count)), 3.0)
     }
 
     fn maturity_score(self) -> Score {
@@ -31,6 +33,8 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
             .into_iter()
             .filter(|cap| cap.answer().maturity_in_scope() && !cap.nist_only())
             .collect();
+
+        let count = controls_in_scope.len() as f64;
 
         let total_score = controls_in_scope
             .iter()
@@ -41,11 +45,11 @@ impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
             .flat_map(|cap| cap.answer().max_score())
             .sum::<u32>() as f64;
 
-        Score::new(5.0 * (total_score / max_score), 5.0)
+        Score::new(5.0 * ((total_score - count) / (max_score - count)), 5.0)
     }
 }
 
-/// Score can be either over an Range of controls (0-5max)
+/// Score can be either over an Range of controls (0-5max / 0-3max)
 /// Or over the whole soc-cmm itself, each domain calculated seperately
 /// 5 domains 0-5 = 0-25max
 #[derive(Debug, PartialEq, Clone, Copy)]

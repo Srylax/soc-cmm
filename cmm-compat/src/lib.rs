@@ -26,10 +26,10 @@ pub fn from_xlsx<P: AsRef<Path>>(path: P) -> anyhow::Result<SOCData> {
     extend_answer_from_form_controls(&mut controls, &output, path)?;
     nist_compat(&mut controls);
 
-    let controls = controls
-        .into_iter()
-        .filter(|(_cid, control)| !control.is_default())
-        .collect();
+    // let controls = controls
+    //     .into_iter()
+    //     .filter(|(_cid, control)| !control.is_default())
+    //     .collect();
 
     Ok(SOCData::from_map(controls))
 }
