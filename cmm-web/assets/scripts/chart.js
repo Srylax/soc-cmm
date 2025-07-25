@@ -26,6 +26,12 @@
             display: false,
           },
         },
+        scales: {
+          r: {
+            max: 5,
+            min: 0,
+          },
+        },
         aspectRatio: 2,
       },
       data: {
@@ -34,12 +40,6 @@
           {
             data: [],
             fill: true,
-            scales: {
-              r: {
-                max: 5,
-                min: 0,
-              },
-            },
           },
         ],
       },
