@@ -63,8 +63,8 @@ fn App() -> Element {
             if data().notes().is_some() {
                 div {
                     class: "max-w-2xl mx-auto",
-                    Markdown { 
-                        src: data().notes().clone().unwrap() 
+                    Markdown {
+                        src: data().notes().clone().unwrap()
                     }
                 }
             },

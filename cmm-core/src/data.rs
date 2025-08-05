@@ -59,6 +59,10 @@ impl SOCData {
         self.controls.get_mut(cid)
     }
 
+    pub fn control(&self, cid: &CID) -> Option<&Control> {
+        self.controls.get(cid)
+    }
+
     pub fn set_answer(&mut self, cid: &CID, answer: Answer) {
         if let Some(control) = self.control_mut(cid) {
             control.set_answer(answer);

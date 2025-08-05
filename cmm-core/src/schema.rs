@@ -15,6 +15,7 @@
 /// }
 use std::collections::HashMap;
 
+use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 
 use crate::cid::{CID, Domain};
@@ -38,6 +39,17 @@ impl Schema {
 
     pub fn control_schema(&self, cid: &CID) -> Option<&ControlSchema> {
         self.control_schemas.get(cid)
+    }
+
+    pub fn controls_by_aspect(
+        &self,
+        domain: &Domain,
+        aspect_id: u8
+    ) -> impl Iterator<Item = (&CID, &ControlSchema)> {
+        self.control_schemas
+            .iter()
+            .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
+            .filter(move |(cid, _control)| cid.aspect_id() == aspect_id && cid.domain().eq(domain))
     }
 }
 
