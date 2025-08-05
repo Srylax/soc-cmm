@@ -94,7 +94,7 @@ fn App() -> Element {
                         key: "no-pinned-{data().has_pinned_items()}",
                         "No pinned items. Click",
                         div {
-                            class: "inline-block ml-2 translate-y-[2px] pointer-events-none",
+                            class: "inline-block mx-2 translate-y-[2px] pointer-events-none",
                             StarButtonComponent { active: false },
                         },
                         "on a control to pin it!"

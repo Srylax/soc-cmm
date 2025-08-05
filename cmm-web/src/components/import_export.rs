@@ -19,6 +19,8 @@ pub fn ImportExportComponent(data: Signal<SOCData>, cmp_data: Signal<SOCData>) -
 
     let copy_to_clipboard = move |_: MouseEvent| async move {
         let contents = toml::to_string(&data()).unwrap();
+        tracing::debug!("{}", contents);
+        // does not work in dev mode
         let clipboard = web_sys::window().unwrap().navigator().clipboard();
         if JsFuture::from(clipboard.write_text(&contents)).await.is_ok() {
             copied.set(true);

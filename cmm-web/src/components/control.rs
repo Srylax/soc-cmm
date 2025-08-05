@@ -156,7 +156,9 @@ fn ControlItemComponent(
                                 span {
                                     class: "opacity-60",
                                     SmallButtonComponent {
-                                        "{compare_data().control(&cid).unwrap().answer()}"
+                                        ValueOrPlaceholderComponent {
+                                            value: "{compare_data().control(&cid).unwrap().answer()}"
+                                        }
                                     },
                                 }
                                 Icon {
@@ -226,6 +228,24 @@ fn ControlItemComponent(
                 }
             }
         }
+    }
+}
+
+
+#[component]
+fn ValueOrPlaceholderComponent(
+    value: String
+) -> Element {
+    if value.is_empty() {
+        return rsx!{
+            span {
+                class: "opacity-70 italic",
+                "<empty>"
+            }
+        }
+    }
+    rsx!{
+        "{value}"
     }
 }
 
@@ -334,7 +354,9 @@ fn ControlItemValuePreviewComponent(
     let Answer::Bool(_) = control().answer() else {
         return rsx! {
             SmallButtonComponent {
-                "{control().answer()}"
+                ValueOrPlaceholderComponent {
+                    value:"{control().answer()}"
+                }
             }
         };
     };
