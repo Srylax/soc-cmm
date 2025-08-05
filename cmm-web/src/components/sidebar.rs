@@ -52,13 +52,16 @@ pub fn SidebarComponent(
         nav {
             class: "fixed z-20 h-full left-0 top-0 max-w-[280px] w-full overflow-auto bg-white dark:bg-slate-900 no-scrollbar print:hidden",
             class: if !sidebar_open() { "not-lg:invisible not-lg:hidden" },
-            div {
-                class: "p-4 grid gap-y-3",
-                span {
-                    class: "text-sm font-semibold",
+            details { 
+                class: "p-4",
+                summary {
+                    class: "text-sm font-semibold cursor-pointer",
                     "Settings"
                 },
-                {children},
+                div {
+                    class: "grid gap-y-2 mt-2",
+                    {children},
+                }
             },
             div {
                 class: "p-4",
