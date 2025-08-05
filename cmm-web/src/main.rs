@@ -48,6 +48,7 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: asset!("/assets/tailwind.css") }
         document::Link { rel: "manifest", href: asset!("/assets/site.webmanifest")}
         document::Script { src: asset!("/assets/scripts/highlight-nav.js") }
+        document::Script { src: asset!("/assets/scripts/scroll.js") }
         document::Script { src: "https://cdn.jsdelivr.net/npm/chart.js" }
         document::Script { src: asset!("/assets/scripts/chart.js"), defer: true }
 
