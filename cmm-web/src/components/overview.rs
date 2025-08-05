@@ -1,11 +1,12 @@
-use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_soc_data}};
-use cmm_core::cid::Domain;
+use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_soc_compare_data, use_soc_data}};
+use cmm_core::{cid::Domain, data::SOCData};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
 pub fn OverviewComponent() -> Element {
     let data = use_soc_data();
+    let cmp_data = use_soc_compare_data();
     let settings = use_app_settings();
 
     rsx! {
@@ -18,26 +19,32 @@ pub fn OverviewComponent() -> Element {
             },
             div {
                 class: "grid grid-cols-2 gap-4",
-                div {
-                    class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center",
+                if settings().show_comparison {
                     div {
-                        class: "text-slate-50 text-8xl font-extrabold text-shadow",
-                        ScoreComponent { 
-                            score: data().maturity_score_overall(),
-                            precision: 1
-                        }
+                        class: "text-center",
+                        "comparison"
                     },
                     div {
-                        class: "text-slate-50 text-right opacity-80",
-                        "SOC maturity score",
-                        if !settings().show_percentage {
-                            " (max {round(data().maturity_score_overall().max(), 1)})"
-                        }
+                        class: "text-center",
+                        "current"
+                    },
+                    OverallScoreComponent {
+                        data: cmp_data
                     }
-                }
+                },
+                OverallScoreComponent {
+                    data
+                },
                 for domain in Domain::VARIANTS {
+                    if settings().show_comparison {
+                        DomainOverviewComponent { 
+                            domain: *domain,
+                            data: cmp_data
+                        },
+                    },
                     DomainOverviewComponent { 
                         domain: *domain,
+                        data: data
                     }
                 }
             }
@@ -46,8 +53,37 @@ pub fn OverviewComponent() -> Element {
 }
 
 #[component]
-fn DomainOverviewComponent(domain: Domain) -> Element {
-    let data = use_soc_data();
+fn OverallScoreComponent(
+    data: ReadOnlySignal<SOCData>
+) -> Element {
+    let settings = use_app_settings();
+
+    rsx! {
+        div {
+            class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center min-h-64",
+            div {
+                class: "text-slate-50 text-8xl font-extrabold text-shadow",
+                ScoreComponent { 
+                    score: data().maturity_score_overall(),
+                    precision: 1
+                }
+            },
+            div {
+                class: "text-slate-50 text-right opacity-80",
+                "SOC maturity score",
+                if !settings().show_percentage {
+                    " (max {round(data().maturity_score_overall().max(), 1)})"
+                }
+            }
+        }
+    }
+}
+
+#[component]
+fn DomainOverviewComponent(
+    domain: Domain,
+    data: ReadOnlySignal<SOCData>
+) -> Element {
     let schema = use_schema();
 
     let overall_score = data().maturity_score_by_domain(&domain);
