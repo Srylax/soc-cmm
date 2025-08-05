@@ -16,7 +16,11 @@ pub fn round(float: f64, precision: u32) -> f64 {
 }
 
 pub fn use_soc_data() -> Signal<SOCData> {
-    use_context::<Signal<SOCData>>()
+    use_context::<(Signal<SOCData>, Signal<SOCData>)>().0
+}
+
+pub fn use_soc_compare_data() -> Signal<SOCData> {
+    use_context::<(Signal<SOCData>, Signal<SOCData>)>().1
 }
 
 pub fn use_app_settings() -> Signal<AppSettings> {

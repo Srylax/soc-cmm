@@ -1,9 +1,9 @@
 use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control, schema::ControlSchema};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use dioxus_free_icons::{icons::fa_solid_icons::FaCircleInfo, Icon};
+use dioxus_free_icons::{icons::fa_solid_icons::{FaArrowRightLong, FaCircleInfo}, Icon};
 
-use crate::{components::{DomainIconComponent, SmallButtonComponent, StarButtonComponent}, utils::{use_schema, use_soc_data}};
+use crate::{components::{DomainIconComponent, SmallButtonComponent, StarButtonComponent}, utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data}};
 
 #[component]
 pub fn ControlsListComponent(pinned: bool) -> Element {
@@ -82,6 +82,8 @@ fn ControlItemComponent(
 ) -> Element {
     let mut data = use_soc_data();
     let schema = use_schema();
+    let compare_data = use_soc_compare_data();
+    let settings = use_app_settings();
 
     let ctrl_schema = schema.control_schema(&cid).unwrap();
 
@@ -113,9 +115,16 @@ fn ControlItemComponent(
         return rsx!();
     }
 
+    let show_comparison = |cid: &CID| -> bool {
+        let Some(cmp_ctrl) = compare_data().control(&cid).cloned() else {
+            return false;
+        };
+        cmp_ctrl.answer().ne(control.answer())
+    };
+
     rsx! {
         div {
-            class: "indent-{indent} pt-1 pb-0.5",
+            class: "indent-{indent} pt-1 pb-0.5 relative",
             tabindex: "-1",
             details {
                 class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 not-open:hover:bg-slate-200 duration-100ms ease-in-out group group/details",
@@ -136,17 +145,32 @@ fn ControlItemComponent(
                         class: if !control.bookmark() { "bookmark-button" },
                         div {
                             key: "{cid}_{control.bookmark()}_{control.answer()}",
-                            class: "flex",
+                            class: "flex gap-2 items-center",
                             StarButtonComponent {
                                 onclick: move |_| {
                                     data.write().toggle_bookmark(&cid);
                                 },
                                 active: control.bookmark()
                             },
+                            if show_comparison(&cid) && settings().show_comparison {
+                                span {
+                                    class: "opacity-60",
+                                    SmallButtonComponent {
+                                        "{compare_data().control(&cid).unwrap().answer()}"
+                                    },
+                                }
+                                Icon {
+                                    class: "opacity-60",
+                                    icon: FaArrowRightLong,
+                                    width: 18,
+                                    height: 18,
+                                }
+                            },
                             ControlItemValuePreviewComponent {
                                 cid,
-                                control: control.clone()
-                            }
+                                control: control.clone(),
+                            },
+
                         }
                     }
                 },
@@ -190,6 +214,14 @@ fn ControlItemComponent(
                                 data.write().set_comment(&cid, Some(evt.value()));
                             }
                         },
+                    }
+                }
+            },
+            if show_comparison(&cid) && settings().show_comparison {
+                div {
+                    class: "absolute h-full pt-1 pb-0.5 w-1 flex items-center -right-2 top-0 translate-x-full",
+                    span {
+                        class: "w-2 h-full bg-blue-500 rounded-xs"
                     }
                 }
             }

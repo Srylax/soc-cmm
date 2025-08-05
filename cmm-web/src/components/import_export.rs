@@ -3,19 +3,18 @@ use dioxus::prelude::*;
 use dioxus_free_icons::{icons::fa_solid_icons::FaCopy, Icon};
 use wasm_bindgen_futures::JsFuture;
 
-#[component]
-pub fn ImportExportComponent(data: Signal<SOCData>) -> Element {
-    let mut copied = use_signal(|| false);
+use crate::utils::use_app_settings;
 
-    let upload_file_handler = move |evt: FormEvent| async move {
-        if let Some(file_engine) = evt.files() {
-            let files = file_engine.files();
-            for file_name in &files {
-                if let Some(contents) = file_engine.read_file_to_string(file_name).await {
-                    data.set(toml::from_str(&contents).unwrap());
-                }
-            }
-        }
+#[component]
+pub fn ImportExportComponent(data: Signal<SOCData>, cmp_data: Signal<SOCData>) -> Element {
+    let mut copied = use_signal(|| false);
+    let settings = use_app_settings();
+
+    let upload_file_handler = async move |evt: FormEvent| -> Option<SOCData> {
+        let file_engine = evt.files()?;
+        let files = file_engine.files();
+        let content = file_engine.read_file_to_string(files.first()?).await?;
+        toml::from_str::<SOCData>(&content).ok()
     };
 
     let copy_to_clipboard = move |_: MouseEvent| async move {
@@ -49,7 +48,11 @@ pub fn ImportExportComponent(data: Signal<SOCData>) -> Element {
                     multiple: false,
                     name: "textreader",
                     directory: false,
-                    onchange: upload_file_handler,
+                    onchange: move |evt: FormEvent| async move {
+                        if let Some(soc) = upload_file_handler(evt).await {
+                            data.set(soc)
+                        }
+                    }
                 },
             },
             div {
@@ -72,6 +75,29 @@ pub fn ImportExportComponent(data: Signal<SOCData>) -> Element {
                     } else {
                         "Copy"
                     }
+                }
+            },
+            if settings().show_comparison {
+                div {
+                    class: "border-1 p-4 rounded-2xl border-slate-700 bg-slate-900 col-span-2",
+                    label {
+                    class: "text-sm mb-2 block",
+                    r#for: "textreader",
+                    "Upload CMM values in TOML format for comparison"
+                },
+                input {
+                    class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 w-full border-1 border-slate-500",
+                    r#type: "file",
+                    accept: ".toml",
+                    multiple: false,
+                    name: "textreader",
+                    directory: false,
+                    onchange: move |evt: FormEvent| async move {
+                        if let Some(soc) = upload_file_handler(evt).await {
+                            cmp_data.set(soc)
+                        }
+                    }
+                },
                 }
             }
         }

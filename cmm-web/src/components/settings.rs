@@ -8,6 +8,7 @@ pub struct AppSettings {
     pub darkmode: bool,
     pub show_percentage: bool,
     pub show_scores: bool,
+    pub show_comparison: bool,
 }
 
 #[component]
@@ -41,6 +42,13 @@ pub fn SettingsComponent(settings: Signal<AppSettings>) -> Element {
                 settings.write().show_percentage = !settings().show_percentage;
             },
             label: "Show Percentage"
+        },
+        ToggleComponent {
+            checked: settings().show_comparison,
+            onclick: move |_| {
+                settings.write().show_comparison = !settings().show_comparison;
+            },
+            label: "Show Comparison"
         },
     }
 }

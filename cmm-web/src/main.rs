@@ -25,13 +25,17 @@ fn App() -> Element {
     let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
         toml::from_str(include_str!("../../data-2.3.4.toml")).unwrap()
     });
-    let data = use_context_provider(|| data);
+    let compare_data: Signal<(SOCData)> = use_synced_storage::<LocalStorage, _>("compare-cmm".to_owned(), || {
+        toml::from_str(include_str!("../../data-2.3.4.toml")).unwrap()
+    });
+    let (data, cmp_data) = use_context_provider(|| (data, compare_data));
 
     let settings = use_synced_storage::<LocalStorage, _>("settings".to_owned(), || {
         AppSettings {
             darkmode: false,
             show_percentage: false,
-            show_scores: true
+            show_scores: true,
+            show_comparison: false
         }
     });
     let settings = use_context_provider(|| settings);
@@ -59,7 +63,7 @@ fn App() -> Element {
                     "SOC CMM"
                 },
             },
-            ImportExportComponent { data },
+            ImportExportComponent { data, cmp_data },
             if data().notes().is_some() {
                 div {
                     class: "max-w-2xl mx-auto",

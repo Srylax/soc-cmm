@@ -58,6 +58,7 @@
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-extrabold: 800;
+    --radius-xs: 0.125rem;
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
@@ -237,6 +238,9 @@
   .top-5 {
     top: calc(var(--spacing) * 5);
   }
+  .-right-2 {
+    right: calc(var(--spacing) * -2);
+  }
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
@@ -254,6 +258,9 @@
   }
   .z-30 {
     z-index: 30;
+  }
+  .col-span-2 {
+    grid-column: span 2 / span 2;
   }
   .mx-auto {
     margin-inline: auto;
@@ -358,11 +365,26 @@
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
+  .h-8 {
+    height: calc(var(--spacing) * 8);
+  }
+  .h-8\/12 {
+    height: calc(8/12 * 100%);
+  }
+  .h-10\/12 {
+    height: calc(10/12 * 100%);
+  }
   .h-\[500px\] {
     height: 500px;
   }
   .h-full {
     height: 100%;
+  }
+  .w-1 {
+    width: calc(var(--spacing) * 1);
+  }
+  .w-2 {
+    width: calc(var(--spacing) * 2);
   }
   .w-11 {
     width: calc(var(--spacing) * 11);
@@ -388,8 +410,17 @@
   .shrink-0 {
     flex-shrink: 0;
   }
+  .translate-1 {
+    --tw-translate-x: calc(var(--spacing) * 1);
+    --tw-translate-y: calc(var(--spacing) * 1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1/2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-x-full {
+    --tw-translate-x: -100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .translate-x-0 {
@@ -398,6 +429,10 @@
   }
   .translate-x-1\/2 {
     --tw-translate-x: calc(1/2 * 100%);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-x-full {
+    --tw-translate-x: 100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .-translate-y-full {
@@ -441,9 +476,6 @@
   .justify-between {
     justify-content: space-between;
   }
-  .gap-1 {
-    gap: calc(var(--spacing) * 1);
-  }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
@@ -473,6 +505,9 @@
   }
   .rounded-xl {
     border-radius: var(--radius-xl);
+  }
+  .rounded-xs {
+    border-radius: var(--radius-xs);
   }
   .rounded-l {
     border-top-left-radius: 0.25rem;
@@ -1140,7 +1175,7 @@ td, th {
     border-color: var(--color-slate-600);
   }
 }
-details:not(:hover) .bookmark-button button:first-child {
+details:not(:hover) .bookmark-button div > button:first-child {
   opacity: 0;
 }
 @property --tw-translate-x {
