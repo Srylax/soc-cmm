@@ -1,7 +1,7 @@
 use cmm_core::{cid::Domain, score::Score};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use crate::{components::SidebarScoreComponent, utils::{use_schema, use_soc_data}};
+use crate::{components::{DomainIconComponent, SidebarScoreComponent}, utils::{use_schema, use_soc_data}};
 use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
 
@@ -17,9 +17,9 @@ pub fn SidebarComponent(
     rsx! {
         button {
             class: "fixed z-30 left-0 top-5 cursor-pointer bg-white rounded-r p-2 lg:hidden lg:invisible print:hidden",
-            class: if sidebar_open() { 
-                "left-[260px] translate-x-1/2" 
-            } else { 
+            class: if sidebar_open() {
+                "left-[260px] translate-x-1/2"
+            } else {
                 "shadow"
             },
             onclick: move |_1| {
@@ -73,6 +73,7 @@ pub fn SidebarComponent(
                 for domain in Domain::VARIANTS {
                     NavigationSectionComponent {
                         title: "{domain}",
+                        domain: domain.clone(),
                         href: "variant-{domain}",
                         score: data().maturity_score_by_domain(&domain),
                         for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
@@ -91,8 +92,8 @@ pub fn SidebarComponent(
 
 #[component]
 fn NavigationLinkComponent(
-    title: String, 
-    href: String, 
+    title: String,
+    href: String,
     score: Score,
 ) -> Element {
 
@@ -120,6 +121,7 @@ fn NavigationLinkComponent(
 fn NavigationSectionComponent(
     title: String,
     href: String,
+    domain: Option<Domain>,
     score: Option<Score>,
     children: Element,
 ) -> Element {
@@ -131,6 +133,15 @@ fn NavigationSectionComponent(
                 alt: "{title}",
                 class: "text-lg font-semibold flex justify-between",
                 span {
+                    class: "flex items-center gap-2",
+                    if domain.is_some() {
+                        DomainIconComponent {
+                            domain: domain.unwrap().clone(),
+                            width: 14,
+                            height: 14,
+                            fill: "currentColor"
+                        },
+                    },
                     "{title}",
                 },
                 span {

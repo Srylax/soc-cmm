@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 use strum::VariantArray;
 use dioxus_free_icons::{icons::fa_solid_icons::FaCircleInfo, Icon};
 
-use crate::{components::{SmallButtonComponent, StarButtonComponent}, utils::{use_schema, use_soc_data}};
+use crate::{components::{DomainIconComponent, SmallButtonComponent, StarButtonComponent}, utils::{use_schema, use_soc_data}};
 
 #[component]
 pub fn ControlsListComponent(pinned: bool) -> Element {
@@ -31,8 +31,14 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
         for domain in Domain::VARIANTS {
             if !pinned {
                 h3 {
-                    class: "text-3xl mb-2 mt-6 font-semibold",
+                    class: "text-3xl mb-2 mt-6 font-semibold flex items-center gap-2",
                     id: "variant-{domain}",
+                    DomainIconComponent {
+                        domain: domain.clone(),
+                        width: 24,
+                        height: 24,
+                        fill: "currentColor"
+                    },
                     "{domain}"
                 },
             }
