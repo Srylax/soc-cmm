@@ -245,7 +245,6 @@ answer = false
 ["Business.4.6"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Business.4.7"]
 type = "Detailed"
@@ -878,7 +877,6 @@ answer = "No"
 ["Process.2.2.5"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Process.2.3.1"]
 type = "Detailed"
@@ -919,7 +917,6 @@ answer = "No"
 ["Process.2.4.5"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Process.2.4.6"]
 type = "Detailed"
@@ -936,7 +933,6 @@ answer = "No"
 ["Process.2.4.9"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Process.2.5.1"]
 type = "Occurence"
@@ -1057,17 +1053,14 @@ answer = false
 ["Process.3.11.1"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Process.3.11.2"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Process.3.11.3"]
 type = "Detailed"
 answer = "No"
-nist_only = true
 
 ["Process.3.12.1"]
 type = "Detailed"
@@ -2628,22 +2621,18 @@ answer = "No"
 ["Services.2.17.33"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.2.17.34"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.2.17.35"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.2.17.36"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.3.1"]
 type = "Detailed"
@@ -3056,12 +3045,10 @@ answer = "No"
 ["Services.4.15.30"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.4.15.31"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.5.1"]
 type = "Detailed"
@@ -3422,7 +3409,6 @@ answer = "No"
 ["Services.6.15.20"]
 type = "DetailedOptional"
 answer = "No"
-nist_only = true
 
 ["Services.7.1"]
 type = "Detailed"

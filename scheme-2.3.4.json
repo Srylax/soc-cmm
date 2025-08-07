@@ -486,7 +486,8 @@
                 "Basic governance document created",
                 "Single document, full description of governance elements ",
                 "Governance document completed, approved and formally published"
-            ]
+            ],
+            "nist_only": true
         },
         "Business.4.7": {
             "title": "Are SOC governance meetings regularly held?",
@@ -1814,7 +1815,8 @@
                 "Consistent OPSEC documentation, no program",
                 "Comprehensive OPSEC program exists, not consistently enforced/maintained",
                 "OPSEC program is formally approved, enforced and regularly maintained"
-            ]
+            ],
+            "nist_only": true
         },
         "Process.2.3": {
             "title": "Process integration",
@@ -1932,7 +1934,8 @@
                 "Dedicated secure storage in place, basic access control",
                 "Dedicated secure storage in place, granular access control, no monitoring",
                 "Access secured, granular access, regularly reviewed and monitored"
-            ]
+            ],
+            "nist_only": true
         },
         "Process.2.4.6": {
             "title": "Do you have a video wall for monitoring purposes?",
@@ -1976,7 +1979,8 @@
                 "Remote working facilitated, additional security measures taken for SOC",
                 "Remote working facilitated, fully secured, not actively monitored",
                 "Remote working fully facilitated: secured, monitored and controlled"
-            ]
+            ],
+            "nist_only": true
         },
         "Process.2.5": {
             "title": "Operational shifts",
@@ -2239,7 +2243,8 @@
                 "Advisories provided regularly",
                 "Advisories provided regularly, format discussed but not approved",
                 "Advisories provided regularly and format formally approved"
-            ]
+            ],
+            "nist_only": true
         },
         "Process.3.11.2": {
             "title": "Do you perform risk / impact assessments of these advisories?",
@@ -2250,7 +2255,8 @@
                 "Unstructured risk & impact assessments performed",
                 "Informal structured risk & impact assessment performed for advisories",
                 "Formal risk & impact assessment performed for all advisories"
-            ]
+            ],
+            "nist_only": true
         },
         "Process.3.11.3": {
             "title": "Do you perform follow-up of these advisories?",
@@ -2261,7 +2267,8 @@
                 "Follow-up performed for critical advisories",
                 "Follow-up performed for most advisories, aligned with ITSM processes",
                 "Follow-up performed for all advisories, aligned with ITSM processes"
-            ]
+            ],
+            "nist_only": true
         },
         "Process.3.12": {
             "title": "Education and Awareness",
@@ -7061,7 +7068,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.2.17.34": {
             "title": "Exercises with other incident response teams",
@@ -7074,7 +7082,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.2.17.35": {
             "title": "Root Cause Analysis",
@@ -7087,7 +7096,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.2.17.36": {
             "title": "Restore integrity verification",
@@ -7100,7 +7110,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.3.1": {
             "title": "Have you formally described the security analysis & forensics service?",
@@ -8252,7 +8263,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.4.15.31": {
             "title": "Management of the CTI infrastructure (Threat Intelligence Platform)",
@@ -8265,7 +8277,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.5.1": {
             "title": "Do you use a standardized threat hunting methodology?",
@@ -9248,7 +9261,8 @@
                 "Mostly implemented, documented and approved",
                 "Fully implemented, documented, approved, actively improved",
                 "Not required for SOC operations"
-            ]
+            ],
+            "nist_only": true
         },
         "Services.7.1": {
             "title": "Have you formally described the log management service?",
