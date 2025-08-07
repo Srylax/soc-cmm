@@ -118,7 +118,7 @@ pub fn SidebarComponent(
                         score: stats.read().maturity_by_domain(&domain),
                         for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
                             NavigationLinkComponent {
-                                title: "{i + 1}. {aspect}",
+                                title: "{aspect}",
                                 href: "aspect-{domain}-{i + 1}",
                                 score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
                             }
@@ -139,7 +139,16 @@ fn NavigationLinkComponent(
 
     rsx! {
         li {
-            class: "dark:text-slate-300 dark:border-slate-600 dark:has-hover:border-slate-50 has-hover:border-slate-800 text-slate-800 border-l-1 border-slate-300  pl-3 py-1 text-md",
+            class: "dark:text-slate-300 dark:border-slate-600 dark:has-hover:border-slate-50 has-hover:border-slate-800 text-slate-800 border-l-2 border-slate-300 pl-3.5 ml-1.5 py-1 text-[15px] relative group",
+            span {
+                class: "absolute w-2 h-1/2 top-1/2 not-group-last:hidden dark:bg-slate-900 bg-white -left-[1px] -translate-x-1/2"
+            },
+            span {
+                class: "absolute w-2 h-1/2 top-0 not-group-first:hidden dark:bg-slate-900 bg-white -left-[1px] -translate-x-1/2"
+            },
+            span {
+                class: "absolute w-1.5 h-1.5 dark:bg-slate-500 bg-slate-400 group-has-hover:bg-slate-900 dark:group-has-hover:bg-white rounded-full -left-[1px] -translate-1/2 top-1/2"
+            },
             a {
                 class: "dark:hover:text-slate-50 hover:text-slate-950 flex justify-between gap-x-1",
                 href: "#{href}",
