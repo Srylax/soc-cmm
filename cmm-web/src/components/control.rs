@@ -136,7 +136,7 @@ fn ControlItemComponent(
             class: "indent-{indent} pt-1 pb-0.5 relative",
             tabindex: "-1",
             details {
-                class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 not-open:hover:bg-slate-200 duration-100ms ease-in-out group group/details",
+                class: "dark:bg-slate-800 bg-slate-100 border-1 dark:border-slate-700 border-slate-300 open:p-3 rounded dark:text-slate-50 text-slate-950 dark:not-open:hover:bg-slate-700 dark:not-open:hover:border-slate-600 not-open:hover:bg-slate-200 duration-100ms ease-in-out group group/details",
                 id: "{cid}",
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",

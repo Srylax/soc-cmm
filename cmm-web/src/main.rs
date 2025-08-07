@@ -65,7 +65,7 @@ fn App() -> Element {
             SettingsComponent { settings }
         },
         main {
-            class: "lg:ml-[260px] px-8 py-4",
+            class: "lg:ml-[290px] px-8 py-4",
             div {
                 class: "flex mt-10 mb-6",
                 h1 {

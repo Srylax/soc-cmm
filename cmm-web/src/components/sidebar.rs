@@ -1,8 +1,8 @@
 use cmm_core::{cid::Domain, score::Score};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use crate::{components::{DomainIconComponent, SidebarScoreComponent}, utils::{use_schema, use_stats}};
-use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
+use crate::{components::{ButtonComponent, DomainIconComponent, SidebarScoreComponent}, utils::{use_app_settings, use_schema, use_stats}};
+use dioxus_free_icons::{icons::fa_solid_icons::{FaBars, FaGear, FaMoon, FaPlus, FaSun}, Icon};
 
 
 #[component]
@@ -10,15 +10,17 @@ pub fn SidebarComponent(
     children: Element
 ) -> Element {
     let schema = use_schema();
+    let mut settings = use_app_settings();
     let (stats, _) = use_stats();
 
     let mut sidebar_open = use_signal(|| false);
+    let mut settings_open = use_signal(|| false);
 
     rsx! {
         button {
-            class: "fixed z-30 left-0 top-5 cursor-pointer bg-white rounded-r p-2 lg:hidden lg:invisible print:hidden",
+            class: "fixed z-30 left-3 top-2.5 cursor-pointer bg-white rounded p-2 lg:hidden lg:invisible print:hidden border-[1px] border-slate-200",
             class: if sidebar_open() {
-                "left-[260px] translate-x-1/2"
+                "left-[280px] translate-x-1/2"
             } else {
                 "shadow"
             },
@@ -43,28 +45,63 @@ pub fn SidebarComponent(
             }
         },
         span {
-            class: "fixed z-10 h-full w-full bg-black opacity-30 lg:hidden lg:invisible print:hidden",
-            class: if !sidebar_open() { "invisible hidden" },
-            onclick: move |_1| {
-                sidebar_open.set(!sidebar_open());
+            class: "fixed z-10 h-full w-full bg-black opacity-30 print:hidden",
+            class: if !settings_open() { "lg:hidden lg:invisible" },
+            class: if !sidebar_open() && !settings_open() { "invisible hidden" },
+            onclick: move |_| {
+                if settings_open() {
+                    settings_open.set(false);
+                } else {
+                    sidebar_open.set(!sidebar_open());
+                }
             }
         },
         nav {
-            class: "fixed z-20 h-full left-0 top-0 max-w-[280px] w-full overflow-auto bg-white dark:bg-slate-900 no-scrollbar print:hidden",
+            class: "fixed z-20 h-[calc(100%-20px)] left-2.5 top-2.5 rounded-2xl border-[1px] border-slate-200 dark:border-slate-800 shadow-xs max-w-[280px] w-full overflow-auto bg-white dark:bg-slate-900 no-scrollbar print:hidden",
             class: if !sidebar_open() { "not-lg:invisible not-lg:hidden" },
-            details {
-                class: "p-4",
-                summary {
-                    class: "text-sm font-semibold cursor-pointer",
+            div {
+                class: "fixed z-30 max-w-[280px] bottom-2.5 left-2.5 bg-gradient-to-t from-white dark:from-slate-900 to-transparent from-50% w-full p-4 pt-12 rounded-b-2xl border-x-[1px] border-b-[1px] border-slate-200 dark:border-slate-800 gap-2 flex",
+                ButtonComponent {
+                    additional_class: "grow",
+                    onclick: move |_| settings_open.set(!settings_open()),
+                    Icon {
+                        icon: FaGear,
+                        width: 18,
+                        height: 18
+                    },
                     "Settings"
                 },
+                ButtonComponent {
+                    onclick: move |_| settings.write().darkmode = !settings().darkmode,
+                    if settings().darkmode {
+                        Icon {
+                            width: 18,
+                            height: 18,
+                            icon: FaSun
+                        }
+                    } else {
+                        Icon {
+                            width: 18,
+                            height: 18,
+                            icon: FaMoon
+                        }
+                    }
+                }
+            }
+            dialog {
+                class: "p-6 fixed top-1/2 left-1/2 max-w-3xs w-full bg-white dark:bg-slate-900 rounded-2xl dark:border-2 dark:border-slate-700 -translate-1/2 shadow-2xl",
+                open: settings_open(),
                 div {
-                    class: "grid gap-y-2 mt-2",
+                    class: "grid gap-y-2",
+                    h2 {
+                        class: "text-2xl dark:text-slate-50 mb-2 font-semibold",
+                        "Settings"
+                    }
                     {children},
                 }
             },
             div {
-                class: "p-4",
+                class: "p-4 mb-14",
                 NavigationSectionComponent {
                     title: "Overview",
                     href: "overview",
