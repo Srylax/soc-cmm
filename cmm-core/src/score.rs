@@ -24,9 +24,12 @@ impl Stats {
 
     pub fn score_overall(&self) -> Score {
         let mut score = 0.0;
-        for domain in Domain::VARIANTS {
-            score += self.maturity_by_domain(domain).score();
-            score += self.capability_by_domain(domain).score();
+        for &domain in Domain::VARIANTS {
+            score += self.maturity_by_domain(&domain).score();
+            let domain_capability = self.capability_by_domain(&domain).score();
+            if domain_capability.is_normal() {
+                score += domain_capability;
+            }
         }
         Score::new(
             score,
