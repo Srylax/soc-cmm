@@ -68,8 +68,13 @@
       );
     });
     chart.data.labels = labels;
-    chart.data.datasets[0].data = values;
-    chart.data.datasets[1] = null;
+    chart.data.datasets = [
+        {
+            data: values,
+            fill: true,
+            backgroundColor: "rgba(43, 127, 255, 0.4)"
+        },
+    ];
     if (values_cmp.length > 0) {
       chart.data.datasets[0].data = values_cmp;
       chart.data.datasets[1] = {
