@@ -19,7 +19,7 @@ use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
 
-use crate::{answer::Answer, cid::{Domain, CID}};
+use crate::cid::{CID, Domain};
 
 /// This is the soc-cmm schema and only contains Meta Information.
 /// Changes will be made only between soc-cmm versions. The whole struct will be loaded at compile time.
@@ -31,6 +31,16 @@ pub struct Schema {
 }
 
 impl Schema {
+    /// Only used for construction when testing
+    /// Schema should only be constructed from the json in production
+    #[cfg(test)]
+    pub(crate) fn new(control_schemas: HashMap<CID, ControlSchema>) -> Self {
+        Self {
+            aspects: HashMap::new(),
+            control_schemas,
+        }
+    }
+
     pub fn aspects(&self, domain: &Domain) -> Vec<&String> {
         self.aspects
             .get(domain)
@@ -45,12 +55,22 @@ impl Schema {
     pub fn controls_by_aspect(
         &self,
         domain: &Domain,
-        aspect_id: u8
+        aspect_id: u8,
     ) -> impl Iterator<Item = (&CID, &ControlSchema)> {
         self.control_schemas
             .iter()
-            .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
+            .sorted_by_key(|(cid, _schema)| *cid)
             .filter(move |(cid, _control)| cid.aspect_id() == aspect_id && cid.domain().eq(domain))
+    }
+
+    pub fn controls_by_domain(
+        &self,
+        domain: &Domain,
+    ) -> impl Iterator<Item = (&CID, &ControlSchema)> {
+        self.control_schemas
+            .iter()
+            .sorted_by_key(|(cid, _schema)| *cid)
+            .filter(move |(cid, _control)| cid.domain().eq(domain))
     }
 
     pub fn controls(&self) -> &HashMap<CID, ControlSchema> {
@@ -63,13 +83,19 @@ pub enum ControlType {
     Satisfaction,
     Detailed,
     DetailedOptional,
-    Occurence,               // Maturity
+    Occurence, // Maturity
     Bool,
     Any,
     Title,
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
+impl Default for ControlType {
+    fn default() -> Self {
+        Self::Title
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone, Default)]
 pub struct ControlSchema {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     #[serde(default = "Vec::new")]
@@ -83,7 +109,7 @@ pub struct ControlSchema {
 
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
-    nist_only: bool
+    nist_only: bool,
 }
 
 impl ControlSchema {

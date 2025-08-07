@@ -2,14 +2,12 @@ use std::collections::HashMap;
 
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
-use strum::VariantArray;
 
 use crate::{
     answer::Answer,
     cid::{CID, Domain},
     control::Control,
     schema::Schema,
-    score::{Score, ScoreCalculator},
 };
 
 /// Only contains the soc-cmm values at its most simple form (CID->Control)
@@ -97,42 +95,6 @@ impl SOCData {
             .count()
             > 0
     }
-
-    pub fn maturity_score_overall(&self) -> Score {
-        let mut score = 0.0;
-        for domain in Domain::VARIANTS {
-            score += self
-                .controls_by_domain(domain)
-                .map(|(_cid, control)| control)
-                .maturity_score()
-                .score();
-        }
-        Score::new(score, Domain::VARIANTS.len() as f64 * 5.0)
-    }
-
-    pub fn capability_score_by_domain(&self, domain: &Domain) -> Score {
-        self.controls_by_domain(domain)
-            .map(|(_cid, control)| control)
-            .capability_score()
-    }
-
-    pub fn maturity_score_by_domain(&self, domain: &Domain) -> Score {
-        self.controls_by_domain(domain)
-            .map(|(_cid, control)| control)
-            .maturity_score()
-    }
-
-    pub fn maturity_score_by_aspect(&self, domain: &Domain, aspect_id: u8) -> Score {
-        self.controls_by_aspect(domain, aspect_id)
-            .map(|(_cid, control)| control)
-            .maturity_score()
-    }
-
-    pub fn capability_score_by_aspect(&self, domain: &Domain, aspect_id: u8) -> Score {
-        self.controls_by_aspect(domain, aspect_id)
-            .map(|(_cid, control)| control)
-            .capability_score()
-    }
 }
 
 impl From<Schema> for SOCData {
@@ -141,7 +103,7 @@ impl From<Schema> for SOCData {
             controls: schema
                 .controls()
                 .iter()
-                .map(|(cid, control_schema)| (cid.clone(), Control::from(control_schema)))
+                .map(|(cid, control_schema)| (*cid, Control::from(control_schema)))
                 .collect(),
             notes: None,
         }

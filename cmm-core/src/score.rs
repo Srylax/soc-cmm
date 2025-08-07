@@ -1,18 +1,91 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    iter::{Zip, zip},
+};
 
-use crate::{control::Control, schema::ControlSchema};
+use strum::VariantArray;
 
-pub trait ScoreCalculator {
-    fn capability_score(self) -> Score;
-    fn maturity_score(self) -> Score;
+use crate::{
+    cid::Domain,
+    control::Control,
+    data::SOCData,
+    schema::{ControlSchema, Schema},
+};
+
+pub struct Stats {
+    data: SOCData,
+    schema: Schema,
 }
 
-impl<'a, T: IntoIterator<Item = (&'a Control, &'a ControlSchema)>> ScoreCalculator for T {
-// impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
-    fn capability_score(self) -> Score {
-        let controls_in_scope: Vec<(&'a Control, &'a ControlSchema)> = self
+impl Stats {
+    pub fn new(data: SOCData, schema: Schema) -> Self {
+        Self { data, schema }
+    }
+
+    pub fn score_overall(&self) -> Score {
+        let mut score = 0.0;
+        for domain in Domain::VARIANTS {
+            score += self.maturity_by_domain(domain).score();
+            score += self.capability_by_domain(domain).score();
+        }
+        Score::new(
+            score,
+            Domain::VARIANTS.len() as f64 * 5.0 + Domain::VARIANTS.len() as f64 * 2.0,
+        )
+    }
+
+    pub fn capability_by_domain(&self, domain: &Domain) -> Score {
+        Stats::capability_score(self.controls_by_domain(domain))
+    }
+
+    pub fn maturity_by_domain(&self, domain: &Domain) -> Score {
+        Stats::maturity_score(self.controls_by_domain(domain))
+    }
+
+    pub fn capability_by_aspect(&self, domain: &Domain, aspect_id: u8) -> Score {
+        Stats::capability_score(self.controls_by_aspect(domain, aspect_id))
+    }
+
+    pub fn maturity_by_aspect(&self, domain: &Domain, aspect_id: u8) -> Score {
+        Stats::maturity_score(self.controls_by_aspect(domain, aspect_id))
+    }
+
+    fn controls_by_domain(
+        &self,
+        domain: &Domain,
+    ) -> Zip<impl Iterator<Item = &Control>, impl Iterator<Item = &ControlSchema>> {
+        zip(
+            self.data
+                .controls_by_domain(domain)
+                .map(|(_cid, control)| control),
+            self.schema
+                .controls_by_domain(domain)
+                .map(|(_cid, schema)| schema),
+        )
+    }
+
+    fn controls_by_aspect(
+        &self,
+        domain: &Domain,
+        aspect_id: u8,
+    ) -> Zip<impl Iterator<Item = &Control>, impl Iterator<Item = &ControlSchema>> {
+        zip(
+            self.data
+                .controls_by_aspect(domain, aspect_id)
+                .map(|(_cid, control)| control),
+            self.schema
+                .controls_by_aspect(domain, aspect_id)
+                .map(|(_cid, schema)| schema),
+        )
+    }
+
+    fn capability_score<'a, T: IntoIterator<Item = (&'a Control, &'a ControlSchema)>>(
+        controls: T,
+    ) -> Score {
+        let controls_in_scope: Vec<&'a Control> = controls
             .into_iter()
             .filter(|(data, schema)| data.answer().capability_in_scope() && !schema.nist_only())
+            .map(|(data, _schema)| data)
             .collect();
 
         let count = controls_in_scope.len() as f64;
@@ -29,10 +102,13 @@ impl<'a, T: IntoIterator<Item = (&'a Control, &'a ControlSchema)>> ScoreCalculat
         Score::new(3.0 * ((total_score - count) / (max_score - count)), 3.0)
     }
 
-    fn maturity_score(self) -> Score {
-        let controls_in_scope: Vec<&'a Control> = self
+    fn maturity_score<'a, T: IntoIterator<Item = (&'a Control, &'a ControlSchema)>>(
+        controls: T,
+    ) -> Score {
+        let controls_in_scope: Vec<&'a Control> = controls
             .into_iter()
-            .filter(|cap| cap.answer().maturity_in_scope() && !cap.nist_only())
+            .filter(|(data, schema)| data.answer().maturity_in_scope() && !schema.nist_only())
+            .map(|(data, _schema)| data)
             .collect();
 
         let count = controls_in_scope.len() as f64;
@@ -89,6 +165,28 @@ mod tests {
 
     use super::*;
 
+    fn stats_from_controls(controls: Vec<Control>) -> Stats {
+        let data = controls
+            .clone()
+            .into_iter()
+            .enumerate()
+            .map(|(cid, control)| (format!("Business.{}", cid + 1).parse().unwrap(), control))
+            .collect();
+        let data = SOCData::new(data, None);
+        let schema = controls
+            .into_iter()
+            .enumerate()
+            .map(|(cid, _control)| {
+                (
+                    format!("Business.{}", cid + 1).parse().unwrap(),
+                    ControlSchema::default(),
+                )
+            })
+            .collect();
+        let schema = Schema::new(schema);
+        Stats { data, schema }
+    }
+
     #[test]
     fn test_capability_score() {
         // 3 out of 3 so score is == max == 100% == 5
@@ -97,10 +195,11 @@ mod tests {
             Control::new(Answer::DetailedOptional(DetailedOptional::Fully), None),
             Control::new(Answer::DetailedOptional(DetailedOptional::Fully), None),
         ];
+        let stats = stats_from_controls(controls);
 
-        let score = controls.capability_score();
-        assert_eq!(score.score(), 5.0);
-        assert_eq!(score.max(), 5.0);
+        let score = stats.capability_by_domain(&Domain::Business);
+        assert_eq!(score.score(), 3.0);
+        assert_eq!(score.max(), 3.0);
         assert_eq!(score.as_percentage(), 100.0);
     }
 
@@ -116,12 +215,15 @@ mod tests {
             Control::new(Answer::Satisfaction(Satisfaction::Fully), None),
         ];
 
-        let score = controls.capability_score();
-        assert_eq!(score.score(), 5.0);
-        assert_eq!(score.max(), 5.0);
+        let stats = stats_from_controls(controls);
+
+        let score = stats.capability_by_domain(&Domain::Business);
+
+        assert_eq!(score.score(), 3.0);
+        assert_eq!(score.max(), 3.0);
         assert_eq!(score.as_percentage(), 100.0);
 
-        let score = controls.maturity_score();
+        let score = stats.maturity_by_domain(&Domain::Business);
         assert_eq!(score.score(), 5.0);
         assert_eq!(score.max(), 5.0);
         assert_eq!(score.as_percentage(), 100.0);
@@ -139,9 +241,11 @@ mod tests {
             Control::new(Answer::DetailedOptional(DetailedOptional::Fully), None),
         ];
 
-        let score = controls.capability_score();
-        assert_eq!(score.score(), 5.0);
-        assert_eq!(score.max(), 5.0);
+        let stats = stats_from_controls(controls);
+
+        let score = stats.capability_by_domain(&Domain::Business);
+        assert_eq!(score.score(), 3.0);
+        assert_eq!(score.max(), 3.0);
         assert_eq!(score.as_percentage(), 100.0);
     }
 }
