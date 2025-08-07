@@ -13,7 +13,7 @@ pub fn OverviewComponent() -> Element {
         div {
             class: "w-full max-w-3xl mx-auto mt-8 mb-16",
             id: "domain-scores",
-            SectionTitleComponent { 
+            SectionTitleComponent {
                 id: "overview",
                 text: "Overview"
             },
@@ -37,12 +37,12 @@ pub fn OverviewComponent() -> Element {
                 },
                 for domain in Domain::VARIANTS {
                     if settings().show_comparison {
-                        DomainOverviewComponent { 
+                        DomainOverviewComponent {
                             domain: *domain,
                             data: cmp_data
                         },
                     },
-                    DomainOverviewComponent { 
+                    DomainOverviewComponent {
                         domain: *domain,
                         data: data
                     }
@@ -63,7 +63,7 @@ fn OverallScoreComponent(
             class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center min-h-64",
             div {
                 class: "text-slate-50 text-8xl font-extrabold text-shadow",
-                ScoreComponent { 
+                ScoreComponent {
                     score: data().maturity_score_overall(),
                     precision: 1
                 }
@@ -120,9 +120,9 @@ fn DomainOverviewComponent(
                                 class: "text-xs",
                                 "Capability"
                             },
-                            ScoreComponent { 
-                                score: overall_capability_score, 
-                                precision: 1 
+                            ScoreComponent {
+                                score: overall_capability_score,
+                                precision: 1
                             }
                         }
                     }
@@ -133,9 +133,9 @@ fn DomainOverviewComponent(
                             class: "text-xs",
                             "Maturity"
                         },
-                        ScoreComponent { 
-                            score: overall_score, 
-                            precision: 1 
+                        ScoreComponent {
+                            score: overall_score,
+                            precision: 1
                         }
                     }
                 },
@@ -145,9 +145,9 @@ fn DomainOverviewComponent(
                 for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
                     div {
                         key: format!(
-                            "{}_{}_{}", 
-                            aspect, 
-                            data().maturity_score_by_aspect(domain, i + 1).score(), 
+                            "{}_{}_{}",
+                            aspect,
+                            data().maturity_score_by_aspect(domain, i + 1).score(),
                             data().capability_score_by_aspect(domain, i + 1).score()
                         ),
                         span {
@@ -158,9 +158,9 @@ fn DomainOverviewComponent(
                         div {
                             div {
                                 class: "not-print:hidden",
-                                ScoreComponent { 
-                                    score: data().maturity_score_by_aspect(&domain, i as u8 + 1), 
-                                    precision: 2 
+                                ScoreComponent {
+                                    score: data().maturity_score_by_aspect(&domain, i as u8 + 1),
+                                    precision: 2
                                 }
                             },
                             BadToGoodProgressBarComponent {

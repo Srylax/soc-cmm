@@ -115,6 +115,15 @@ fn ControlItemComponent(
         return rsx!();
     }
 
+    if !control.answer().type_eq(ctrl_schema.control_type()) {
+        return rsx!{
+            div {
+                class: "bg-red-500 text-white",
+                "Field type mismatch!"
+            }
+        }
+    }
+
     let show_comparison = |cid: &CID| -> bool {
         let Some(cmp_ctrl) = compare_data().control(&cid).cloned() else {
             return false;

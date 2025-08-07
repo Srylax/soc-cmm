@@ -1,17 +1,18 @@
 use std::fmt::Display;
 
-use crate::control::Control;
+use crate::{control::Control, schema::ControlSchema};
 
 pub trait ScoreCalculator {
     fn capability_score(self) -> Score;
     fn maturity_score(self) -> Score;
 }
 
-impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
+impl<'a, T: IntoIterator<Item = (&'a Control, &'a ControlSchema)>> ScoreCalculator for T {
+// impl<'a, T: IntoIterator<Item = &'a Control>> ScoreCalculator for T {
     fn capability_score(self) -> Score {
-        let controls_in_scope: Vec<&'a Control> = self
+        let controls_in_scope: Vec<(&'a Control, &'a ControlSchema)> = self
             .into_iter()
-            .filter(|cap| cap.answer().capability_in_scope() && !cap.nist_only())
+            .filter(|(data, schema)| data.answer().capability_in_scope() && !schema.nist_only())
             .collect();
 
         let count = controls_in_scope.len() as f64;

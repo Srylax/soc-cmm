@@ -8,6 +8,7 @@ use crate::{
     answer::Answer,
     cid::{CID, Domain},
     control::Control,
+    schema::Schema,
     score::{Score, ScoreCalculator},
 };
 
@@ -131,5 +132,18 @@ impl SOCData {
         self.controls_by_aspect(domain, aspect_id)
             .map(|(_cid, control)| control)
             .capability_score()
+    }
+}
+
+impl From<Schema> for SOCData {
+    fn from(schema: Schema) -> Self {
+        SOCData {
+            controls: schema
+                .controls()
+                .iter()
+                .map(|(cid, control_schema)| (cid.clone(), Control::from(control_schema)))
+                .collect(),
+            notes: None,
+        }
     }
 }

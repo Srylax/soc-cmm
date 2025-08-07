@@ -1,21 +1,18 @@
 use serde::{Deserialize, Serialize};
 
-use crate::answer::Answer;
+use crate::{answer::Answer, schema::ControlSchema};
 use std::ops::Not;
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Control {
     #[serde(flatten)]
     answer: Answer,
+
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
     bookmark: bool,
 
     comment: Option<String>,
-
-    #[serde(skip_serializing_if = "<&bool>::not")]
-    #[serde(default)]
-    nist_only: bool,
 }
 
 impl Control {
@@ -23,7 +20,6 @@ impl Control {
         Self {
             comment,
             answer,
-            nist_only: false,
             bookmark: false,
         }
     }
@@ -43,13 +39,6 @@ impl Control {
     pub fn set_comment(&mut self, comment: Option<String>) {
         self.comment = comment;
     }
-    pub fn nist_only(&self) -> bool {
-        self.nist_only
-    }
-
-    pub fn set_nist_only(&mut self, nist_only: bool) {
-        self.nist_only = nist_only;
-    }
 
     pub fn bookmark(&self) -> bool {
         self.bookmark
@@ -61,5 +50,11 @@ impl Control {
 
     pub fn is_default(&self) -> bool {
         self.answer.is_default() && self.comment.is_none() && !self.bookmark
+    }
+}
+
+impl From<&ControlSchema> for Control {
+    fn from(value: &ControlSchema) -> Self {
+        Self { answer: Answer::from(value.control_type()), bookmark: false, comment: None }
     }
 }

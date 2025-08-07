@@ -7,6 +7,8 @@ use strum::EnumString;
 use strum::VariantNames;
 use strum::{EnumCount, FromRepr};
 
+use crate::schema::ControlType;
+
 #[derive(
     Clone,
     Copy,
@@ -170,6 +172,7 @@ impl Answer {
             Answer::Title => &[],
         }
     }
+
     pub fn variant_eq(&self, variant: &str) -> bool {
         match self {
             Answer::Satisfaction(satisfaction) => satisfaction.to_string() == variant,
@@ -194,6 +197,19 @@ impl Answer {
             Answer::Any(any) => Answer::Any(any.clone()),
             Answer::Title => Answer::Title,
         })
+    }
+
+    pub fn type_eq(&self, other: &Answer) -> bool {
+        match (self, other) {
+            (Answer::Satisfaction(_), Answer::Satisfaction(_)) |
+            (Answer::Detailed(_), Answer::Detailed(_)) |
+            (Answer::DetailedOptional(_), Answer::DetailedOptional(_)) |
+            (Answer::Occurence(_), Answer::Occurence(_)) |
+            (Answer::Bool(_), Answer::Bool(_)) |
+            (Answer::Any(_), Answer::Any(_)) |
+            (Answer::Title, Answer::Title) => true,
+            _ => false
+        }
     }
 
     pub fn is_capability(&self) -> bool {
@@ -236,6 +252,20 @@ impl Display for Answer {
     }
 }
 
+impl From<&ControlType> for Answer {
+    fn from(value: &ControlType) -> Self {
+        match value {
+            ControlType::Satisfaction => Answer::Satisfaction(Satisfaction::No),
+            ControlType::Detailed => Answer::Detailed(Detailed::No),
+            ControlType::DetailedOptional => Answer::DetailedOptional(DetailedOptional::No),
+            ControlType::Occurence => Answer::Occurence(Occurence::Never),
+            ControlType::Bool => Answer::Bool(false),
+            ControlType::Any => Answer::Any(String::new()),
+            ControlType::Title => Answer::Title,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -247,5 +277,12 @@ mod tests {
             String::from("Averagely")
         );
         assert_eq!(format!("{}", Answer::Title), String::new());
+    }
+
+    #[test]
+    fn test_type_eq() {
+        assert!(Answer::Title.type_eq(&Answer::Title));
+        assert!(Answer::Any(String::from("Hello")).type_eq(&Answer::Any(String::new())));
+        assert!(Answer::Detailed(Detailed::Averagely).type_eq(&Answer::Detailed(Detailed::No)));
     }
 }
