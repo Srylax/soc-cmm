@@ -56,3 +56,43 @@ th {
 details:not(:hover) .bookmark-button div > button:first-child {
     opacity: 0;
 }
+
+.md-content {
+    > :first-child {
+        @apply mt-0;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold mb-1;
+    }
+    h1 {
+        @apply text-2xl mt-3;
+    }
+    h2 {
+        @apply text-xl mt-3;
+    }
+    h3, h4, h5, h6 {
+        @apply text-lg mt-1;
+    }
+    ul > li {
+        @apply list-disc;
+    }
+    ol > li {
+        @apply list-decimal;
+    }
+    li, ul, ol {
+        @apply ml-2;
+    }
+    li > ol,
+    li > ul {
+        @apply ml-2;
+    }
+    p {
+        @apply my-1;
+    }
+    a {
+        @apply text-blue-500 hover:underline;
+    }
+    blockquote {
+        @apply pl-2 border-l-slate-500 dark:border-l-slate-200 border-l-2 bg-slate-100 dark:bg-slate-800;
+    }
+}

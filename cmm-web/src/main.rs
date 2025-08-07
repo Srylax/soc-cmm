@@ -67,7 +67,7 @@ fn App() -> Element {
             ImportExportComponent { data, cmp_data },
             if data().notes().is_some() {
                 div {
-                    class: "max-w-2xl mx-auto",
+                    class: "max-w-2xl mx-auto mb-6 md-content",
                     Markdown {
                         src: data().notes().clone().unwrap()
                     }
