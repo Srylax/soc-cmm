@@ -1,12 +1,11 @@
-use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_soc_compare_data, use_soc_data}};
-use cmm_core::{cid::Domain, data::SOCData};
+use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_stats}};
+use cmm_core::{cid::Domain, score::Stats};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
 pub fn OverviewComponent() -> Element {
-    let data = use_soc_data();
-    let cmp_data = use_soc_compare_data();
+    let (stats, cmp_stats) = use_stats();
     let settings = use_app_settings();
 
     rsx! {
@@ -29,22 +28,22 @@ pub fn OverviewComponent() -> Element {
                         "current"
                     },
                     OverallScoreComponent {
-                        data: cmp_data
+                        stats: cmp_stats
                     }
                 },
                 OverallScoreComponent {
-                    data
+                    stats
                 },
                 for domain in Domain::VARIANTS {
                     if settings().show_comparison {
                         DomainOverviewComponent {
                             domain: *domain,
-                            data: cmp_data
+                            stats: cmp_stats
                         },
                     },
                     DomainOverviewComponent {
                         domain: *domain,
-                        data: data
+                        stats: stats
                     }
                 }
             }
@@ -54,7 +53,7 @@ pub fn OverviewComponent() -> Element {
 
 #[component]
 fn OverallScoreComponent(
-    data: ReadOnlySignal<SOCData>
+    stats: ReadOnlySignal<Stats>
 ) -> Element {
     let settings = use_app_settings();
 
@@ -64,7 +63,7 @@ fn OverallScoreComponent(
             div {
                 class: "text-slate-50 text-8xl font-extrabold text-shadow",
                 ScoreComponent {
-                    score: data().maturity_score_overall(),
+                    score: stats.read().score_overall(),
                     precision: 1
                 }
             },
@@ -72,7 +71,7 @@ fn OverallScoreComponent(
                 class: "text-slate-50 text-right opacity-80",
                 "SOC maturity score",
                 if !settings().show_percentage {
-                    " (max {round(data().maturity_score_overall().max(), 1)})"
+                    " (max {round(stats.read().score_overall().max(), 1)})"
                 }
             }
         }
@@ -82,12 +81,12 @@ fn OverallScoreComponent(
 #[component]
 fn DomainOverviewComponent(
     domain: Domain,
-    data: ReadOnlySignal<SOCData>
+    stats: ReadOnlySignal<Stats>
 ) -> Element {
     let schema = use_schema();
 
-    let overall_score = data().maturity_score_by_domain(&domain);
-    let overall_capability_score = data().capability_score_by_domain(&domain);
+    let overall_score = stats.read().maturity_by_domain(&domain);
+    let overall_capability_score = stats.read().capability_by_domain(&domain);
 
     rsx! {
         div {
@@ -147,31 +146,31 @@ fn DomainOverviewComponent(
                         key: format!(
                             "{}_{}_{}",
                             aspect,
-                            data().maturity_score_by_aspect(domain, i + 1).score(),
-                            data().capability_score_by_aspect(domain, i + 1).score()
+                            stats.read().maturity_by_aspect(domain, i + 1).score(),
+                            stats.read().capability_by_aspect(domain, i + 1).score()
                         ),
                         span {
                             class: "text-[10px] text-right",
-                            "data-aspect-value": "{round(data().maturity_score_by_aspect(&domain, i as u8 + 1).score(), 2)}",
+                            "data-aspect-value": "{round(stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(), 2)}",
                             "{aspect}"
                         },
                         div {
                             div {
                                 class: "not-print:hidden",
                                 ScoreComponent {
-                                    score: data().maturity_score_by_aspect(&domain, i as u8 + 1),
+                                    score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
                                     precision: 2
                                 }
                             },
                             BadToGoodProgressBarComponent {
-                                score: data().maturity_score_by_aspect(&domain, i as u8 + 1),
+                                score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
                                 tooltip_prefix: "{aspect} maturity: "
                             },
-                            if data().capability_score_by_aspect(&domain, i as u8 + 1).score().is_normal() {
+                            if stats.read().capability_by_aspect(&domain, i as u8 + 1).score().is_normal() {
                                 div {
                                     class: "mt-1",
                                     BadToGoodProgressBarComponent {
-                                        score: data().capability_score_by_aspect(&domain, i as u8 + 1),
+                                        score: stats.read().capability_by_aspect(&domain, i as u8 + 1),
                                         tooltip_prefix: "{aspect} capability: "
                                     }
                                 }

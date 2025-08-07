@@ -1,7 +1,7 @@
 use cmm_core::{cid::Domain, score::Score};
 use dioxus::prelude::*;
 use strum::VariantArray;
-use crate::{components::{DomainIconComponent, SidebarScoreComponent}, utils::{use_schema, use_soc_data}};
+use crate::{components::{DomainIconComponent, SidebarScoreComponent}, utils::{use_schema, use_stats}};
 use dioxus_free_icons::{icons::fa_solid_icons::FaBars, icons::fa_solid_icons::FaPlus, Icon};
 
 
@@ -10,7 +10,7 @@ pub fn SidebarComponent(
     children: Element
 ) -> Element {
     let schema = use_schema();
-    let data = use_soc_data();
+    let (stats, _) = use_stats();
 
     let mut sidebar_open = use_signal(|| false);
 
@@ -52,7 +52,7 @@ pub fn SidebarComponent(
         nav {
             class: "fixed z-20 h-full left-0 top-0 max-w-[280px] w-full overflow-auto bg-white dark:bg-slate-900 no-scrollbar print:hidden",
             class: if !sidebar_open() { "not-lg:invisible not-lg:hidden" },
-            details { 
+            details {
                 class: "p-4",
                 summary {
                     class: "text-sm font-semibold cursor-pointer",
@@ -78,12 +78,12 @@ pub fn SidebarComponent(
                         title: "{domain}",
                         domain: domain.clone(),
                         href: "variant-{domain}",
-                        score: data().maturity_score_by_domain(&domain),
+                        score: stats.read().maturity_by_domain(&domain),
                         for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
                             NavigationLinkComponent {
                                 title: "{i + 1}. {aspect}",
                                 href: "aspect-{domain}-{i + 1}",
-                                score: data().maturity_score_by_aspect(&domain, i as u8 + 1),
+                                score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
                             }
                         }
                     }

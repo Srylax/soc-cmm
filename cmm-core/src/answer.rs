@@ -212,6 +212,19 @@ impl Answer {
         }
     }
 
+    pub fn control_type_eq(&self, other: &ControlType) -> bool {
+        match (self, other) {
+            (Answer::Satisfaction(_), ControlType::Satisfaction) |
+            (Answer::Detailed(_), ControlType::Detailed) |
+            (Answer::DetailedOptional(_), ControlType::DetailedOptional) |
+            (Answer::Occurence(_), ControlType::Occurence) |
+            (Answer::Bool(_), ControlType::Bool) |
+            (Answer::Any(_), ControlType::Any) |
+            (Answer::Title, ControlType::Title) => true,
+            _ => false
+        }
+    }
+
     pub fn is_capability(&self) -> bool {
         matches!(self, Answer::DetailedOptional(_))
     }
