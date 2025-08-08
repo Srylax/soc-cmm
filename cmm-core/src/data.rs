@@ -103,7 +103,8 @@ impl From<Schema> for SOCData {
             controls: schema
                 .controls()
                 .iter()
-                .map(|(cid, control_schema)| (*cid, Control::from(control_schema)))
+                .filter(|(_, control_schema)| Control::try_from(*control_schema).is_ok())
+                .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
                 .collect(),
             notes: None,
         }

@@ -87,6 +87,7 @@ pub enum ControlType {
     Bool,
     Any,
     Title,
+    ScoredSectionTitle
 }
 
 impl Default for ControlType {

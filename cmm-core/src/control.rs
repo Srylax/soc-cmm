@@ -53,12 +53,14 @@ impl Control {
     }
 }
 
-impl From<&ControlSchema> for Control {
-    fn from(value: &ControlSchema) -> Self {
-        Self {
-            answer: Answer::from(value.control_type()),
+impl TryFrom<&ControlSchema> for Control {    
+    type Error = &'static str;
+    
+    fn try_from(value: &ControlSchema) -> Result<Self, Self::Error> {
+        Ok(Self {
+            answer: Answer::try_from(value.control_type())?,
             bookmark: false,
             comment: None,
-        }
+        })
     }
 }
