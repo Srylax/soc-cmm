@@ -146,8 +146,8 @@ fn DomainOverviewComponent(
                         key: format!(
                             "{}_{}_{}",
                             aspect,
-                            stats.read().maturity_by_aspect(domain, i + 1).score(),
-                            stats.read().capability_by_aspect(domain, i + 1).score()
+                            stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(),
+                            stats.read().capability_by_aspect(&domain, i as u8 + 1).score()
                         ),
                         span {
                             class: "text-[10px] text-right",

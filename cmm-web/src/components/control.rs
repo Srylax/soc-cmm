@@ -291,11 +291,7 @@ fn ControlInputComponent(
                 class: "w-full flex items-baseline gap-x-2",
                 for value in vec!["True", "False"] {
                     label {
-                        key: format!(
-                            "{}{}",
-                            cid,
-                            control().answer().as_value()
-                        ),
+                        key: "{cid}{control().answer()}",
                         class: "dark:bg-slate-700 bg-slate-200 py-1 px-2 rounded cursor-pointer dark:hover:bg-slate-600 hover:bg-slate-300 has-checked:bg-slate-200 dark:has-checked:bg-slate-600 has-checked:border-blue-300 border-3 border-transparent w-full",
                         input {
                             class: "appearance-none opacity-0",
