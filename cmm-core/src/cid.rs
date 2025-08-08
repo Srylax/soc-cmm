@@ -60,6 +60,21 @@ impl CID {
     pub fn as_short_string(&self) -> String {
         self.id.iter().filter(|&id| *id != 0u8).join(".")
     }
+
+    pub fn is_child_of(&self, parent: &CID) -> bool {
+        if self.domain() != parent.domain() {
+            return false;
+        }
+        for (i, value) in self.id.iter().enumerate() {
+            if parent.id[i] == 0u8 && value != &0u8 {
+                return true;
+            }
+            if value != &parent.id[i] {
+                return false;
+            }
+        }
+        false
+    }
 }
 
 impl FromStr for CID {
@@ -168,5 +183,14 @@ mod tests {
         assert_eq!("People.3".parse::<CID>().unwrap().indent(), 1);
         assert_eq!("People.3.1".parse::<CID>().unwrap().indent(), 2);
         assert_eq!("People.3.12.1".parse::<CID>().unwrap().indent(), 3);
+    }
+
+    #[test]
+    fn test_cid_child_of() {
+        let parent = "People.3.2".parse::<CID>().unwrap();
+        assert!(!"People.3".parse::<CID>().unwrap().is_child_of(&parent));
+        assert!(!"People.3.2".parse::<CID>().unwrap().is_child_of(&parent));
+        assert!(!"Business.3.2.1".parse::<CID>().unwrap().is_child_of(&parent));
+        assert!("People.3.2.1".parse::<CID>().unwrap().is_child_of(&parent));
     }
 }
