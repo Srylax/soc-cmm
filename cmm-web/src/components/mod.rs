@@ -14,5 +14,5 @@ pub use sidebar::SidebarComponent;
 pub use ui::*;
 pub use chart::ChartComponent;
 pub use import_export::ImportExportComponent;
-pub use score::{ScoreComponent, SidebarScoreComponent};
+pub use score::{ScoreComponent, SidebarScoreComponent, CompletenessScoreComponent};
 pub use settings::{SettingsComponent, AppSettings};

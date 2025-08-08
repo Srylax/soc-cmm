@@ -124,7 +124,6 @@ pub enum Answer {
     Occurence(Occurence),               // Maturity
     Bool(bool),
     Any(String),
-    Title,
 }
 
 impl Answer {
@@ -169,7 +168,6 @@ impl Answer {
             Answer::Occurence(_) => Occurence::VARIANTS,
             Answer::Bool(_) => &["true", "false"],
             Answer::Any(_) => &[],
-            Answer::Title => &[],
         }
     }
 
@@ -181,7 +179,6 @@ impl Answer {
             Answer::Occurence(occurence) => occurence.to_string() == variant,
             Answer::Bool(boolean) => boolean.to_string() == variant,
             Answer::Any(_) => false,
-            Answer::Title => false,
         }
     }
 
@@ -195,7 +192,6 @@ impl Answer {
             Answer::Occurence(_) => Answer::Occurence(Occurence::from_str(variant)?),
             Answer::Bool(_) => Answer::Bool(bool::from_str(variant)?),
             Answer::Any(any) => Answer::Any(any.clone()),
-            Answer::Title => Answer::Title,
         })
     }
 
@@ -206,8 +202,7 @@ impl Answer {
             | (Answer::DetailedOptional(_), Answer::DetailedOptional(_))
             | (Answer::Occurence(_), Answer::Occurence(_))
             | (Answer::Bool(_), Answer::Bool(_))
-            | (Answer::Any(_), Answer::Any(_))
-            | (Answer::Title, Answer::Title) => true,
+            | (Answer::Any(_), Answer::Any(_)) => true,
             _ => false,
         }
     }
@@ -219,8 +214,7 @@ impl Answer {
             | (Answer::DetailedOptional(_), ControlType::DetailedOptional)
             | (Answer::Occurence(_), ControlType::Occurence)
             | (Answer::Bool(_), ControlType::Bool)
-            | (Answer::Any(_), ControlType::Any)
-            | (Answer::Title, ControlType::Title) => true,
+            | (Answer::Any(_), ControlType::Any) => true,
             _ => false,
         }
     }
@@ -246,7 +240,6 @@ impl Answer {
             Answer::Occurence(occurence) => matches!(occurence, Occurence::Never),
             Answer::Bool(bool) => !bool,
             Answer::Any(str) => !str.is_empty(),
-            Answer::Title => true,
         }
     }
 }
@@ -260,23 +253,25 @@ impl Display for Answer {
             Answer::Occurence(occurence) => write!(f, "{occurence}"),
             Answer::Bool(bool) => write!(f, "{bool}"),
             Answer::Any(any) => write!(f, "{any}"),
-            Answer::Title => Ok(()),
         }
     }
 }
 
-impl From<&ControlType> for Answer {
-    fn from(value: &ControlType) -> Self {
+impl TryFrom<&ControlType> for Answer {
+    type Error = &'static str;
+    
+    fn try_from(value: &ControlType) -> Result<Self, Self::Error> {
         match value {
-            ControlType::Satisfaction => Answer::Satisfaction(Satisfaction::No),
-            ControlType::Detailed => Answer::Detailed(Detailed::No),
-            ControlType::DetailedOptional => Answer::DetailedOptional(DetailedOptional::No),
-            ControlType::Occurence => Answer::Occurence(Occurence::Never),
-            ControlType::Bool => Answer::Bool(false),
-            ControlType::Any => Answer::Any(String::new()),
-            ControlType::Title => Answer::Title,
+            ControlType::Satisfaction => Ok(Answer::Satisfaction(Satisfaction::No)),
+            ControlType::Detailed => Ok(Answer::Detailed(Detailed::No)),
+            ControlType::DetailedOptional => Ok(Answer::DetailedOptional(DetailedOptional::No)),
+            ControlType::Occurence => Ok(Answer::Occurence(Occurence::Never)),
+            ControlType::Bool => Ok(Answer::Bool(false)),
+            ControlType::Any => Ok(Answer::Any(String::new())),
+            _ => Err("No matching Answer type found for given control type!")
         }
     }
+    
 }
 
 #[cfg(test)]
@@ -289,12 +284,11 @@ mod tests {
             format!("{}", Answer::DetailedOptional(DetailedOptional::Averagely)),
             String::from("Averagely")
         );
-        assert_eq!(format!("{}", Answer::Title), String::new());
+        assert_eq!(format!("{}", Answer::Any(String::new())), String::new());
     }
 
     #[test]
     fn test_type_eq() {
-        assert!(Answer::Title.type_eq(&Answer::Title));
         assert!(Answer::Any(String::from("Hello")).type_eq(&Answer::Any(String::new())));
         assert!(Answer::Detailed(Detailed::Averagely).type_eq(&Answer::Detailed(Detailed::No)));
     }

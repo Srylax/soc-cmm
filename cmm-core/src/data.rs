@@ -8,6 +8,7 @@ use crate::{
     cid::{CID, Domain},
     control::Control,
     schema::Schema,
+    score::Score,
 };
 
 /// Only contains the soc-cmm values at its most simple form (CID->Control)
@@ -62,6 +63,24 @@ impl SOCData {
         self.controls.get(cid)
     }
 
+    pub fn section_completeness(&self, cid: &CID) -> Score {
+        let children: Vec<&Control> = self
+            .controls_by_domain(&cid.domain())
+            .filter(|(ctrl_id, ctrl)| {
+                ctrl_id.is_child_of(cid) && ctrl.answer().type_eq(&Answer::Bool(true))
+            })
+            .map(|(_, ctrl)| ctrl)
+            .collect();
+        Score::new(
+            children
+                .iter()
+                .filter(|ctrl| ctrl.answer().eq(&Answer::Bool(true)))
+                .collect::<Vec<_>>()
+                .len() as f64,
+            children.len() as f64,
+        )
+    }
+
     pub fn set_answer(&mut self, cid: &CID, answer: Answer) {
         if let Some(control) = self.control_mut(cid) {
             control.set_answer(answer);
@@ -97,13 +116,14 @@ impl SOCData {
     }
 }
 
-impl From<Schema> for SOCData {
-    fn from(schema: Schema) -> Self {
+impl From<&Schema> for SOCData {
+    fn from(schema: &Schema) -> Self {
         SOCData {
             controls: schema
                 .controls()
                 .iter()
-                .map(|(cid, control_schema)| (*cid, Control::from(control_schema)))
+                .filter(|(_, control_schema)| Control::try_from(*control_schema).is_ok())
+                .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
                 .collect(),
             notes: None,
         }

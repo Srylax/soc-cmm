@@ -1,9 +1,9 @@
-use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control, schema::ControlSchema};
+use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control, schema::{ControlSchema, ControlType}};
 use dioxus::prelude::*;
 use strum::VariantArray;
 use dioxus_free_icons::{icons::fa_solid_icons::{FaArrowRightLong, FaCircleInfo}, Icon};
 
-use crate::{components::{DomainIconComponent, SmallButtonComponent, StarButtonComponent}, utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data}};
+use crate::{components::{CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent}, utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data}};
 
 #[component]
 pub fn ControlsListComponent(pinned: bool) -> Element {
@@ -96,20 +96,28 @@ fn ControlItemComponent(
         if pinned {
             return rsx!();
         }
-        if indent > 1 {
-            return rsx! {
-                h6 {
-                    class: "mt-4 mb-1 text-lg font-semibold",
-                    id: "{cid}",
-                    "{cid.as_short_string()} {ctrl_schema.title()}"
-                }
-            };
-        }
+        
         return rsx! {
             h5 {
-                class: "mt-4 mb-1 text-xl font-semibold",
+                class: "mt-4 mb-1 font-semibold flex justify-between",
+                class: if indent > 1 { "text-lg" } else { "text-xl" },
                 id: "{cid}",
-                "{cid.as_short_string()} {ctrl_schema.title()}"
+                span {
+                    "{cid.as_short_string()} {ctrl_schema.title()}"
+                }
+                if ctrl_schema.control_type() == &ControlType::ScoredSectionTitle {
+                    SmallButtonComponent {
+                        CompletenessScoreComponent {
+                            score: data().section_completeness(&cid)       
+                        }
+                    }
+                }
+            }
+            if ctrl_schema.remarks().is_some() {
+                span {
+                    class: "mb-1 text-xs",
+                    "{ctrl_schema.remarks().clone().unwrap()}"
+                }
             }
         };
     };
@@ -293,7 +301,7 @@ fn ControlInputComponent(
                 class: "w-full flex items-baseline gap-x-2",
                 for value in vec!["True", "False"] {
                     label {
-                        key: "{cid}{control().answer()}",
+                        key: "{cid}{control().answer()}{value}",
                         class: "dark:bg-slate-700 bg-slate-200 py-1 px-2 rounded cursor-pointer dark:hover:bg-slate-600 hover:bg-slate-300 has-checked:bg-slate-200 dark:has-checked:bg-slate-600 has-checked:border-blue-300 border-3 border-transparent w-full",
                         input {
                             class: "appearance-none opacity-0",
@@ -301,7 +309,7 @@ fn ControlInputComponent(
                             r#type: "radio",
                             name: "{cid}.{pinned}",
                             checked: content == &(value == "True"),
-                            onclick: move |_| {
+                            onclick: move |_| async move {
                                 data.write().set_answer(&cid, Answer::Bool(value == "True"));
                             },
                         }
