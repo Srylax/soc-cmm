@@ -35,6 +35,9 @@ label:after {
 
 li:has(a.current) {
     @apply border-blue-400;
+    .dot {
+        @apply bg-blue-400;
+    }
 }
 a.current {
     @apply text-blue-400;

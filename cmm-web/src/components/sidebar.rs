@@ -18,7 +18,7 @@ pub fn SidebarComponent(
 
     rsx! {
         button {
-            class: "fixed z-30 left-3 top-2.5 cursor-pointer bg-white rounded p-2 lg:hidden lg:invisible print:hidden border-[1px] border-slate-200",
+            class: "fixed z-30 left-3 top-2.5 cursor-pointer bg-white rounded p-2 lg:hidden lg:invisible print:hidden border-1 border-slate-200",
             class: if sidebar_open() {
                 "left-[280px] translate-x-1/2"
             } else {
@@ -141,13 +141,13 @@ fn NavigationLinkComponent(
         li {
             class: "dark:text-slate-300 dark:border-slate-600 dark:has-hover:border-slate-50 has-hover:border-slate-800 text-slate-800 border-l-2 border-slate-300 pl-3.5 ml-1.5 py-1 text-[15px] relative group",
             span {
-                class: "absolute w-2 h-1/2 top-1/2 not-group-last:hidden dark:bg-slate-900 bg-white -left-[1px] -translate-x-1/2"
+                class: "absolute w-2 h-1/2 -bottom-[1px] not-group-last:hidden dark:bg-slate-900 bg-white -left-[1px] -translate-x-1/2"
             },
             span {
-                class: "absolute w-2 h-1/2 top-0 not-group-first:hidden dark:bg-slate-900 bg-white -left-[1px] -translate-x-1/2"
+                class: "absolute w-2 h-1/2 top-0 pt-2 not-group-first:hidden dark:bg-slate-900 bg-white -left-[1px] -translate-x-1/2"
             },
             span {
-                class: "absolute w-1.5 h-1.5 dark:bg-slate-500 bg-slate-400 group-has-hover:bg-slate-900 dark:group-has-hover:bg-white rounded-full -left-[1px] -translate-1/2 top-1/2"
+                class: "dot absolute w-1.5 h-1.5 dark:bg-slate-500 bg-slate-400 group-has-hover:bg-slate-900 dark:group-has-hover:bg-white rounded-full -left-[1px] -translate-1/2 top-1/2"
             },
             a {
                 class: "dark:hover:text-slate-50 hover:text-slate-950 flex justify-between gap-x-1",
