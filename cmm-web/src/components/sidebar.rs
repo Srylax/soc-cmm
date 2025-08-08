@@ -1,4 +1,5 @@
 use crate::{
+    Route,
     components::{ButtonComponent, DomainIconComponent, SidebarScoreComponent},
     utils::{use_app_settings, use_schema, use_stats},
 };
@@ -101,6 +102,10 @@ pub fn SidebarComponent(children: Element) -> Element {
             }
             div {
                 class: "p-4 mb-14",
+                Link {
+                    to: Route::Report {},
+                    "Report"
+                }
                 NavigationSectionComponent {
                     title: "Overview",
                     href: "overview",
