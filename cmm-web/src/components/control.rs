@@ -1,9 +1,22 @@
-use cmm_core::{answer::Answer, cid::{Domain, CID}, control::Control, schema::{ControlSchema, ControlType}};
+use cmm_core::{
+    answer::Answer,
+    cid::{CID, Domain},
+    control::Control,
+    schema::{ControlSchema, ControlType},
+};
 use dioxus::prelude::*;
+use dioxus_free_icons::{
+    Icon,
+    icons::fa_solid_icons::{FaArrowRightLong, FaCircleInfo},
+};
 use strum::VariantArray;
-use dioxus_free_icons::{icons::fa_solid_icons::{FaArrowRightLong, FaCircleInfo}, Icon};
 
-use crate::{components::{CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent}, utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data}};
+use crate::{
+    components::{
+        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent,
+    },
+    utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data},
+};
 
 #[component]
 pub fn ControlsListComponent(pinned: bool) -> Element {
@@ -33,11 +46,14 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                 h3 {
                     class: "text-3xl mb-2 mt-6 font-semibold flex items-center gap-2",
                     id: "variant-{domain}",
-                    DomainIconComponent {
-                        domain: domain.clone(),
-                        width: 24,
-                        height: 24,
-                        fill: "currentColor",
+                    span {
+                        class: "bg-blue-500 print:hidden rounded-xl p-3 aspect-square",
+                        DomainIconComponent {
+                            domain: domain.clone(),
+                            width: 24,
+                            height: 24,
+                            fill: "currentColor",
+                        }
                     }
                     "{domain}"
                 }
@@ -81,14 +97,14 @@ fn ControlItemComponent(
     cid: CID,
     pinned: bool,
     // we need to pass this for reactivity to work as intented
-    control_option: Option<Control>
+    control_option: Option<Control>,
 ) -> Element {
     let mut data = use_soc_data();
     let schema = use_schema();
     let compare_data = use_soc_compare_data();
     let settings = use_app_settings();
 
-    let ctrl_schema = schema.control_schema(&cid).unwrap();
+    let ctrl_schema = schema.control_schema(&cid).unwrap().clone();
 
     let indent = cid.indent() - 1;
 
@@ -96,7 +112,7 @@ fn ControlItemComponent(
         if pinned {
             return rsx!();
         }
-        
+
         return rsx! {
             h5 {
                 class: "mt-4 mb-1 font-semibold flex justify-between",
@@ -108,7 +124,7 @@ fn ControlItemComponent(
                 if ctrl_schema.control_type() == &ControlType::ScoredSectionTitle {
                     SmallButtonComponent {
                         CompletenessScoreComponent {
-                            score: data().section_completeness(&cid)       
+                            score: data().section_completeness(&cid)
                         }
                     }
                 }
@@ -127,12 +143,45 @@ fn ControlItemComponent(
     }
 
     if !control.answer().control_type_eq(ctrl_schema.control_type()) {
-        return rsx!{
+        return rsx! {
             div {
-                class: "bg-red-500 text-white",
-                "Field type mismatch!"
+                class: "bg-red-500 border-1 border-red-600 rounded p-2 text-white",
+                "Field type mismatch! You can fix this by pressing the button below, but the old value will be deleted (if it had one)."
+                div {
+                    class: "my-2",
+                    div {
+                        class: "flex gap-2 font-semibold",
+                        "Old value: ",
+                        ValueOrPlaceholderComponent {
+                            value: "{control.answer()}"
+                        }
+                    }
+                    div {
+                        class: "flex gap-2 font-semibold",
+                        if Answer::try_from(ctrl_schema.control_type()).is_err() {
+                            "This field does not exist in the new version. You can safely update!"
+                        } else {
+                            "New value: ",
+                            ValueOrPlaceholderComponent {
+                                value: "{Answer::try_from(ctrl_schema.control_type()).unwrap()}"
+                            }
+                        }
+                        
+                    }
+                }
+                button {
+                    class: "rounded border-2 border-white py-2 px-3 font-semibold cursor-pointer hover:bg-red-400",
+                    onclick: move |_| {
+                        if let Ok(answer) = Answer::try_from(ctrl_schema.control_type()) {
+                            data.write().set_answer(&cid, answer);
+                        } else {
+                            data.write().remove_control(&cid);
+                        }
+                    },
+                    "Update"
+                }
             }
-        }
+        };
     }
 
     let show_comparison = |cid: &CID| -> bool {
@@ -254,20 +303,17 @@ fn ControlItemComponent(
     }
 }
 
-
 #[component]
-fn ValueOrPlaceholderComponent(
-    value: String
-) -> Element {
+fn ValueOrPlaceholderComponent(value: String) -> Element {
     if value.is_empty() {
-        return rsx!{
+        return rsx! {
             span {
                 class: "opacity-70 italic",
                 "<empty>"
             }
-        }
+        };
     }
-    rsx!{ "{value}" }
+    rsx! { "{value}" }
 }
 
 #[component]
@@ -275,7 +321,7 @@ fn ControlInputComponent(
     cid: CID,
     control: ReadOnlySignal<Control>,
     control_schema: ControlSchema,
-    pinned: bool
+    pinned: bool,
 ) -> Element {
     let mut data = use_soc_data();
 
@@ -348,10 +394,7 @@ fn ControlInputComponent(
 }
 
 #[component]
-fn ControlItemValuePreviewComponent(
-    cid: CID,
-    control: ReadOnlySignal<Control>,
-) -> Element {
+fn ControlItemValuePreviewComponent(cid: CID, control: ReadOnlySignal<Control>) -> Element {
     let mut data = use_soc_data();
 
     let Answer::Bool(_) = control().answer() else {

@@ -63,6 +63,10 @@ impl SOCData {
         self.controls.get(cid)
     }
 
+    pub fn remove_control(&mut self, cid: &CID) {
+        self.controls.shift_remove(cid);
+    }
+
     pub fn section_completeness(&self, cid: &CID) -> Score {
         let children: Vec<&Control> = self
             .controls_by_domain(&cid.domain())
