@@ -149,9 +149,18 @@ mod tests {
 
     #[test]
     fn test_cid_as_short_string() {
-        assert_eq!("People.3".parse::<CID>().unwrap().as_short_string(), "3".to_string());
-        assert_eq!("People.3.1".parse::<CID>().unwrap().as_short_string(), "3.1".to_string());
-        assert_eq!("People.3.12.1".parse::<CID>().unwrap().as_short_string(), "3.12.1".to_string());
+        assert_eq!(
+            "People.3".parse::<CID>().unwrap().as_short_string(),
+            "3".to_string()
+        );
+        assert_eq!(
+            "People.3.1".parse::<CID>().unwrap().as_short_string(),
+            "3.1".to_string()
+        );
+        assert_eq!(
+            "People.3.12.1".parse::<CID>().unwrap().as_short_string(),
+            "3.12.1".to_string()
+        );
     }
 
     #[test]

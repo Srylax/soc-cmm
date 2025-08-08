@@ -37,13 +37,14 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                         domain: domain.clone(),
                         width: 24,
                         height: 24,
-                        fill: "currentColor"
-                    },
+                        fill: "currentColor",
+                    }
                     "{domain}"
-                },
+                }
             }
             div {
-                for (i, aspect) in schema.aspects(domain).iter().enumerate() {
+
+                for (i , aspect) in schema.aspects(domain).iter().enumerate() {
                     if !pinned {
                         h4 {
                             class: "text-2xl mb-2 mt-6 font-semibold",
@@ -52,15 +53,17 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                         }
                     }
                     div {
+
                         for indent_items in indent_list(schema.controls_by_aspect(&domain, i as u8 + 1).collect()) {
                             if indent_items.len() > 0 {
                                 div {
-                                    for (cid, _) in indent_items {
+
+                                    for (cid , _) in indent_items {
                                         ControlItemComponent {
                                             key: "{cid}_{pinned}",
                                             cid: cid.to_owned(),
                                             control_option: data().control(&cid).cloned(),
-                                            pinned
+                                            pinned,
                                         }
                                     }
                                 }
@@ -141,15 +144,16 @@ fn ControlItemComponent(
                 summary {
                     class: "not-in-open:p-3 cursor-pointer flex justify-between w-full",
                     span {
+
                         if pinned {
                             "{cid.domain()} > "
-                        },
+                        }
                         span {
                             class: "opacity-70 mr-2",
                             "{cid.as_short_string()}"
-                        },
+                        }
                         "{ctrl_schema.title()}"
-                    },
+                    }
                     div {
                         class: if !control.bookmark() { "bookmark-button" },
                         div {
@@ -159,16 +163,17 @@ fn ControlItemComponent(
                                 onclick: move |_| {
                                     data.write().toggle_bookmark(&cid);
                                 },
-                                active: control.bookmark()
-                            },
+                                active: control.bookmark(),
+                            }
                             if show_comparison(&cid) && settings().show_comparison {
                                 span {
                                     class: "opacity-60",
                                     SmallButtonComponent {
+
                                         ValueOrPlaceholderComponent {
-                                            value: "{compare_data().control(&cid).unwrap().answer()}"
+                                            value: "{compare_data().control(&cid).unwrap().answer()}",
                                         }
-                                    },
+                                    }
                                 }
                                 Icon {
                                     class: "opacity-60",
@@ -176,15 +181,14 @@ fn ControlItemComponent(
                                     width: 18,
                                     height: 18,
                                 }
-                            },
+                            }
                             ControlItemValuePreviewComponent {
                                 cid,
                                 control: control.clone(),
-                            },
-
+                            }
                         }
                     }
-                },
+                }
                 if ctrl_schema.remarks().is_some() {
                     div {
                         class: "mt-4 opacity-90 rounded py-2 px-3 dark:bg-slate-900 bg-slate-200 flex gap-x-2",
@@ -193,20 +197,22 @@ fn ControlItemComponent(
                             Icon {
                                 height: 18,
                                 width: 18,
-                                icon: FaCircleInfo
+                                icon: FaCircleInfo,
                             }
-                        },
+                        }
                         "{ctrl_schema.remarks().clone().unwrap()}"
                     }
-                },
+                }
                 div {
                     class: "grid gap-2 mt-4 grid-cols-[3fr_2fr]",
-                    span { },
+                    span {
+
+                    }
                     span {
                         class: "text-sm",
-                        "Comment",
-                    },
-                },
+                        "Comment"
+                    }
+                }
                 div {
                     class: "grid gap-2 mt-1 grid-cols-[3fr_2fr]",
                     ControlInputComponent {
@@ -214,8 +220,8 @@ fn ControlItemComponent(
                         cid,
                         control: control.clone(),
                         control_schema: ctrl_schema.clone(),
-                        pinned
-                    },
+                        pinned,
+                    }
                     label {
                         class: "min-h-2xl flex flex-wrap",
                         textarea {
@@ -223,16 +229,16 @@ fn ControlItemComponent(
                             value: control.comment().clone().unwrap_or(String::new()),
                             onchange: move |evt| {
                                 data.write().set_comment(&cid, Some(evt.value()));
-                            }
-                        },
+                            },
+                        }
                     }
                 }
-            },
+            }
             if show_comparison(&cid) && settings().show_comparison {
                 div {
                     class: "absolute h-full pt-1 pb-0.5 w-1 flex items-center -right-2 top-0 translate-x-full",
                     span {
-                        class: "w-2 h-full bg-blue-500 rounded-xs"
+                        class: "w-2 h-full bg-blue-500 rounded-xs",
                     }
                 }
             }
@@ -253,9 +259,7 @@ fn ValueOrPlaceholderComponent(
             }
         }
     }
-    rsx!{
-        "{value}"
-    }
+    rsx!{ "{value}" }
 }
 
 #[component]
@@ -270,16 +274,14 @@ fn ControlInputComponent(
     if let Answer::Any(content) = control().answer() {
         return rsx! {
             div {
+
                 input {
                     class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full block",
                     r#type: "text",
                     value: "{content}",
                     oninput: move |evt| {
-                        data.write().set_answer(
-                            &cid,
-                            Answer::Any(evt.value())
-                        );
-                    }
+                        data.write().set_answer(&cid, Answer::Any(evt.value()));
+                    },
                 }
             }
         };
@@ -297,15 +299,12 @@ fn ControlInputComponent(
                             class: "appearance-none opacity-0",
                             tabindex: "0",
                             r#type: "radio",
-                            name:  "{cid}.{pinned}",
+                            name: "{cid}.{pinned}",
                             checked: content == &(value == "True"),
                             onclick: move |_| {
-                                data.write().set_answer(
-                                    &cid,
-                                    Answer::Bool(value == "True")
-                                );
-                            }
-                        },
+                                data.write().set_answer(&cid, Answer::Bool(value == "True"));
+                            },
+                        }
                         "{value}"
                     }
                 }
@@ -316,31 +315,22 @@ fn ControlInputComponent(
     rsx! {
         div {
             class: "grid gap-2",
-            for (i, variant) in control().answer().variants().iter().enumerate() {
+            for (i , variant) in control().answer().variants().iter().enumerate() {
                 label {
                     key: "{cid}_{control().answer()}_{i}",
                     class: "dark:bg-slate-700 bg-slate-200 py-1 px-2 rounded cursor-pointer dark:hover:bg-slate-600 hover:bg-slate-300 has-checked:bg-slate-200 dark:has-checked:bg-slate-600 has-checked:border-blue-400 border-l-4 border-transparent has-focus:outline-2  has-focus:outline-blue-400 not-dark:not-has-focus:outline-1 not-dark:not-has-focus:outline-slate-300",
-                    "data-description": control_schema
-                                            .guidances()
-                                            .get(i)
-                                            .cloned()
-                                            .unwrap_or(String::new()),
+                    "data-description": control_schema.guidances().get(i).cloned().unwrap_or(String::new()),
                     input {
                         class: "appearance-none opacity-0",
                         tabindex: "0",
                         r#type: "radio",
-                        name:  "{cid}.{pinned}",
+                        name: "{cid}.{pinned}",
                         value: variant.to_owned(),
                         checked: control().answer().variant_eq(variant),
                         onclick: move |_evt| {
-                            data.write().set_answer(
-                                &cid,
-                                control()
-                                    .answer()
-                                    .extend_from_variant(variant)
-                                    .unwrap()
-                                );
-                        }
+                            data.write()
+                                .set_answer(&cid, control().answer().extend_from_variant(variant).unwrap());
+                        },
                     }
                     "{variant}"
                 }
@@ -359,8 +349,9 @@ fn ControlItemValuePreviewComponent(
     let Answer::Bool(_) = control().answer() else {
         return rsx! {
             SmallButtonComponent {
+
                 ValueOrPlaceholderComponent {
-                    value:"{control().answer()}"
+                    value: "{control().answer()}",
                 }
             }
         };
@@ -371,13 +362,7 @@ fn ControlItemValuePreviewComponent(
             onclick: move |evt: MouseEvent| {
                 evt.prevent_default();
                 data.write()
-                    .set_answer(
-                        &cid,
-                        Answer::Bool(
-                            control()
-                                .answer()
-                                .eq(&Answer::Bool(false)))
-                    );
+                    .set_answer(&cid, Answer::Bool(control().answer().eq(&Answer::Bool(false))));
             },
             "{control().answer()}"
         }

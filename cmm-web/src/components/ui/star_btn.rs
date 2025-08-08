@@ -10,20 +10,20 @@ pub fn StarButtonComponent(
 ) -> Element {
     rsx! {
         SmallButtonComponent {
-            onclick: onclick,
+            onclick,
             if active {
                 Icon {
                     width: 15,
                     height: 15,
                     fill: "white",
-                    icon: FasStar
+                    icon: FasStar,
                 }
             } else {
                 Icon {
                     width: 15,
                     height: 15,
                     fill: "white",
-                    icon: FaStar
+                    icon: FaStar,
                 }
             }
         }

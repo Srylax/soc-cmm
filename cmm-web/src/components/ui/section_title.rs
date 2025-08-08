@@ -10,6 +10,6 @@ pub fn SectionTitleComponent(
             class: "text-3xl mb-4",
             id,
             "{text}"
-        },
+        }
     }
 }

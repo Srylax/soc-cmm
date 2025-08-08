@@ -15,6 +15,6 @@ pub fn SmallButtonComponent(
                 }
             },
             {children}
-        },
+        }
     }
 }

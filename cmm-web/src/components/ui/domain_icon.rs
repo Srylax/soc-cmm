@@ -25,7 +25,7 @@ pub fn DomainIconComponent(
                     width,
                     height,
                     fill,
-                    icon: FaBriefcase
+                    icon: FaBriefcase,
                 }
             }
         },
@@ -35,7 +35,7 @@ pub fn DomainIconComponent(
                     width,
                     height,
                     fill,
-                    icon: FaUsers
+                    icon: FaUsers,
                 }
             }
         },
@@ -45,7 +45,7 @@ pub fn DomainIconComponent(
                     width,
                     height,
                     fill,
-                    icon: FaBarsProgress
+                    icon: FaBarsProgress,
                 }
             }
         },
@@ -55,7 +55,7 @@ pub fn DomainIconComponent(
                     width,
                     height,
                     fill,
-                    icon: FaWrench
+                    icon: FaWrench,
                 }
             }
         },
@@ -65,7 +65,7 @@ pub fn DomainIconComponent(
                     width,
                     height,
                     fill,
-                    icon: FaComputer
+                    icon: FaComputer,
                 }
             }
         },

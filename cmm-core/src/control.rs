@@ -55,6 +55,10 @@ impl Control {
 
 impl From<&ControlSchema> for Control {
     fn from(value: &ControlSchema) -> Self {
-        Self { answer: Answer::from(value.control_type()), bookmark: false, comment: None }
+        Self {
+            answer: Answer::from(value.control_type()),
+            bookmark: false,
+            comment: None,
+        }
     }
 }

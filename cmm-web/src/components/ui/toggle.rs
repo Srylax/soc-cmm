@@ -19,7 +19,7 @@ pub fn ToggleComponent(
                     aria_hidden: "true",
                     class: "pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out group-aria-checked:translate-x-5",
                 }
-            },
+            }
             if label.clone().is_some() {
                 span {
                     class: "ml-3 text-sm",

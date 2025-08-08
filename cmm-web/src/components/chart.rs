@@ -26,8 +26,8 @@ pub fn ChartComponent() -> Element {
                 class: "w-full h-[500px] bg-slate-200 py-4 rounded",
                 canvas {
                     class: "rounded",
-                },
-            },
-        },
+                }
+            }
+        }
     }
 }

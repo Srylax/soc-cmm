@@ -28,5 +28,10 @@ pub fn SidebarScoreComponent(score: Option<Score>) -> Element {
     if !settings().show_scores {
         return rsx!();
     }
-    rsx!( ScoreComponent { score, precision: 1 })
+    rsx!(
+        ScoreComponent {
+            score,
+            precision: 1,
+        }
+    )
 }

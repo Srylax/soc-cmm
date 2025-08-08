@@ -201,27 +201,27 @@ impl Answer {
 
     pub fn type_eq(&self, other: &Answer) -> bool {
         match (self, other) {
-            (Answer::Satisfaction(_), Answer::Satisfaction(_)) |
-            (Answer::Detailed(_), Answer::Detailed(_)) |
-            (Answer::DetailedOptional(_), Answer::DetailedOptional(_)) |
-            (Answer::Occurence(_), Answer::Occurence(_)) |
-            (Answer::Bool(_), Answer::Bool(_)) |
-            (Answer::Any(_), Answer::Any(_)) |
-            (Answer::Title, Answer::Title) => true,
-            _ => false
+            (Answer::Satisfaction(_), Answer::Satisfaction(_))
+            | (Answer::Detailed(_), Answer::Detailed(_))
+            | (Answer::DetailedOptional(_), Answer::DetailedOptional(_))
+            | (Answer::Occurence(_), Answer::Occurence(_))
+            | (Answer::Bool(_), Answer::Bool(_))
+            | (Answer::Any(_), Answer::Any(_))
+            | (Answer::Title, Answer::Title) => true,
+            _ => false,
         }
     }
 
     pub fn control_type_eq(&self, other: &ControlType) -> bool {
         match (self, other) {
-            (Answer::Satisfaction(_), ControlType::Satisfaction) |
-            (Answer::Detailed(_), ControlType::Detailed) |
-            (Answer::DetailedOptional(_), ControlType::DetailedOptional) |
-            (Answer::Occurence(_), ControlType::Occurence) |
-            (Answer::Bool(_), ControlType::Bool) |
-            (Answer::Any(_), ControlType::Any) |
-            (Answer::Title, ControlType::Title) => true,
-            _ => false
+            (Answer::Satisfaction(_), ControlType::Satisfaction)
+            | (Answer::Detailed(_), ControlType::Detailed)
+            | (Answer::DetailedOptional(_), ControlType::DetailedOptional)
+            | (Answer::Occurence(_), ControlType::Occurence)
+            | (Answer::Bool(_), ControlType::Bool)
+            | (Answer::Any(_), ControlType::Any)
+            | (Answer::Title, ControlType::Title) => true,
+            _ => false,
         }
     }
 

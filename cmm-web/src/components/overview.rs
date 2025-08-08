@@ -14,36 +14,36 @@ pub fn OverviewComponent() -> Element {
             id: "domain-scores",
             SectionTitleComponent {
                 id: "overview",
-                text: "Overview"
-            },
+                text: "Overview",
+            }
             div {
                 class: "grid grid-cols-2 gap-4",
                 if settings().show_comparison {
                     div {
                         class: "text-center",
                         "comparison"
-                    },
+                    }
                     div {
                         class: "text-center",
                         "current"
-                    },
-                    OverallScoreComponent {
-                        stats: cmp_stats
                     }
-                },
+                    OverallScoreComponent {
+                        stats: cmp_stats,
+                    }
+                }
                 OverallScoreComponent {
-                    stats
-                },
+                    stats,
+                }
                 for domain in Domain::VARIANTS {
                     if settings().show_comparison {
                         DomainOverviewComponent {
                             domain: *domain,
-                            stats: cmp_stats
-                        },
-                    },
+                            stats: cmp_stats,
+                        }
+                    }
                     DomainOverviewComponent {
                         domain: *domain,
-                        stats: stats
+                        stats,
                     }
                 }
             }
@@ -64,12 +64,12 @@ fn OverallScoreComponent(
                 class: "text-slate-50 text-8xl font-extrabold text-shadow",
                 ScoreComponent {
                     score: stats.read().score_overall(),
-                    precision: 1
+                    precision: 1,
                 }
-            },
+            }
             div {
                 class: "text-slate-50 text-right opacity-80",
-                "SOC maturity score",
+                "SOC maturity score"
                 if !settings().show_percentage {
                     " (max {round(stats.read().score_overall().max(), 1)})"
                 }
@@ -103,13 +103,13 @@ fn DomainOverviewComponent(
                                 width: 20,
                                 height: 20,
                                 fill: "white",
-                                domain
+                                domain,
                             }
-                        },
+                        }
                         h2 {
                             class: "text-2xl font-semibold",
                             "{domain}"
-                        },
+                        }
                     }
                     if overall_capability_score.score().is_normal() {
                         div {
@@ -118,10 +118,10 @@ fn DomainOverviewComponent(
                             small {
                                 class: "text-xs",
                                 "Capability"
-                            },
+                            }
                             ScoreComponent {
                                 score: overall_capability_score,
-                                precision: 1
+                                precision: 1,
                             }
                         }
                     }
@@ -131,47 +131,48 @@ fn DomainOverviewComponent(
                         small {
                             class: "text-xs",
                             "Maturity"
-                        },
+                        }
                         ScoreComponent {
                             score: overall_score,
-                            precision: 1
+                            precision: 1,
                         }
                     }
-                },
-            },
+                }
+            }
             div {
                 class: "mt-4 bg-slate-50 rounded-2xl p-4 border-1 border-slate-200 dark:border-slate-500 dark:bg-slate-600",
-                for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
+                for (i , aspect) in schema.aspects(&domain).iter().enumerate() {
                     div {
                         key: format!(
                             "{}_{}_{}",
                             aspect,
                             stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(),
-                            stats.read().capability_by_aspect(&domain, i as u8 + 1).score()
+                            stats.read().capability_by_aspect(&domain, i as u8 + 1).score(),
                         ),
                         span {
                             class: "text-[10px] text-right",
                             "data-aspect-value": "{round(stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(), 2)}",
                             "{aspect}"
-                        },
+                        }
                         div {
+
                             div {
                                 class: "not-print:hidden",
                                 ScoreComponent {
                                     score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
-                                    precision: 2
+                                    precision: 2,
                                 }
-                            },
+                            }
                             BadToGoodProgressBarComponent {
                                 score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
-                                tooltip_prefix: "{aspect} maturity: "
-                            },
+                                tooltip_prefix: "{aspect} maturity: ",
+                            }
                             if stats.read().capability_by_aspect(&domain, i as u8 + 1).score().is_normal() {
                                 div {
                                     class: "mt-1",
                                     BadToGoodProgressBarComponent {
                                         score: stats.read().capability_by_aspect(&domain, i as u8 + 1),
-                                        tooltip_prefix: "{aspect} capability: "
+                                        tooltip_prefix: "{aspect} capability: ",
                                     }
                                 }
                             }

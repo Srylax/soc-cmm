@@ -16,6 +16,6 @@ pub fn ButtonComponent(
                 }
             },
             {children}
-        },
+        }
     }
 }
