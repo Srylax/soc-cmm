@@ -32,11 +32,11 @@ pub fn DataSchemaLayout() -> Element {
     });
 
     let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
-        toml::from_str(include_str!("../../data-2.3.4.toml")).unwrap()
+        SOCData::from(&schema)
     });
     let compare_data: Signal<SOCData> =
         use_synced_storage::<LocalStorage, _>("compare-cmm".to_owned(), || {
-            toml::from_str(include_str!("../../data-2.3.4.toml")).unwrap()
+            SOCData::from(&schema)
         });
     let (data, cmp_data) = use_context_provider(|| (data, compare_data));
 
