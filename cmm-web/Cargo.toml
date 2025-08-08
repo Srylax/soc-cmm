@@ -11,7 +11,7 @@ license = "GPL-3.0-only"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 cmm-core = { path = "../cmm-core" }
-dioxus = { version = "0.6", features = [] }
+dioxus = { version = "0.6", features = ["router"] }
 strum = "0.27"
 toml = "0.8"
 indexmap = { version = "2.9", features = ["serde"] }

@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use serde::{Deserialize, Serialize};
 
-use crate::components::ToggleComponent;
+use crate::{components::ToggleComponent, utils::use_app_settings};
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct AppSettings {
@@ -12,7 +12,9 @@ pub struct AppSettings {
 }
 
 #[component]
-pub fn SettingsComponent(settings: Signal<AppSettings>) -> Element {
+pub fn SettingsComponent() -> Element {
+    let mut settings = use_app_settings();
+    
     use_effect(move || {
         if settings().darkmode {
             document::eval("document.body.classList.add('dark');");
@@ -27,28 +29,28 @@ pub fn SettingsComponent(settings: Signal<AppSettings>) -> Element {
             onclick: move |_| {
                 settings.write().darkmode = !settings().darkmode;
             },
-            label: "Darkmode"
-        },
+            label: "Darkmode",
+        }
         ToggleComponent {
             checked: settings().show_scores,
             onclick: move |_| {
                 settings.write().show_scores = !settings().show_scores;
             },
-            label: "Show Scores"
-        },
+            label: "Show Scores",
+        }
         ToggleComponent {
             checked: settings().show_percentage,
             onclick: move |_| {
                 settings.write().show_percentage = !settings().show_percentage;
             },
-            label: "Show Percentage"
-        },
+            label: "Show Percentage",
+        }
         ToggleComponent {
             checked: settings().show_comparison,
             onclick: move |_| {
                 settings.write().show_comparison = !settings().show_comparison;
             },
-            label: "Show Comparison"
-        },
+            label: "Show Comparison",
+        }
     }
 }
