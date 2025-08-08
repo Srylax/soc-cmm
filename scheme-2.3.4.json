@@ -113,7 +113,7 @@
         "Business.2.2": {
             "title": "Please specify your customers:",
             "control_type": "Title",
-            "remarks": "Use this a guideline for answering 2.1 This is also potentially useful for insights and comparison with previous assessments"
+            "remarks": "Use this a guideline for answering 2.1. This is also potentially useful for insights and comparison with previous assessments"
         },
         "Business.2.2.1": {
             "title": "Legal",
@@ -152,7 +152,7 @@
         },
         "Business.2.2.8": {
             "title": "Other customers:",
-            "control_type": "Title",
+            "control_type": "Any",
             "remarks": "Specify any additional customers"
         },
         "Business.2.3": {
@@ -229,7 +229,7 @@
         },
         "Business.3.2": {
             "title": "Please specify elements of the charter document:",
-            "control_type": "Any"
+            "control_type": "ScoredSectionTitle"
         },
         "Business.3.2.1": {
             "title": "Mission",
@@ -348,7 +348,7 @@
         },
         "Business.4.3": {
             "title": "Please specify identified governance elements",
-            "control_type": "Any"
+            "control_type": "ScoredSectionTitle"
         },
         "Business.4.3.1": {
             "title": "Business Alignment",
@@ -434,7 +434,7 @@
         },
         "Business.4.5": {
             "title": "Please specify cost management elements",
-            "control_type": "Any"
+            "control_type": "ScoredSectionTitle"
         },
         "Business.4.5.1": {
             "title": "People cost",
@@ -575,7 +575,7 @@
         },
         "Business.5.3": {
             "title": "Please specify elements of the SOC policy",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Business.5.3.1": {
             "title": "Code of conduct",
@@ -960,7 +960,7 @@
         },
         "People.2.7": {
             "title": "Please specify elements in  the role documentation:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "People.2.7.1": {
             "title": "Role description",
@@ -1232,7 +1232,7 @@
         },
         "People.4.3": {
             "title": "Please specify elements of the skill matrix:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "People.4.3.1": {
             "title": "All SOC employees",
@@ -1279,7 +1279,7 @@
         },
         "People.4.6": {
             "title": "Please specify elements of the knowledge matrix:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "People.4.6.1": {
             "title": "All SOC employees",
@@ -1358,7 +1358,7 @@
         },
         "People.5.2": {
             "title": "Please specify elements of the training program:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "People.5.2.1": {
             "title": "Training on the Job",
@@ -1404,7 +1404,7 @@
         },
         "People.5.4": {
             "title": "Please specify elements of the certification program:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "People.5.4.1": {
             "title": "Internal certification track",
@@ -1505,7 +1505,7 @@
         },
         "Process.1.3": {
             "title": "Please specify identified SOC management elements:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.1.3.1": {
             "title": "Internal relationship management",
@@ -1582,7 +1582,7 @@
         },
         "Process.1.7": {
             "title": "Specify elements of the continuous improvement program:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.1.7.1": {
             "title": "Daily progress tracking",
@@ -1625,7 +1625,7 @@
         },
         "Process.1.9": {
             "title": "Please specify elements of the quality assurance program:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.1.9.1": {
             "title": "Ticket quality assurance",
@@ -1660,7 +1660,7 @@
         },
         "Process.1.11": {
             "title": "Please specify elements of the SOC architecture:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.1.11.1": {
             "title": "SOC process architecture",
@@ -1699,7 +1699,7 @@
         },
         "Process.2.1.2": {
             "title": "Please specify types of exercises included in the plan",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.2.1.2.1": {
             "title": "Table-top exercises",
@@ -2157,7 +2157,7 @@
         },
         "Process.3.8": {
             "title": "Please specify SOC report types:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.3.8.1": {
             "title": "Technical security reports",
@@ -2204,7 +2204,7 @@
         },
         "Process.3.10": {
             "title": "Please specify SOC metric types[1]",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Process.3.10.1": {
             "title": "Are quantitative metrics used in reports?",
@@ -5828,7 +5828,7 @@
         },
         "Services.1.2": {
             "title": "Please specify elements of the security monitoring service document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.1.2.1": {
             "title": "Key performance indicators",
@@ -6436,7 +6436,7 @@
         },
         "Services.2.4": {
             "title": "Please specify elements of the security incident management document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.2.4.1": {
             "title": "Security incident definition",
@@ -7127,7 +7127,7 @@
         },
         "Services.3.2": {
             "title": "Please specify elements of the security analysis service document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.3.2.1": {
             "title": "Key performance indicators",
@@ -7670,7 +7670,7 @@
         },
         "Services.4.2": {
             "title": "Please specify elements of the threat intelligence service document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.4.2.1": {
             "title": "Key performance indicators",
@@ -8306,7 +8306,7 @@
         },
         "Services.5.3": {
             "title": "Please specify elements of the threat hunting service document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.5.3.1": {
             "title": "Key performance indicators",
@@ -8798,7 +8798,7 @@
         },
         "Services.6.2": {
             "title": "Please specify elements of the vulnerability management service document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.6.2.1": {
             "title": "Key performance indicators",
@@ -9278,7 +9278,7 @@
         },
         "Services.7.2": {
             "title": "Please specify elements of the log management service document:",
-            "control_type": "Title"
+            "control_type": "ScoredSectionTitle"
         },
         "Services.7.2.1": {
             "title": "Key performance indicators",
