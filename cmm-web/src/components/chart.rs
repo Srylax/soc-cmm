@@ -1,13 +1,16 @@
-use cmm_core::CMM;
 use dioxus::prelude::*;
+
+use crate::utils::{use_app_settings, use_soc_data};
 
 #[component]
 pub fn ChartComponent() -> Element {
-    let cmm = use_context::<Signal<CMM>>();
+    let data = use_soc_data();
+    let settings = use_app_settings();
 
     use_effect(move || {
-        // this line is required, else the use effect wont update
-        let _ = cmm.read();
+        // these lines are required, else the use effect wont update
+        data.read();
+        settings.read();
         document::eval(
             r#"
             const event = new Event("updateChart");

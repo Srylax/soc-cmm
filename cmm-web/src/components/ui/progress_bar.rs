@@ -1,3 +1,4 @@
+use cmm_core::score::Score;
 use dioxus::prelude::*;
 use crate::utils::round;
 
@@ -37,12 +38,11 @@ pub fn ProgressBarComponent(
 
 #[component]
 pub fn BadToGoodProgressBarComponent(
-    max: f64,
-    value: f64,
+    score: Score,
     height: Option<u32>,
     tooltip_prefix: Option<String>
 ) -> Element {
-    let percentage = value / max * 100.0;
+    let percentage = score.as_percentage();
     let class = if percentage < 12.5 {
         "bg-red-600"
     } else if percentage < 25.0 {
@@ -62,8 +62,8 @@ pub fn BadToGoodProgressBarComponent(
     };
     rsx! {
         ProgressBarComponent {
-            max,
-            value,
+            max: score.max(),
+            value: score.score(),
             height,
             class,
             tooltip: if tooltip_prefix.is_some() { 

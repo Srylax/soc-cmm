@@ -26,6 +26,12 @@
             display: false,
           },
         },
+        scales: {
+          r: {
+            max: 5,
+            min: 0,
+          },
+        },
         aspectRatio: 2,
       },
       data: {
@@ -34,12 +40,6 @@
           {
             data: [],
             fill: true,
-            scales: {
-              r: {
-                max: 5,
-                min: 0,
-              },
-            },
           },
         ],
       },
@@ -54,14 +54,35 @@
     }
     const labels = [];
     const values = [];
+    const values_cmp = [];
     document.querySelectorAll("#domain-scores [data-aspect-value]").forEach((aspect) => {
+      if (labels.includes(aspect.innerText)) {
+        values_cmp.push(
+          Number.parseFloat(aspect.dataset.aspectValue)
+        );
+        return;
+      }
       labels.push(aspect.innerText);
       values.push(
         Number.parseFloat(aspect.dataset.aspectValue)
       );
     });
     chart.data.labels = labels;
-    chart.data.datasets[0].data = values;
+    chart.data.datasets = [
+        {
+            data: values,
+            fill: true,
+            backgroundColor: "rgba(43, 127, 255, 0.4)"
+        },
+    ];
+    if (values_cmp.length > 0) {
+      chart.data.datasets[0].data = values_cmp;
+      chart.data.datasets[1] = {
+        data: values,
+        fill: true,
+        backgroundColor: "rgba(255, 0, 0, 0.4)"
+      };
+    }
     chart.update();
   }
 

@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use std::str::FromStr;
 
 use serde::Deserialize;
@@ -5,6 +6,8 @@ use serde::Serialize;
 use strum::EnumString;
 use strum::VariantNames;
 use strum::{EnumCount, FromRepr};
+
+use crate::schema::ControlType;
 
 #[derive(
     Clone,
@@ -135,21 +138,21 @@ impl Answer {
             Answer::Satisfaction(_) | Answer::Occurence(_) | Answer::Detailed(_)
         )
     }
-    pub fn maturity_score(&self) -> Option<u8> {
+    pub fn maturity_score(&self) -> Option<u32> {
         match self {
-            Answer::Satisfaction(satisfaction) => Some(*satisfaction as u8),
-            Answer::Occurence(occurence) => Some(*occurence as u8),
-            Answer::Detailed(detailed) => Some(*detailed as u8),
+            Answer::Satisfaction(satisfaction) => Some(*satisfaction as u32),
+            Answer::Occurence(occurence) => Some(*occurence as u32),
+            Answer::Detailed(detailed) => Some(*detailed as u32),
             _ => None,
         }
     }
-    pub fn capability_score(&self) -> Option<u8> {
+    pub fn capability_score(&self) -> Option<u32> {
         match self {
-            Answer::DetailedOptional(detailed_optional) => Some(*detailed_optional as u8),
+            Answer::DetailedOptional(detailed_optional) => Some(*detailed_optional as u32),
             _ => None,
         }
     }
-    pub fn max_score(&self) -> Option<u8> {
+    pub fn max_score(&self) -> Option<u32> {
         match self {
             Answer::Satisfaction(_)
             | Answer::Occurence(_)
@@ -169,6 +172,7 @@ impl Answer {
             Answer::Title => &[],
         }
     }
+
     pub fn variant_eq(&self, variant: &str) -> bool {
         match self {
             Answer::Satisfaction(satisfaction) => satisfaction.to_string() == variant,
@@ -195,24 +199,103 @@ impl Answer {
         })
     }
 
-    pub fn as_value(&self) -> String {
-        match self {
-            Answer::Satisfaction(satisfaction) => satisfaction.to_string(),
-            Answer::Detailed(detailed) => detailed.to_string(),
-            Answer::DetailedOptional(detailed_optional) => detailed_optional.to_string(),
-            Answer::Occurence(occurence) => occurence.to_string(),
-            Answer::Bool(boolean) => boolean.to_string(),
-            Answer::Any(any) => any.to_string(),
-            Answer::Title => String::new(),
+    pub fn type_eq(&self, other: &Answer) -> bool {
+        match (self, other) {
+            (Answer::Satisfaction(_), Answer::Satisfaction(_)) |
+            (Answer::Detailed(_), Answer::Detailed(_)) |
+            (Answer::DetailedOptional(_), Answer::DetailedOptional(_)) |
+            (Answer::Occurence(_), Answer::Occurence(_)) |
+            (Answer::Bool(_), Answer::Bool(_)) |
+            (Answer::Any(_), Answer::Any(_)) |
+            (Answer::Title, Answer::Title) => true,
+            _ => false
         }
     }
+
+    pub fn control_type_eq(&self, other: &ControlType) -> bool {
+        match (self, other) {
+            (Answer::Satisfaction(_), ControlType::Satisfaction) |
+            (Answer::Detailed(_), ControlType::Detailed) |
+            (Answer::DetailedOptional(_), ControlType::DetailedOptional) |
+            (Answer::Occurence(_), ControlType::Occurence) |
+            (Answer::Bool(_), ControlType::Bool) |
+            (Answer::Any(_), ControlType::Any) |
+            (Answer::Title, ControlType::Title) => true,
+            _ => false
+        }
+    }
+
     pub fn is_capability(&self) -> bool {
         matches!(self, Answer::DetailedOptional(_))
     }
+
     pub fn is_maturity(&self) -> bool {
+        matches!(
+            self,
+            Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_)
+        )
+    }
+
+    pub fn is_default(&self) -> bool {
         match self {
-            Answer::Satisfaction(_) | Answer::Detailed(_) | Answer::Occurence(_) => true,
-            _ => false,
+            Answer::Satisfaction(satisfaction) => matches!(satisfaction, Satisfaction::No),
+            Answer::Detailed(detailed) => matches!(detailed, Detailed::No),
+            Answer::DetailedOptional(detailed_optional) => {
+                matches!(detailed_optional, DetailedOptional::No)
+            }
+            Answer::Occurence(occurence) => matches!(occurence, Occurence::Never),
+            Answer::Bool(bool) => !bool,
+            Answer::Any(str) => !str.is_empty(),
+            Answer::Title => true,
         }
+    }
+}
+
+impl Display for Answer {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Answer::Satisfaction(satisfaction) => write!(f, "{satisfaction}"),
+            Answer::Detailed(detailed) => write!(f, "{detailed}"),
+            Answer::DetailedOptional(detailed_optional) => write!(f, "{detailed_optional}"),
+            Answer::Occurence(occurence) => write!(f, "{occurence}"),
+            Answer::Bool(bool) => write!(f, "{bool}"),
+            Answer::Any(any) => write!(f, "{any}"),
+            Answer::Title => Ok(()),
+        }
+    }
+}
+
+impl From<&ControlType> for Answer {
+    fn from(value: &ControlType) -> Self {
+        match value {
+            ControlType::Satisfaction => Answer::Satisfaction(Satisfaction::No),
+            ControlType::Detailed => Answer::Detailed(Detailed::No),
+            ControlType::DetailedOptional => Answer::DetailedOptional(DetailedOptional::No),
+            ControlType::Occurence => Answer::Occurence(Occurence::Never),
+            ControlType::Bool => Answer::Bool(false),
+            ControlType::Any => Answer::Any(String::new()),
+            ControlType::Title => Answer::Title,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_answer_to_string() {
+        assert_eq!(
+            format!("{}", Answer::DetailedOptional(DetailedOptional::Averagely)),
+            String::from("Averagely")
+        );
+        assert_eq!(format!("{}", Answer::Title), String::new());
+    }
+
+    #[test]
+    fn test_type_eq() {
+        assert!(Answer::Title.type_eq(&Answer::Title));
+        assert!(Answer::Any(String::from("Hello")).type_eq(&Answer::Any(String::new())));
+        assert!(Answer::Detailed(Detailed::Averagely).type_eq(&Answer::Detailed(Detailed::No)));
     }
 }

@@ -1,0 +1,3587 @@
+["Business.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Business.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Business.1.3"]
+type = "Detailed"
+answer = "No"
+
+["Business.1.4"]
+type = "Detailed"
+answer = "No"
+
+["Business.1.5"]
+type = "Detailed"
+answer = "No"
+
+["Business.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Business.2.2.1"]
+type = "Bool"
+answer = false
+
+["Business.2.2.2"]
+type = "Bool"
+answer = false
+
+["Business.2.2.3"]
+type = "Bool"
+answer = false
+
+["Business.2.2.4"]
+type = "Bool"
+answer = false
+
+["Business.2.2.5"]
+type = "Bool"
+answer = false
+
+["Business.2.2.6"]
+type = "Bool"
+answer = false
+
+["Business.2.2.7"]
+type = "Bool"
+answer = false
+
+["Business.2.3"]
+type = "Detailed"
+answer = "No"
+
+["Business.2.4"]
+type = "Detailed"
+answer = "No"
+
+["Business.2.5"]
+type = "Detailed"
+answer = "No"
+
+["Business.2.6"]
+type = "Occurence"
+answer = "Never"
+
+["Business.2.7"]
+type = "Occurence"
+answer = "Never"
+
+["Business.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Business.3.2"]
+type = "Any"
+answer = ""
+
+["Business.3.2.1"]
+type = "Bool"
+answer = false
+
+["Business.3.2.2"]
+type = "Bool"
+answer = false
+
+["Business.3.2.3"]
+type = "Bool"
+answer = false
+
+["Business.3.2.4"]
+type = "Bool"
+answer = false
+
+["Business.3.2.5"]
+type = "Bool"
+answer = false
+
+["Business.3.2.6"]
+type = "Bool"
+answer = false
+
+["Business.3.2.7"]
+type = "Bool"
+answer = false
+
+["Business.3.2.8"]
+type = "Bool"
+answer = false
+
+["Business.3.2.9"]
+type = "Bool"
+answer = false
+
+["Business.3.2.10"]
+type = "Bool"
+answer = false
+
+["Business.3.2.11"]
+type = "Bool"
+answer = false
+
+["Business.3.3"]
+type = "Occurence"
+answer = "Never"
+
+["Business.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Business.3.5"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.2"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.3"]
+type = "Any"
+answer = ""
+
+["Business.4.3.1"]
+type = "Bool"
+answer = false
+
+["Business.4.3.2"]
+type = "Bool"
+answer = false
+
+["Business.4.3.3"]
+type = "Bool"
+answer = false
+
+["Business.4.3.4"]
+type = "Bool"
+answer = false
+
+["Business.4.3.5"]
+type = "Bool"
+answer = false
+
+["Business.4.3.6"]
+type = "Bool"
+answer = false
+
+["Business.4.3.7"]
+type = "Bool"
+answer = false
+
+["Business.4.3.8"]
+type = "Bool"
+answer = false
+
+["Business.4.3.9"]
+type = "Bool"
+answer = false
+
+["Business.4.3.10"]
+type = "Bool"
+answer = false
+
+["Business.4.3.11"]
+type = "Bool"
+answer = false
+
+["Business.4.3.12"]
+type = "Bool"
+answer = false
+
+["Business.4.3.13"]
+type = "Bool"
+answer = false
+
+["Business.4.3.14"]
+type = "Bool"
+answer = false
+
+["Business.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.5"]
+type = "Any"
+answer = ""
+
+["Business.4.5.1"]
+type = "Bool"
+answer = false
+
+["Business.4.5.2"]
+type = "Bool"
+answer = false
+
+["Business.4.5.3"]
+type = "Bool"
+answer = false
+
+["Business.4.5.4"]
+type = "Bool"
+answer = false
+
+["Business.4.5.5"]
+type = "Bool"
+answer = false
+
+["Business.4.5.6"]
+type = "Bool"
+answer = false
+
+["Business.4.5.7"]
+type = "Bool"
+answer = false
+
+["Business.4.5.8"]
+type = "Bool"
+answer = false
+
+["Business.4.6"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.7"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.8"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.9"]
+type = "Occurence"
+answer = "Never"
+
+["Business.4.10"]
+type = "Detailed"
+answer = "No"
+
+["Business.4.11"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.1"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.2"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.3.1"]
+type = "Bool"
+answer = false
+
+["Business.5.3.2"]
+type = "Bool"
+answer = false
+
+["Business.5.3.3"]
+type = "Bool"
+answer = false
+
+["Business.5.3.4"]
+type = "Bool"
+answer = false
+
+["Business.5.3.5"]
+type = "Bool"
+answer = false
+
+["Business.5.3.6"]
+type = "Bool"
+answer = false
+
+["Business.5.3.7"]
+type = "Bool"
+answer = false
+
+["Business.5.3.8"]
+type = "Bool"
+answer = false
+
+["Business.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.5"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.7"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.8"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.9"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.10"]
+type = "Detailed"
+answer = "No"
+
+["Business.5.11"]
+type = "Occurence"
+answer = "Never"
+
+["People.1.1"]
+type = "Any"
+answer = ""
+
+["People.1.2"]
+type = "Bool"
+answer = false
+
+["People.1.2.1"]
+type = "Any"
+answer = ""
+
+["People.1.3"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.4"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.5"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.6"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.7"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.8"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.9"]
+type = "Satisfaction"
+answer = "No"
+
+["People.1.10"]
+type = "Satisfaction"
+answer = "No"
+
+["People.2.1"]
+type = "Satisfaction"
+answer = "No"
+
+["People.2.2.1"]
+type = "Bool"
+answer = false
+
+["People.2.2.2"]
+type = "Bool"
+answer = false
+
+["People.2.2.3"]
+type = "Bool"
+answer = false
+
+["People.2.2.4"]
+type = "Bool"
+answer = false
+
+["People.2.2.5"]
+type = "Bool"
+answer = false
+
+["People.2.2.6"]
+type = "Bool"
+answer = false
+
+["People.2.2.7"]
+type = "Bool"
+answer = false
+
+["People.2.2.8"]
+type = "Bool"
+answer = false
+
+["People.2.2.9"]
+type = "Bool"
+answer = false
+
+["People.2.2.10"]
+type = "Bool"
+answer = false
+
+["People.2.2.11"]
+type = "Bool"
+answer = false
+
+["People.2.2.12"]
+type = "Bool"
+answer = false
+
+["People.2.2.13"]
+type = "Bool"
+answer = false
+
+["People.2.2.14"]
+type = "Any"
+answer = ""
+
+["People.2.3"]
+type = "Detailed"
+answer = "No"
+
+["People.2.4"]
+type = "Detailed"
+answer = "No"
+
+["People.2.5"]
+type = "Detailed"
+answer = "No"
+
+["People.2.6"]
+type = "Detailed"
+answer = "No"
+
+["People.2.7.1"]
+type = "Bool"
+answer = false
+
+["People.2.7.2"]
+type = "Bool"
+answer = false
+
+["People.2.7.3"]
+type = "Bool"
+answer = false
+
+["People.2.7.4"]
+type = "Bool"
+answer = false
+
+["People.2.7.5"]
+type = "Bool"
+answer = false
+
+["People.2.7.6"]
+type = "Bool"
+answer = false
+
+["People.2.7.7"]
+type = "Bool"
+answer = false
+
+["People.2.7.8"]
+type = "Bool"
+answer = false
+
+["People.2.8"]
+type = "Detailed"
+answer = "No"
+
+["People.2.9"]
+type = "Detailed"
+answer = "No"
+
+["People.2.10"]
+type = "Occurence"
+answer = "Never"
+
+["People.3.1"]
+type = "Detailed"
+answer = "No"
+
+["People.3.2"]
+type = "Detailed"
+answer = "No"
+
+["People.3.3"]
+type = "Detailed"
+answer = "No"
+
+["People.3.4"]
+type = "Detailed"
+answer = "No"
+
+["People.3.5"]
+type = "Detailed"
+answer = "No"
+
+["People.3.6"]
+type = "Detailed"
+answer = "No"
+
+["People.3.7"]
+type = "Occurence"
+answer = "Never"
+
+["People.3.8"]
+type = "Detailed"
+answer = "No"
+
+["People.3.9"]
+type = "Detailed"
+answer = "No"
+
+["People.3.10"]
+type = "Occurence"
+answer = "Never"
+
+["People.3.11"]
+type = "Occurence"
+answer = "Never"
+
+["People.3.12"]
+type = "Occurence"
+answer = "Never"
+
+["People.3.13"]
+type = "Detailed"
+answer = "No"
+
+["People.3.14"]
+type = "Detailed"
+answer = "No"
+
+["People.4.1"]
+type = "Detailed"
+answer = "No"
+
+["People.4.2"]
+type = "Detailed"
+answer = "No"
+
+["People.4.3.1"]
+type = "Bool"
+answer = false
+
+["People.4.3.2"]
+type = "Bool"
+answer = false
+
+["People.4.3.3"]
+type = "Bool"
+answer = false
+
+["People.4.3.4"]
+type = "Bool"
+answer = false
+
+["People.4.4"]
+type = "Detailed"
+answer = "No"
+
+["People.4.5"]
+type = "Detailed"
+answer = "No"
+
+["People.4.6.1"]
+type = "Bool"
+answer = false
+
+["People.4.6.2"]
+type = "Bool"
+answer = false
+
+["People.4.6.3"]
+type = "Bool"
+answer = false
+
+["People.4.7"]
+type = "Detailed"
+answer = "No"
+
+["People.4.8"]
+type = "Detailed"
+answer = "No"
+
+["People.4.9"]
+type = "Occurence"
+answer = "Never"
+
+["People.4.10"]
+type = "Detailed"
+answer = "No"
+
+["People.5.1"]
+type = "Detailed"
+answer = "No"
+
+["People.5.2.1"]
+type = "Bool"
+answer = false
+
+["People.5.2.2"]
+type = "Bool"
+answer = false
+
+["People.5.2.3"]
+type = "Bool"
+answer = false
+
+["People.5.2.4"]
+type = "Bool"
+answer = false
+
+["People.5.2.5"]
+type = "Bool"
+answer = false
+
+["People.5.2.6"]
+type = "Bool"
+answer = false
+
+["People.5.3"]
+type = "Detailed"
+answer = "No"
+
+["People.5.4.1"]
+type = "Bool"
+answer = false
+
+["People.5.4.2"]
+type = "Bool"
+answer = false
+
+["People.5.4.3"]
+type = "Bool"
+answer = false
+
+["People.5.5"]
+type = "Detailed"
+answer = "No"
+
+["People.5.6"]
+type = "Detailed"
+answer = "No"
+
+["People.5.7"]
+type = "Detailed"
+answer = "No"
+
+["People.5.8"]
+type = "Detailed"
+answer = "No"
+
+["People.5.9"]
+type = "Occurence"
+answer = "Never"
+
+["Process.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.1.3.1"]
+type = "Bool"
+answer = false
+
+["Process.1.3.2"]
+type = "Bool"
+answer = false
+
+["Process.1.3.3"]
+type = "Bool"
+answer = false
+
+["Process.1.3.4"]
+type = "Bool"
+answer = false
+
+["Process.1.3.5"]
+type = "Bool"
+answer = false
+
+["Process.1.3.6"]
+type = "Bool"
+answer = false
+
+["Process.1.3.7"]
+type = "Bool"
+answer = false
+
+["Process.1.3.8"]
+type = "Bool"
+answer = false
+
+["Process.1.3.9"]
+type = "Bool"
+answer = false
+
+["Process.1.3.10"]
+type = "Bool"
+answer = false
+
+["Process.1.4"]
+type = "Occurence"
+answer = "Never"
+
+["Process.1.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.1.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.1.7.1"]
+type = "Bool"
+answer = false
+
+["Process.1.7.2"]
+type = "Bool"
+answer = false
+
+["Process.1.7.3"]
+type = "Bool"
+answer = false
+
+["Process.1.7.4"]
+type = "Bool"
+answer = false
+
+["Process.1.7.5"]
+type = "Bool"
+answer = false
+
+["Process.1.7.6"]
+type = "Bool"
+answer = false
+
+["Process.1.7.7"]
+type = "Bool"
+answer = false
+
+["Process.1.8"]
+type = "Detailed"
+answer = "No"
+
+["Process.1.9.1"]
+type = "Bool"
+answer = false
+
+["Process.1.9.2"]
+type = "Bool"
+answer = false
+
+["Process.1.9.3"]
+type = "Bool"
+answer = false
+
+["Process.1.9.4"]
+type = "Bool"
+answer = false
+
+["Process.1.9.5"]
+type = "Bool"
+answer = false
+
+["Process.1.10"]
+type = "Detailed"
+answer = "No"
+
+["Process.1.11.1"]
+type = "Bool"
+answer = false
+
+["Process.1.11.2"]
+type = "Bool"
+answer = false
+
+["Process.1.11.3"]
+type = "Bool"
+answer = false
+
+["Process.1.11.4"]
+type = "Bool"
+answer = false
+
+["Process.1.11.5"]
+type = "Bool"
+answer = false
+
+["Process.2.1.1"]
+type = "Satisfaction"
+answer = "No"
+
+["Process.2.1.2.1"]
+type = "Bool"
+answer = false
+
+["Process.2.1.2.2"]
+type = "Bool"
+answer = false
+
+["Process.2.1.2.3"]
+type = "Bool"
+answer = false
+
+["Process.2.1.2.4"]
+type = "Bool"
+answer = false
+
+["Process.2.1.2.5"]
+type = "Bool"
+answer = false
+
+["Process.2.1.2.6"]
+type = "Bool"
+answer = false
+
+["Process.2.1.3"]
+type = "Occurence"
+answer = "Never"
+
+["Process.2.1.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.1.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.2.2"]
+type = "Occurence"
+answer = "Never"
+
+["Process.2.2.3"]
+type = "Occurence"
+answer = "Never"
+
+["Process.2.2.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.2.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.3.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.7"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.8"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.4.9"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.5.1"]
+type = "Occurence"
+answer = "Never"
+
+["Process.2.5.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.5.5"]
+type = "Occurence"
+answer = "Never"
+
+["Process.2.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.6.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.2.6.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.1"]
+type = "Occurence"
+answer = "Never"
+
+["Process.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.5"]
+type = "Occurence"
+answer = "Never"
+
+["Process.3.6"]
+type = "Occurence"
+answer = "Never"
+
+["Process.3.7"]
+type = "Occurence"
+answer = "Never"
+
+["Process.3.8.1"]
+type = "Bool"
+answer = false
+
+["Process.3.8.2"]
+type = "Bool"
+answer = false
+
+["Process.3.8.3"]
+type = "Bool"
+answer = false
+
+["Process.3.8.4"]
+type = "Bool"
+answer = false
+
+["Process.3.8.5"]
+type = "Bool"
+answer = false
+
+["Process.3.8.6"]
+type = "Bool"
+answer = false
+
+["Process.3.8.7"]
+type = "Bool"
+answer = false
+
+["Process.3.8.8"]
+type = "Bool"
+answer = false
+
+["Process.3.9"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.10.1"]
+type = "Bool"
+answer = false
+
+["Process.3.10.2"]
+type = "Bool"
+answer = false
+
+["Process.3.10.3"]
+type = "Bool"
+answer = false
+
+["Process.3.10.4"]
+type = "Bool"
+answer = false
+
+["Process.3.10.5"]
+type = "Bool"
+answer = false
+
+["Process.3.10.6"]
+type = "Bool"
+answer = false
+
+["Process.3.11.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.11.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.11.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.12.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.12.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.13.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.13.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.13.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.3.13.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.7"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.8"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.9"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.10"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.1.11"]
+type = "Occurence"
+answer = "Never"
+
+["Process.4.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.2.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.2.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.2.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.2.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.4.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.7"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.8"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.9"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.1.10"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.3"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.4"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.5"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.6"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.7"]
+type = "Detailed"
+answer = "No"
+
+["Process.5.2.8"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.4.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.4.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.4.5"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.5.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.5.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.5.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.5.5"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.1.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.6.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.6.2"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.1.6.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.1.7.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.25"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.26"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.27"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.28"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.29"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.30"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.31"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.32"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.33"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.34"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.35"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.36"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.37"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.1.7.38"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.4.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.4.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.4.5"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.5.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.5.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.5.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.5.5"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.2.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.6.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.6.2"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.2.6.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.2.7.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.25"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.26"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.27"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.28"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.29"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.30"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.31"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.32"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.33"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.2.7.34"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.4.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.4.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.4.5"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.5.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.5.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.5.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.5.5"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.3.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.6.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.6.2"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.3.6.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.3.7.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.25"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.26"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.27"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.28"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.29"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.30"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.31"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.32"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.33"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.34"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.35"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.36"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.37"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.38"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.39"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.40"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.41"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.42"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.43"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.44"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.45"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.46"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.47"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.48"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.3.7.49"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.1.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.2.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.3.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.4.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.4.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.4.5"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.5.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.5.2"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.5.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.5.5"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.4.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.6.1"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.6.2"]
+type = "Occurence"
+answer = "Never"
+
+["Technology.4.6.3"]
+type = "Detailed"
+answer = "No"
+
+["Technology.4.7.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Technology.4.7.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.1"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.2.1"]
+type = "Bool"
+answer = false
+
+["Services.1.2.2"]
+type = "Bool"
+answer = false
+
+["Services.1.2.3"]
+type = "Bool"
+answer = false
+
+["Services.1.2.4"]
+type = "Bool"
+answer = false
+
+["Services.1.2.5"]
+type = "Bool"
+answer = false
+
+["Services.1.2.6"]
+type = "Bool"
+answer = false
+
+["Services.1.2.7"]
+type = "Bool"
+answer = false
+
+["Services.1.2.8"]
+type = "Bool"
+answer = false
+
+["Services.1.2.9"]
+type = "Bool"
+answer = false
+
+["Services.1.2.10"]
+type = "Bool"
+answer = false
+
+["Services.1.2.11"]
+type = "Bool"
+answer = false
+
+["Services.1.3"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.4"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.15"]
+type = "Detailed"
+answer = "No"
+
+["Services.1.16.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.25"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.26"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.1.16.27"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.1"]
+type = "Bool"
+answer = false
+
+["Services.2.1.1"]
+type = "Any"
+answer = ""
+
+["Services.2.1.2"]
+type = "Any"
+answer = ""
+
+["Services.2.2"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.3"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.4.1"]
+type = "Bool"
+answer = false
+
+["Services.2.4.2"]
+type = "Bool"
+answer = false
+
+["Services.2.4.3"]
+type = "Bool"
+answer = false
+
+["Services.2.4.4"]
+type = "Bool"
+answer = false
+
+["Services.2.4.5"]
+type = "Bool"
+answer = false
+
+["Services.2.4.6"]
+type = "Bool"
+answer = false
+
+["Services.2.4.7"]
+type = "Bool"
+answer = false
+
+["Services.2.4.8"]
+type = "Bool"
+answer = false
+
+["Services.2.4.9"]
+type = "Bool"
+answer = false
+
+["Services.2.4.10"]
+type = "Bool"
+answer = false
+
+["Services.2.4.11"]
+type = "Bool"
+answer = false
+
+["Services.2.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.15"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.16"]
+type = "Detailed"
+answer = "No"
+
+["Services.2.17.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.25"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.26"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.27"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.28"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.29"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.30"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.31"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.32"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.33"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.34"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.35"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.2.17.36"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.1"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.2.1"]
+type = "Bool"
+answer = false
+
+["Services.3.2.2"]
+type = "Bool"
+answer = false
+
+["Services.3.2.3"]
+type = "Bool"
+answer = false
+
+["Services.3.2.4"]
+type = "Bool"
+answer = false
+
+["Services.3.2.5"]
+type = "Bool"
+answer = false
+
+["Services.3.2.6"]
+type = "Bool"
+answer = false
+
+["Services.3.2.7"]
+type = "Bool"
+answer = false
+
+["Services.3.2.8"]
+type = "Bool"
+answer = false
+
+["Services.3.2.9"]
+type = "Bool"
+answer = false
+
+["Services.3.2.10"]
+type = "Bool"
+answer = false
+
+["Services.3.2.11"]
+type = "Bool"
+answer = false
+
+["Services.3.3"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.4"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.15"]
+type = "Detailed"
+answer = "No"
+
+["Services.3.16.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.3.16.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.1"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.2.1"]
+type = "Bool"
+answer = false
+
+["Services.4.2.2"]
+type = "Bool"
+answer = false
+
+["Services.4.2.3"]
+type = "Bool"
+answer = false
+
+["Services.4.2.4"]
+type = "Bool"
+answer = false
+
+["Services.4.2.5"]
+type = "Bool"
+answer = false
+
+["Services.4.2.6"]
+type = "Bool"
+answer = false
+
+["Services.4.2.7"]
+type = "Bool"
+answer = false
+
+["Services.4.2.8"]
+type = "Bool"
+answer = false
+
+["Services.4.2.9"]
+type = "Bool"
+answer = false
+
+["Services.4.2.10"]
+type = "Bool"
+answer = false
+
+["Services.4.2.11"]
+type = "Bool"
+answer = false
+
+["Services.4.3"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.4"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.4.15.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.22"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.23"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.24"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.25"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.26"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.27"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.28"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.29"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.30"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.4.15.31"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.1"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.2"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.3.1"]
+type = "Bool"
+answer = false
+
+["Services.5.3.2"]
+type = "Bool"
+answer = false
+
+["Services.5.3.3"]
+type = "Bool"
+answer = false
+
+["Services.5.3.4"]
+type = "Bool"
+answer = false
+
+["Services.5.3.5"]
+type = "Bool"
+answer = false
+
+["Services.5.3.6"]
+type = "Bool"
+answer = false
+
+["Services.5.3.7"]
+type = "Bool"
+answer = false
+
+["Services.5.3.8"]
+type = "Bool"
+answer = false
+
+["Services.5.3.9"]
+type = "Bool"
+answer = false
+
+["Services.5.3.10"]
+type = "Bool"
+answer = false
+
+["Services.5.3.11"]
+type = "Bool"
+answer = false
+
+["Services.5.4"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.15"]
+type = "Detailed"
+answer = "No"
+
+["Services.5.16.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.5.16.21"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.1"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.2.1"]
+type = "Bool"
+answer = false
+
+["Services.6.2.2"]
+type = "Bool"
+answer = false
+
+["Services.6.2.3"]
+type = "Bool"
+answer = false
+
+["Services.6.2.4"]
+type = "Bool"
+answer = false
+
+["Services.6.2.5"]
+type = "Bool"
+answer = false
+
+["Services.6.2.6"]
+type = "Bool"
+answer = false
+
+["Services.6.2.7"]
+type = "Bool"
+answer = false
+
+["Services.6.2.8"]
+type = "Bool"
+answer = false
+
+["Services.6.2.9"]
+type = "Bool"
+answer = false
+
+["Services.6.2.10"]
+type = "Bool"
+answer = false
+
+["Services.6.2.11"]
+type = "Bool"
+answer = false
+
+["Services.6.3"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.4"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.6.15.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.6.15.20"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.1"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.2.1"]
+type = "Bool"
+answer = false
+
+["Services.7.2.2"]
+type = "Bool"
+answer = false
+
+["Services.7.2.3"]
+type = "Bool"
+answer = false
+
+["Services.7.2.4"]
+type = "Bool"
+answer = false
+
+["Services.7.2.5"]
+type = "Bool"
+answer = false
+
+["Services.7.2.6"]
+type = "Bool"
+answer = false
+
+["Services.7.2.7"]
+type = "Bool"
+answer = false
+
+["Services.7.2.8"]
+type = "Bool"
+answer = false
+
+["Services.7.2.9"]
+type = "Bool"
+answer = false
+
+["Services.7.2.10"]
+type = "Bool"
+answer = false
+
+["Services.7.2.11"]
+type = "Bool"
+answer = false
+
+["Services.7.3"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.4"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.5"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.6"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.7"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.8"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.9"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.10"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.11"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.12"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.13"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.14"]
+type = "Detailed"
+answer = "No"
+
+["Services.7.15.1"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.2"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.3"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.4"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.5"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.6"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.7"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.8"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.9"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.10"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.11"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.12"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.13"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.14"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.15"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.16"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.17"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.18"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.19"]
+type = "DetailedOptional"
+answer = "No"
+
+["Services.7.15.20"]
+type = "DetailedOptional"
+answer = "No"

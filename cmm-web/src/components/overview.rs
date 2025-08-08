@@ -1,46 +1,49 @@
-use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, SectionTitleComponent}, utils::round};
-use cmm_core::{CMM, Domain};
+use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_stats}};
+use cmm_core::{cid::Domain, score::Stats};
 use dioxus::prelude::*;
 use strum::VariantArray;
 
 #[component]
-pub fn OverviewComponent(
-    show_percentage: bool
-) -> Element {
-    let cmm = use_context::<Signal<CMM>>();
+pub fn OverviewComponent() -> Element {
+    let (stats, cmp_stats) = use_stats();
+    let settings = use_app_settings();
 
     rsx! {
         div {
             class: "w-full max-w-3xl mx-auto mt-8 mb-16",
             id: "domain-scores",
-            SectionTitleComponent { 
+            SectionTitleComponent {
                 id: "overview",
                 text: "Overview"
             },
             div {
                 class: "grid grid-cols-2 gap-4",
-                div {
-                    class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center",
+                if settings().show_comparison {
                     div {
-                        class: "text-slate-50 text-8xl font-extrabold text-shadow",
-                        if show_percentage {
-                            "{round(cmm().cmm_maturity_score() / cmm().cmm_max_maturity_score() * 100.0, 1)}%"
-                        } else {
-                            "{round(cmm().cmm_maturity_score(), 1)}"
-                        }
+                        class: "text-center",
+                        "comparison"
                     },
                     div {
-                        class: "text-slate-50 text-right opacity-80",
-                        "SOC maturity score",
-                        if !show_percentage {
-                            " (max {round(cmm().cmm_max_maturity_score(), 1)})"
-                        }
+                        class: "text-center",
+                        "current"
+                    },
+                    OverallScoreComponent {
+                        stats: cmp_stats
                     }
-                }
+                },
+                OverallScoreComponent {
+                    stats
+                },
                 for domain in Domain::VARIANTS {
-                    DomainOverviewComponent { 
-                        show_percentage: show_percentage, 
-                        domain: *domain 
+                    if settings().show_comparison {
+                        DomainOverviewComponent {
+                            domain: *domain,
+                            stats: cmp_stats
+                        },
+                    },
+                    DomainOverviewComponent {
+                        domain: *domain,
+                        stats: stats
                     }
                 }
             }
@@ -49,10 +52,41 @@ pub fn OverviewComponent(
 }
 
 #[component]
-fn DomainOverviewComponent(domain: Domain, show_percentage: bool) -> Element {
-    let cmm = use_context::<Signal<CMM>>();
-    let overall_score = (cmm().aspect_maturity_score(&domain).unwrap() * 10.0).ceil() / 10.0;
-    let overall_capability_score = (cmm().aspect_capability_score(&domain).unwrap() * 10.0).ceil() / 10.0;
+fn OverallScoreComponent(
+    stats: ReadOnlySignal<Stats>
+) -> Element {
+    let settings = use_app_settings();
+
+    rsx! {
+        div {
+            class: "bg-blue-500 border-1 border-blue-600 rounded-2xl w-full grid place-content-center min-h-64",
+            div {
+                class: "text-slate-50 text-8xl font-extrabold text-shadow",
+                ScoreComponent {
+                    score: stats.read().score_overall(),
+                    precision: 1
+                }
+            },
+            div {
+                class: "text-slate-50 text-right opacity-80",
+                "SOC maturity score",
+                if !settings().show_percentage {
+                    " (max {round(stats.read().score_overall().max(), 1)})"
+                }
+            }
+        }
+    }
+}
+
+#[component]
+fn DomainOverviewComponent(
+    domain: Domain,
+    stats: ReadOnlySignal<Stats>
+) -> Element {
+    let schema = use_schema();
+
+    let overall_score = stats.read().maturity_by_domain(&domain);
+    let overall_capability_score = stats.read().capability_by_domain(&domain);
 
     rsx! {
         div {
@@ -77,67 +111,67 @@ fn DomainOverviewComponent(domain: Domain, show_percentage: bool) -> Element {
                             "{domain}"
                         },
                     }
-                    if overall_capability_score.is_normal() {
+                    if overall_capability_score.score().is_normal() {
                         div {
                             class: "text-xl text-center grid",
-                            title: "{overall_capability_score} / 5",
+                            title: "{overall_capability_score}",
                             small {
                                 class: "text-xs",
                                 "Capability"
-                            }
-                            if show_percentage {
-                                "{round(overall_capability_score / 5.0 * 100.0, 0)}%",
-                            } else {
-                                "{round(overall_capability_score, 1)}",
+                            },
+                            ScoreComponent {
+                                score: overall_capability_score,
+                                precision: 1
                             }
                         }
                     }
                     div {
                         class: "text-xl text-center grid",
-                        title: "{overall_score} / 5",
+                        title: "{overall_score}",
                         small {
                             class: "text-xs",
                             "Maturity"
-                        }
-                        if show_percentage {
-                            "{round(overall_score / 5.0 * 100.0, 0)}%",
-                        } else {
-                            "{round(overall_score, 1)}",
+                        },
+                        ScoreComponent {
+                            score: overall_score,
+                            precision: 1
                         }
                     }
                 },
             },
             div {
                 class: "mt-4 bg-slate-50 rounded-2xl p-4 border-1 border-slate-200 dark:border-slate-500 dark:bg-slate-600",
-                for (_i, aspect) in cmm.read().aspect(&domain).unwrap().iter().enumerate() {
+                for (i, aspect) in schema.aspects(&domain).iter().enumerate() {
                     div {
-                        key: format!("{}{}_{}", aspect.title(), aspect.maturity_score(), aspect.capability_score()),
+                        key: format!(
+                            "{}_{}_{}",
+                            aspect,
+                            stats.read().maturity_by_aspect(domain, i + 1).score(),
+                            stats.read().capability_by_aspect(domain, i + 1).score()
+                        ),
                         span {
                             class: "text-[10px] text-right",
-                            "data-aspect-value": "{round(aspect.maturity_score(), 2)}",
-                            "{aspect.title()}"
+                            "data-aspect-value": "{round(stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(), 2)}",
+                            "{aspect}"
                         },
                         div {
                             div {
                                 class: "not-print:hidden",
-                                if show_percentage {
-                                    "{round(aspect.maturity_score() / 5.0 * 100.0, 2)}%"
-                                } else {
-                                    "{round(aspect.maturity_score(), 2)}"
+                                ScoreComponent {
+                                    score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
+                                    precision: 2
                                 }
                             },
                             BadToGoodProgressBarComponent {
-                                max: 5.0,
-                                value: aspect.maturity_score(),
-                                tooltip_prefix: "{aspect.title()} maturity: "
+                                score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
+                                tooltip_prefix: "{aspect} maturity: "
                             },
-                            if aspect.capability_score().is_normal() {
+                            if stats.read().capability_by_aspect(&domain, i as u8 + 1).score().is_normal() {
                                 div {
                                     class: "mt-1",
                                     BadToGoodProgressBarComponent {
-                                        max: 5.0,
-                                        value: aspect.capability_score(),
-                                        tooltip_prefix: "{aspect.title()} capability: "
+                                        score: stats.read().capability_by_aspect(&domain, i as u8 + 1),
+                                        tooltip_prefix: "{aspect} capability: "
                                     }
                                 }
                             }

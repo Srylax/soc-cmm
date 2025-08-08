@@ -36,6 +36,6 @@ const intersectionObserver = new IntersectionObserver(
     threshold: 0.01,
   },
 );
-document.querySelectorAll("h2, h3").forEach((target) => {
+document.querySelectorAll("h2, h3, h4").forEach((target) => {
   intersectionObserver.observe(target);
 });
