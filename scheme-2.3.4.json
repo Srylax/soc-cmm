@@ -40,7 +40,7 @@
     "profile": {
         "contact_allowed": {
             "question": "May we contact you regarding your scoring?",
-            "type": "Bool"
+            "type": "YesNo"
         },
         "email_address": {
             "question": "If yes: please provide your email address",
@@ -147,7 +147,7 @@
                 "MSSP SOC",
                 "Hybrid SOC"
             ],
-            "description": "For more information, see 11 strategies of a world-class cybersecurity operations center:\n\nhttps://www.mitre.org/sites/default/files/publications/11-strategies-of-a-world-class-cybersecurity-operations-center.pdf\n\npage 54-55"
+            "description": "For more information, see <a target='_page' href='https://www.mitre.org/sites/default/files/publications/11-strategies-of-a-world-class-cybersecurity-operations-center.pdf'>11 strategies of a world-class cybersecurity operations center</a> (page 54-55)"
         },
         "soc_geo_scope": {
             "question": "What is your SOC geographical scope?",

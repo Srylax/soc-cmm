@@ -29,6 +29,10 @@ pub struct Schema {
     /// AspectId = index+1, Aspects are only an index and a title
     aspects: HashMap<Domain, Vec<String>>,
     control_schemas: HashMap<CID, ControlSchema>,
+
+    #[serde(skip_serializing_if = "IndexMap::is_empty")]
+    #[serde(default = "IndexMap::new")]
+    profile: IndexMap<String, ProfileQuestion>,
 }
 
 impl Schema {
@@ -39,6 +43,7 @@ impl Schema {
         Self {
             aspects: HashMap::new(),
             control_schemas,
+            profile: IndexMap::new(),
         }
     }
 
@@ -77,6 +82,10 @@ impl Schema {
     pub fn controls(&self) -> &HashMap<CID, ControlSchema> {
         &self.control_schemas
     }
+    
+    pub fn profile(&self) -> &IndexMap<String, ProfileQuestion> {
+        &self.profile
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
@@ -112,9 +121,6 @@ pub struct ControlSchema {
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
     nist_only: bool,
-
-    #[serde(skip_serializing_if = "IndexMap::is_empty")]
-    profile: IndexMap<String, ProfileQuestion>,
 }
 
 impl ControlSchema {

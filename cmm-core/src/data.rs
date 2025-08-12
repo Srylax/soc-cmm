@@ -15,6 +15,7 @@ use crate::{
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct SOCData {
     notes: Option<String>,
+    #[serde(default = "IndexMap::new")]
     profile: IndexMap<String, String>,
     
     #[serde(flatten)]
@@ -120,6 +121,14 @@ impl SOCData {
 
     pub fn set_notes(&mut self, notes: Option<String>) {
         self.notes = notes;
+    }
+
+    pub fn set_profile_answer(&mut self, id: String, value: String) {
+        self.profile.insert(id, value);
+    }
+
+    pub fn profile_answer(&self, id: String) -> Option<&String> {
+        self.profile.get(&id)
     }
 
     pub fn has_pinned_items(&self) -> bool {

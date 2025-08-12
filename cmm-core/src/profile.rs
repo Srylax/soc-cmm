@@ -4,11 +4,24 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 #[serde(tag = "type")]
 pub enum QuestionType {
-    Bool,
+    YesNo,
     Text,
+    /// yyyy-mm-dd
     Date,
     Number,
     Select { items: Vec<String> },
+}
+
+impl QuestionType {
+    pub fn default_value (&self) -> String {
+        match self {
+            QuestionType::YesNo => String::from("No"),
+            QuestionType::Select { items } => items.first().cloned().unwrap_or(String::new()),
+            QuestionType::Date => String::from("2000-01-01"),
+            QuestionType::Number => String::from("0"),
+            QuestionType::Text => String::new(),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
