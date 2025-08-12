@@ -13,7 +13,7 @@ use strum::VariantArray;
 
 use crate::{
     components::{
-        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent,
+        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent, ValueOrPlaceholderComponent,
     },
     utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data},
 };
@@ -301,19 +301,6 @@ fn ControlItemComponent(
             }
         }
     }
-}
-
-#[component]
-fn ValueOrPlaceholderComponent(value: String) -> Element {
-    if value.is_empty() {
-        return rsx! {
-            span {
-                class: "opacity-70 italic",
-                "<empty>"
-            }
-        };
-    }
-    rsx! { "{value}" }
 }
 
 #[component]

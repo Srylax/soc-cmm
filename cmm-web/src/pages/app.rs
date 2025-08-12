@@ -5,7 +5,7 @@ use dioxus_storage::{LocalStorage, use_synced_storage};
 use dioxus_markdown::Markdown;
 
 use crate::{components::{
-    AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent, SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent
+    AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent, ProfileComponent, SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent
 }, utils::use_soc_data};
 
 #[component]
@@ -59,6 +59,7 @@ pub fn App() -> Element {
             OverviewComponent {
 
             }
+            ProfileComponent {  }
             div {
                 class: "max-w-3xl mx-auto",
                 SectionTitleComponent {
