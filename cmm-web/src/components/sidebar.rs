@@ -102,9 +102,13 @@ pub fn SidebarComponent(children: Element) -> Element {
             }
             div {
                 class: "p-4 mb-14",
-                Link {
-                    to: Route::Report {},
-                    "Report"
+                div {
+                    class: "mb-4",
+                    Link {
+                        class: "text-lg font-semibold flex justify-between",
+                        to: Route::Report {},
+                        "Report"
+                    }
                 }
                 NavigationSectionComponent {
                     title: "Overview",

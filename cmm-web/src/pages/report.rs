@@ -1,12 +1,24 @@
 use dioxus::prelude::*;
+use dioxus_free_icons::{icons::fa_solid_icons::FaArrowTurnDown, Icon};
 
-use crate::components::{PrintOverviewComponent, ProfileComponent, ProfileValuesComponent};
+use crate::{components::{ButtonComponent, PrintOverviewComponent, ProfileComponent, ProfileValuesComponent}, Route};
 
 #[component]
 pub fn Report() -> Element {
     rsx! { 
         main {
-            class: "max-w-3xl mx-auto",
+            class: "max-w-3xl mx-auto not-print:mt-16",
+            Link { 
+                class: "print:hidden flex gap-x-2 items-center mb-4 hover:underline",
+                to: Route::App {  },
+                Icon {
+                    icon: FaArrowTurnDown,
+                    width: 14,
+                    height: 14,
+                    class: "rotate-z-90",
+                }
+                "Back"
+            }
             h1 {
                 class: "font-semibold text-4xl mb-4 print:hidden",
                 "Report"
