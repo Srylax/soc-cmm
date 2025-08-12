@@ -9,6 +9,7 @@ pub mod control;
 pub mod data;
 pub mod schema;
 pub mod score;
+pub mod profile;
 
 use thiserror::Error;
 

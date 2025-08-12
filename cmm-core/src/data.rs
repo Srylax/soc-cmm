@@ -17,6 +17,7 @@ pub struct SOCData {
     #[serde(flatten)]
     controls: IndexMap<CID, Control>,
     notes: Option<String>,
+    profile: IndexMap<String, String>,
 }
 
 impl SOCData {
@@ -30,12 +31,21 @@ impl SOCData {
         SOCData {
             controls: indexmap,
             notes: None,
+            profile: IndexMap::new(),
         }
     }
 
-    pub fn new(mut controls: IndexMap<CID, Control>, notes: Option<String>) -> Self {
+    pub fn new(
+        mut controls: IndexMap<CID, Control>,
+        notes: Option<String>,
+        profile: IndexMap<String, String>,
+    ) -> Self {
         controls.sort_keys();
-        SOCData { controls, notes }
+        SOCData {
+            controls,
+            notes,
+            profile,
+        }
     }
 
     pub fn controls_by_aspect(
@@ -130,6 +140,7 @@ impl From<&Schema> for SOCData {
                 .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
                 .collect(),
             notes: None,
+            profile: IndexMap::new(),
         }
     }
 }

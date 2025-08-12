@@ -164,6 +164,8 @@ impl Display for Score {
 
 #[cfg(test)]
 mod tests {
+    use indexmap::IndexMap;
+
     use crate::answer::{Answer, DetailedOptional, Satisfaction};
 
     use super::*;
@@ -175,7 +177,7 @@ mod tests {
             .enumerate()
             .map(|(cid, control)| (format!("Business.{}", cid + 1).parse().unwrap(), control))
             .collect();
-        let data = SOCData::new(data, None);
+        let data = SOCData::new(data, None, IndexMap::new());
         let schema = controls
             .into_iter()
             .enumerate()

@@ -15,11 +15,12 @@
 /// }
 use std::collections::HashMap;
 
+use indexmap::IndexMap;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
 
-use crate::cid::{CID, Domain};
+use crate::{cid::{Domain, CID}, profile::ProfileQuestion};
 
 /// This is the soc-cmm schema and only contains Meta Information.
 /// Changes will be made only between soc-cmm versions. The whole struct will be loaded at compile time.
@@ -111,6 +112,8 @@ pub struct ControlSchema {
     #[serde(skip_serializing_if = "<&bool>::not")]
     #[serde(default)]
     nist_only: bool,
+
+    profile: IndexMap<String, ProfileQuestion>,
 }
 
 impl ControlSchema {
