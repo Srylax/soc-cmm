@@ -14,10 +14,11 @@ use crate::{
 /// Only contains the soc-cmm values at its most simple form (CID->Control)
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct SOCData {
-    #[serde(flatten)]
-    controls: IndexMap<CID, Control>,
     notes: Option<String>,
     profile: IndexMap<String, String>,
+    
+    #[serde(flatten)]
+    controls: IndexMap<CID, Control>,
 }
 
 impl SOCData {

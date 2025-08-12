@@ -113,6 +113,7 @@ pub struct ControlSchema {
     #[serde(default)]
     nist_only: bool,
 
+    #[serde(skip_serializing_if = "IndexMap::is_empty")]
     profile: IndexMap<String, ProfileQuestion>,
 }
 
