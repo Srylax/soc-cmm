@@ -21,7 +21,7 @@ pub fn ChartComponent() -> Element {
 
     rsx! {
         div {
-            class: "w-full max-w-4xl mx-auto print:hidden",
+            class: "w-full max-w-4xl mx-auto print:hidden not-md:hidden",
             div {
                 class: "w-full h-[500px] bg-slate-200 py-4 rounded",
                 canvas {

@@ -56,7 +56,6 @@ pub fn App() -> Element {
             OverviewComponent {
 
             }
-            ProfileComponent {  }
             div {
                 class: "max-w-3xl mx-auto",
                 SectionTitleComponent {

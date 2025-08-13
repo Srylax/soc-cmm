@@ -45,17 +45,36 @@ pub fn SidebarComponent(children: Element) -> Element {
             }
         }
         span {
-            class: "fixed z-10 h-full w-full bg-black opacity-30 print:hidden",
-            class: if !settings_open() { "lg:hidden lg:invisible" },
-            class: if !sidebar_open() && !settings_open() { "invisible hidden" },
+            class: "fixed z-10 h-full w-full bg-black opacity-30 print:hidden lg:hidden lg:invisible",
+            class: if !sidebar_open() { "hidden invisible" },
             onclick: move |_| {
-                if settings_open() {
-                    settings_open.set(false);
-                } else {
-                    sidebar_open.set(!sidebar_open());
-                }
+                sidebar_open.set(false);
             },
         }
+        span {
+            class: "fixed z-50 h-full w-full bg-black opacity-30 print:hidden",
+            class: if !settings_open() { "invisible hidden" },
+            onclick: move |_| {
+                settings_open.set(false);
+            },
+        }
+        dialog {
+                class: "p-6 z-60 fixed top-1/2 left-1/2 max-w-3xs w-full bg-white dark:bg-slate-900 rounded-2xl dark:border-2 dark:border-slate-700 -translate-1/2 shadow-2xl",
+                open: settings_open(),
+                div {
+                    class: "grid gap-y-2",
+                    h2 {
+                        class: "text-2xl dark:text-slate-50 mb-2 font-semibold",
+                        "Settings"
+                    }
+                    {children}
+                    ButtonComponent {
+                        additional_class: "mt-6",
+                        onclick: move |_| settings_open.set(!settings_open()),
+                        "Close"
+                    }
+                }
+            }
         nav {
             class: "fixed z-20 h-[calc(100%-20px)] left-2.5 top-2.5 rounded-2xl border-[1px] border-slate-200 dark:border-slate-800 shadow-xs max-w-[280px] w-full overflow-auto bg-white dark:bg-slate-900 no-scrollbar print:hidden",
             class: if !sidebar_open() { "not-lg:invisible not-lg:hidden" },
@@ -63,7 +82,10 @@ pub fn SidebarComponent(children: Element) -> Element {
                 class: "fixed z-30 max-w-[280px] bottom-2.5 left-2.5 bg-gradient-to-t from-white dark:from-slate-900 to-transparent from-50% w-full p-4 pt-12 rounded-b-2xl border-x-[1px] border-b-[1px] border-slate-200 dark:border-slate-800 gap-2 flex",
                 ButtonComponent {
                     additional_class: "grow",
-                    onclick: move |_| settings_open.set(!settings_open()),
+                    onclick: move |_| {
+                        sidebar_open.set(false);
+                        settings_open.set(!settings_open());
+                    },
                     Icon {
                         icon: FaGear,
                         width: 18,
@@ -86,18 +108,6 @@ pub fn SidebarComponent(children: Element) -> Element {
                             icon: FaMoon,
                         }
                     }
-                }
-            }
-            dialog {
-                class: "p-6 fixed top-1/2 left-1/2 max-w-3xs w-full bg-white dark:bg-slate-900 rounded-2xl dark:border-2 dark:border-slate-700 -translate-1/2 shadow-2xl",
-                open: settings_open(),
-                div {
-                    class: "grid gap-y-2",
-                    h2 {
-                        class: "text-2xl dark:text-slate-50 mb-2 font-semibold",
-                        "Settings"
-                    }
-                    {children}
                 }
             }
             div {

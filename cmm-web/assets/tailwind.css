@@ -286,6 +286,15 @@
   .z-30 {
     z-index: 30;
   }
+  .z-50 {
+    z-index: 50;
+  }
+  .z-60 {
+    z-index: 60;
+  }
+  .z-100 {
+    z-index: 100;
+  }
   .col-span-2 {
     grid-column: span 2 / span 2;
   }
@@ -476,10 +485,22 @@
   .max-w-\[280px\] {
     max-width: 280px;
   }
+  .flex-1 {
+    flex: 1;
+  }
+  .flex-none {
+    flex: none;
+  }
   .shrink-0 {
     flex-shrink: 0;
   }
   .grow {
+    flex-grow: 1;
+  }
+  .grow-0 {
+    flex-grow: 0;
+  }
+  .grow-1 {
     flex-grow: 1;
   }
   .border-collapse {
@@ -545,6 +566,9 @@
   .grid-cols-\[3fr_2fr\] {
     grid-template-columns: 3fr 2fr;
   }
+  .flex-col {
+    flex-direction: column;
+  }
   .flex-wrap {
     flex-wrap: wrap;
   }
@@ -574,6 +598,9 @@
   }
   .gap-y-2 {
     row-gap: calc(var(--spacing) * 2);
+  }
+  .gap-y-4 {
+    row-gap: calc(var(--spacing) * 4);
   }
   .overflow-auto {
     overflow: auto;
@@ -861,6 +888,9 @@
   .text-right {
     text-align: right;
   }
+  .align-top {
+    vertical-align: top;
+  }
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1053,6 +1083,26 @@
   .not-in-open\:p-3 {
     &:not(:where(*:is([open], :popover-open, :open)) *) {
       padding: calc(var(--spacing) * 3);
+    }
+  }
+  .not-md\:\!z-40 {
+    @media not (width >= 48rem) {
+      z-index: 40 !important;
+    }
+  }
+  .not-md\:z-40 {
+    @media not (width >= 48rem) {
+      z-index: 40;
+    }
+  }
+  .not-md\:hidden {
+    @media not (width >= 48rem) {
+      display: none;
+    }
+  }
+  .not-md\:gap-y-4 {
+    @media not (width >= 48rem) {
+      row-gap: calc(var(--spacing) * 4);
     }
   }
   .not-lg\:invisible {
@@ -1277,6 +1327,26 @@
   .aria-checked\:bg-blue-400 {
     &[aria-checked="true"] {
       background-color: var(--color-blue-400);
+    }
+  }
+  .md\:mt-4 {
+    @media (width >= 48rem) {
+      margin-top: calc(var(--spacing) * 4);
+    }
+  }
+  .md\:grid-cols-2 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .md\:grid-cols-\[3fr_2fr\] {
+    @media (width >= 48rem) {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+  .md\:gap-2 {
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 2);
     }
   }
   .lg\:invisible {

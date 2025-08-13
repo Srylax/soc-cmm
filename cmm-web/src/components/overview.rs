@@ -17,7 +17,7 @@ pub fn OverviewComponent() -> Element {
                 text: "Overview",
             }
             div {
-                class: "grid grid-cols-2 gap-4",
+                class: "grid md:grid-cols-2 gap-4",
                 if settings().show_comparison {
                     div {
                         class: "text-center",
