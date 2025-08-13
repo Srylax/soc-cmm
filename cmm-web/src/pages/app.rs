@@ -17,9 +17,6 @@ pub fn App() -> Element {
             src: asset!("/assets/scripts/highlight-nav.js"),
         }
         document::Script {
-            src: asset!("/assets/scripts/scroll.js"),
-        }
-        document::Script {
             src: "https://cdn.jsdelivr.net/npm/chart.js",
         }
         document::Script {

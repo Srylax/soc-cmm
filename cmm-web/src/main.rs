@@ -41,6 +41,9 @@ fn main() {
                 rel: "manifest",
                 href: asset!("/assets/site.webmanifest"),
             }
+            document::Script {
+                src: asset!("/assets/scripts/scroll.js"),
+            }
 
             Router::<Route> {
 

@@ -43,17 +43,18 @@ a.current {
     @apply text-blue-400;
 }
 
-table {
+.md-content > table,
+table.default-style {
     @apply border-collapse border dark:border-slate-600 border-slate-400;
-}
-
-th {
-    @apply dark:bg-slate-800 bg-slate-300;
-}
-
-td,
-th {
-    @apply border dark:border-slate-600 border-slate-400 p-2;
+    
+    th {
+        @apply dark:bg-slate-800 bg-slate-300;
+    }
+    
+    td,
+    th {
+        @apply border dark:border-slate-600 border-slate-400 p-2;
+    }
 }
 
 details:not(:hover) .bookmark-button div > button:first-child {
@@ -108,9 +109,7 @@ label > span > a {
 @media print {
     @page {
         size: A4;
-    }
-    body {
-        margin: 16mm;
+        margin: 8mm;
     }
 }
 

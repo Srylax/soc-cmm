@@ -1,7 +1,7 @@
 use cmm_core::profile::{ProfileQuestion, QuestionType};
 use dioxus::prelude::*;
 
-use crate::{components::ValueOrPlaceholderComponent, utils::{use_schema, use_soc_data}};
+use crate::{components::{PrintBoxComponent, ValueOrPlaceholderComponent}, utils::{use_schema, use_soc_data}};
 
 #[component]
 pub fn ProfileComponent() -> Element {
@@ -31,30 +31,8 @@ pub fn ProfileComponent() -> Element {
     }
 }
 
-#[component]
-pub fn ProfileValuesComponent() -> Element {
-    let schema = use_schema();
-    let data = use_soc_data();
 
-    rsx! {
-        table {
-            class: "print-table border-none",
-            for (id, question) in schema.profile() {
-                tr {
-                    key: "value_{id}_1",
-                    td {
-                        "{question.question()}"
-                    },
-                    td {
-                        ValueOrPlaceholderComponent {
-                            value: "{data().profile_answer(id.clone()).cloned().unwrap_or(question.question_type().default_value())}"
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+
 
 #[component]
 fn QuestionTypeHandlerComponent(id: String, question: ProfileQuestion) -> Element {

@@ -35,19 +35,27 @@ pub fn Report() -> Element {
                 }
                 ProfileComponent {  }
             }
-            h2 {
-                class: "font-semibold text-3xl mb-4",
-                "Assessment results"
-            }
-            h3 {
-                class: "text-sm mb-0.5 font-semibold",
-                "Profile"
-            }
-            ProfileValuesComponent {  }
             div {
-                class: "mt-5 block",
+                class: "not-print:border-1 border-black/20",
+                h2 {
+                    class: "font-semibold text-3xl mb-4",
+                    "Assessment results"
+                }
+                div {
+                    section {  
+                        class: "mb-4 grid gap-4",
+                        ProfileValuesComponent {  }
+                    }
+                    section {
+                        class: "grid grid-cols-2 gap-4 break-before-page",
+                        h3 {
+                            class: "col-span-2 text-2xl",
+                            "SOC assessment scores"
+                        }
+                        PrintOverviewComponent {  }
+                    }
+                }
             }
-            PrintOverviewComponent {  }
         }
     }
 }
