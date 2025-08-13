@@ -25,7 +25,7 @@ pub fn Report() -> Element {
             }
             p {
                 class: "text-xl mb-4 print:hidden",
-                "Fill out the form below, then use the browser print functionality to generate the report."
+                "Fill out the form below, then use the browser print functionality to generate the report. Enable 'Print Backgrounds' for better results."
             }
             div {
                 class: "rounded-2xl p-4 bg-slate-50 border-slate-300 border-1 print:hidden",
@@ -36,7 +36,7 @@ pub fn Report() -> Element {
                 ProfileComponent {  }
             }
             div {
-                class: "not-print:border-1 border-black/20",
+                class: "not-print:mt-10",
                 h2 {
                     class: "font-semibold text-3xl mb-4",
                     "Assessment results"

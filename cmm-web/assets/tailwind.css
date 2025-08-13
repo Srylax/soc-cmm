@@ -1091,6 +1091,11 @@
       }
     }
   }
+  .not-print\:mt-10 {
+    @media not print {
+      margin-top: calc(var(--spacing) * 10);
+    }
+  }
   .not-print\:mt-16 {
     @media not print {
       margin-top: calc(var(--spacing) * 16);
