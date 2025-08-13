@@ -19,9 +19,14 @@ fn test_toml_format() {
             Some(String::from("Comment!")),
         ),
     );
-    let cmm = SOCData::new(controls, Some("Hello world!".to_string()));
+    let mut profile: IndexMap<String, String> = IndexMap::new();
+    profile.insert("contact_allowed".to_string(), "true".to_string());
+    let cmm = SOCData::new(controls, Some("Hello world!".to_string()), profile);
     assert_eq!(
         r#"notes = "Hello world!"
+
+[profile]
+contact_allowed = "true"
 
 ["Business.1.2"]
 type = "DetailedOptional"

@@ -43,21 +43,27 @@ a.current {
     @apply text-blue-400;
 }
 
-table {
+.md-content > table,
+table.default-style {
     @apply border-collapse border dark:border-slate-600 border-slate-400;
-}
-
-th {
-    @apply dark:bg-slate-800 bg-slate-300;
-}
-
-td,
-th {
-    @apply border dark:border-slate-600 border-slate-400 p-2;
+    
+    th {
+        @apply dark:bg-slate-800 bg-slate-300;
+    }
+    
+    td,
+    th {
+        @apply border dark:border-slate-600 border-slate-400 p-2;
+    }
 }
 
 details:not(:hover) .bookmark-button div > button:first-child {
     opacity: 0;
+}
+
+/* in profile label links */
+label > span > a {
+    @apply underline;
 }
 
 .md-content {
@@ -98,4 +104,25 @@ details:not(:hover) .bookmark-button div > button:first-child {
     blockquote {
         @apply pl-2 border-l-slate-500 dark:border-l-slate-200 border-l-2 bg-slate-100 dark:bg-slate-800;
     }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 8mm;
+    }
+}
+
+.print-table {
+    @apply border-0;
+    tr {
+        @apply border-0;
+    }
+    th {
+        @apply border-0 bg-transparent border-b-2 p-1;
+    }
+    td {
+        @apply py-0.5 px-1 text-[10px] text-right;
+    }
+
 }

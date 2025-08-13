@@ -37,6 +37,153 @@
             "Log Management"
         ]
     },
+    "profile": {
+        "contact_allowed": {
+            "question": "May we contact you regarding your scoring?",
+            "short": "May we contact you?",
+            "category": "Personal",
+            "type": "YesNo"
+        },
+        "email_address": {
+            "question": "If yes: please provide your email address",
+            "short": "Email",
+            "category": "Personal",
+            "type": "Text"
+        },
+        "assessment_date": {
+            "question": "Assessment date",
+            "short": "Assessment date (YYYY-MM-DD)",
+            "category": "Organization",
+            "type": "Date"
+        },
+        "assessment_type": {
+            "question": "Select assessment type",
+            "short": "Assessment type",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "quick scan",
+                "scoped assessment",
+                "initial assessment (baseline)",
+                "progress assessment"
+            ],
+            "description": "Quick scan: quick insight into approximate maturity\nScoped assessment: only some elements assessed for a particular purpose\nInitial assessment: establish maturity baseline\nProgress assessment: establish maturity progress since baseline"
+        },
+        "assessment_style": {
+            "question": "Select assessment style",
+            "short": "Assessment type",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "self-assessment",
+                "guided self-assessment",
+                "3rd party assessment"
+            ],
+            "description": "Self-assessment: performed by organisation\nGuided self-assessment: performed by organisation with help from external advisor\n3rd party assessment: performed by external party"
+        },
+        "organization_size": {
+            "question": "What is your organization's size (FTE)?",
+            "short": "Organization size (FTE)",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "1-49",
+                "50-249",
+                "250-999",
+                "1000-4999",
+                "5000-9999",
+                "10000-50000",
+                "50000+"
+            ]
+        },
+        "organization_sector": {
+            "question": "What is your organization's sector?",
+            "short": "Sector",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "Aerospace industry",
+                "Agriculture",
+                "Chemical / pharmaceutical",
+                "Computer / software",
+                "Consulting",
+                "Defense",
+                "Education",
+                "Energy / Utilities",
+                "Entertainment",
+                "Health Care",
+                "Finance",
+                "Insurance",
+                "Service Provider",
+                "Telecommunications",
+                "Other"
+            ]
+        },
+        "soc_operation_years": {
+            "question": "Number of years of SOC operations",
+            "short": "Years of SOC operations",
+            "category": "Organization",
+            "type": "Number"
+        },
+        "soc_size": {
+            "question": "What is your SOC size (FTE)?",
+            "short": "SOC Size (FTE)",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "1-5",
+                "5-10",
+                "10-50",
+                "50-100",
+                "100+"
+            ]
+        },
+        "soc_region": {
+            "question": "What region is your SOC located in?",
+            "short": "Region",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "Africa",
+                "Asia",
+                "Autralia/New Zealand",
+                "Canada",
+                "Europe",
+                "South America",
+                "North America",
+                "Middle East"
+            ]
+        },
+        "soc_model": {
+            "question": "What is your SOC organizational model?",
+            "short": "SOC model",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "Distributed SOC",
+                "Centralised SOC",
+                "Federated SOC",
+                "Coordinating SOC",
+                "Hierarchical SOC",
+                "National SOC",
+                "MSSP SOC",
+                "Hybrid SOC"
+            ],
+            "description": "For more information, see <a target='_page' href='https://www.mitre.org/sites/default/files/publications/11-strategies-of-a-world-class-cybersecurity-operations-center.pdf'>11 strategies of a world-class cybersecurity operations center</a> (page 54-55)"
+        },
+        "soc_geo_scope": {
+            "question": "What is your SOC geographical scope?",
+            "short": "Geographical scope",
+            "category": "Organization",
+            "type": "Select",
+            "items": [
+                "Regional",
+                "National",
+                "Continental",
+                "Global"
+            ]
+        }
+    },
     "control_schemas": {
         "Business.1.1": {
             "title": "Have you identified the main business drivers?",

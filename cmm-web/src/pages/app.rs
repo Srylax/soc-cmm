@@ -5,7 +5,7 @@ use dioxus_storage::{LocalStorage, use_synced_storage};
 use dioxus_markdown::Markdown;
 
 use crate::{components::{
-    AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent, SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent
+    AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent, ProfileComponent, SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent
 }, utils::use_soc_data};
 
 #[component]
@@ -15,9 +15,6 @@ pub fn App() -> Element {
     rsx! {
         document::Script {
             src: asset!("/assets/scripts/highlight-nav.js"),
-        }
-        document::Script {
-            src: asset!("/assets/scripts/scroll.js"),
         }
         document::Script {
             src: "https://cdn.jsdelivr.net/npm/chart.js",

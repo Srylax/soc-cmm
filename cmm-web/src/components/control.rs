@@ -13,7 +13,7 @@ use strum::VariantArray;
 
 use crate::{
     components::{
-        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent,
+        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent, ValueOrPlaceholderComponent,
     },
     utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data},
 };
@@ -52,7 +52,7 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                             domain: domain.clone(),
                             width: 24,
                             height: 24,
-                            fill: "currentColor",
+                            fill: "white",
                         }
                     }
                     "{domain}"
@@ -261,28 +261,28 @@ fn ControlItemComponent(
                     }
                 }
                 div {
-                    class: "grid gap-2 mt-4 grid-cols-[3fr_2fr]",
-                    span {
-
-                    }
-                    span {
-                        class: "text-sm",
-                        "Comment"
-                    }
-                }
-                div {
-                    class: "grid gap-2 mt-1 grid-cols-[3fr_2fr]",
-                    ControlInputComponent {
-                        key: "{cid}{control.answer()}",
-                        cid,
-                        control: control.clone(),
-                        control_schema: ctrl_schema.clone(),
-                        pinned,
+                    class: "grid gap-4 md:gap-2 mt-2 md:mt-4 md:grid-cols-[3fr_2fr]",
+                    div {
+                        span {
+                            class: "text-sm mb-1 opacity-0",
+                            "Control Answer"
+                        }
+                        ControlInputComponent {
+                            key: "{cid}{control.answer()}",
+                            cid,
+                            control: control.clone(),
+                            control_schema: ctrl_schema.clone(),
+                            pinned,
+                        }
                     }
                     label {
-                        class: "min-h-2xl flex flex-wrap",
+                        class: "min-h-2xl flex flex-wrap flex-col",
+                        span {
+                            class: "text-sm mb-1",
+                            "Comment"
+                        }
                         textarea {
-                            class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full",
+                            class: "dark:bg-slate-700 bg-slate-200 not-dark:border-1 not-dark:border-slate-300 rounded px-2 py-1.5 w-full flex-1",
                             value: control.comment().clone().unwrap_or(String::new()),
                             onchange: move |evt| {
                                 data.write().set_comment(&cid, Some(evt.value()));
@@ -301,19 +301,6 @@ fn ControlItemComponent(
             }
         }
     }
-}
-
-#[component]
-fn ValueOrPlaceholderComponent(value: String) -> Element {
-    if value.is_empty() {
-        return rsx! {
-            span {
-                class: "opacity-70 italic",
-                "<empty>"
-            }
-        };
-    }
-    rsx! { "{value}" }
 }
 
 #[component]

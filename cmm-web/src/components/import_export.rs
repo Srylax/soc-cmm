@@ -13,11 +13,20 @@ pub fn ImportExportComponent() -> Element {
 
     let mut copied = use_signal(|| false);
 
-    let upload_file_handler = async move |evt: FormEvent| -> Option<SOCData> {
-        let file_engine = evt.files()?;
+    let upload_file_handler = async move |evt: FormEvent| -> Result<SOCData, String> {
+        let file_engine = evt.files().unwrap();
         let files = file_engine.files();
-        let content = file_engine.read_file_to_string(files.first()?).await?;
-        toml::from_str::<SOCData>(&content).ok()
+        let Some(file) = files.first() else {
+            return Err(String::from("No file given"));
+        };
+        let Some(content) = file_engine.read_file_to_string(file).await else {
+            return Err(String::from("Could not read file contents!"));
+        };
+
+        match toml::from_str::<SOCData>(&content) {
+            Ok(result) => Ok(result),
+            Err(err) => Err(format!("{}", err))
+        }
     };
 
     let copy_to_clipboard = move |_: MouseEvent| async move {
@@ -54,8 +63,9 @@ pub fn ImportExportComponent() -> Element {
                     name: "textreader",
                     directory: false,
                     onchange: move |evt: FormEvent| async move {
-                        if let Some(soc) = upload_file_handler(evt).await {
-                            data.set(soc)
+                        match upload_file_handler(evt).await {
+                            Ok(soc) => data.set(soc),
+                            Err(err) => tracing::debug!("Could not upload soc: {}", err)
                         }
                     },
                 }
@@ -98,10 +108,11 @@ pub fn ImportExportComponent() -> Element {
                         name: "textreader",
                         directory: false,
                         onchange: move |evt: FormEvent| async move {
-                            if let Some(soc) = upload_file_handler(evt).await {
-                                cmp_data.set(soc)
+                            match upload_file_handler(evt).await {
+                                Ok(soc) => cmp_data.set(soc),
+                                Err(err) => tracing::debug!("Could not upload soc: {}", err)
                             }
-                        },
+                        }
                     }
                 }
             }

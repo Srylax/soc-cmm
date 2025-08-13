@@ -17,7 +17,7 @@ pub fn OverviewComponent() -> Element {
                 text: "Overview",
             }
             div {
-                class: "grid grid-cols-2 gap-4",
+                class: "grid md:grid-cols-2 gap-4",
                 if settings().show_comparison {
                     div {
                         class: "text-center",
@@ -111,7 +111,7 @@ fn DomainOverviewComponent(
                             "{domain}"
                         }
                     }
-                    if overall_capability_score.score().is_normal() {
+                    if domain == Domain::Technology || domain == Domain::Services {
                         div {
                             class: "text-xl text-center grid",
                             title: "{overall_capability_score}",
@@ -122,6 +122,7 @@ fn DomainOverviewComponent(
                             ScoreComponent {
                                 score: overall_capability_score,
                                 precision: 1,
+                                replace_nan: true
                             }
                         }
                     }
@@ -167,7 +168,7 @@ fn DomainOverviewComponent(
                                 score: stats.read().maturity_by_aspect(&domain, i as u8 + 1),
                                 tooltip_prefix: "{aspect} maturity: ",
                             }
-                            if stats.read().capability_by_aspect(&domain, i as u8 + 1).score().is_normal() {
+                            if domain == Domain::Technology || domain == Domain::Services {
                                 div {
                                     class: "mt-1",
                                     BadToGoodProgressBarComponent {

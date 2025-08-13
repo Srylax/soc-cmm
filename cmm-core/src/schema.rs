@@ -15,11 +15,12 @@
 /// }
 use std::collections::HashMap;
 
+use indexmap::IndexMap;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::ops::Not;
 
-use crate::cid::{CID, Domain};
+use crate::{cid::{Domain, CID}, profile::ProfileQuestion};
 
 /// This is the soc-cmm schema and only contains Meta Information.
 /// Changes will be made only between soc-cmm versions. The whole struct will be loaded at compile time.
@@ -28,6 +29,10 @@ pub struct Schema {
     /// AspectId = index+1, Aspects are only an index and a title
     aspects: HashMap<Domain, Vec<String>>,
     control_schemas: HashMap<CID, ControlSchema>,
+
+    #[serde(skip_serializing_if = "IndexMap::is_empty")]
+    #[serde(default = "IndexMap::new")]
+    profile: IndexMap<String, ProfileQuestion>,
 }
 
 impl Schema {
@@ -38,6 +43,7 @@ impl Schema {
         Self {
             aspects: HashMap::new(),
             control_schemas,
+            profile: IndexMap::new(),
         }
     }
 
@@ -75,6 +81,10 @@ impl Schema {
 
     pub fn controls(&self) -> &HashMap<CID, ControlSchema> {
         &self.control_schemas
+    }
+    
+    pub fn profile(&self) -> &IndexMap<String, ProfileQuestion> {
+        &self.profile
     }
 }
 

@@ -23,12 +23,19 @@ pub fn CompletenessScoreComponent(score: Score) -> Element {
 }
 
 #[component]
-pub fn ScoreComponent(score: Option<Score>, precision: u32) -> Element {
+pub fn ScoreComponent(score: Option<Score>, precision: u32, replace_nan: Option<bool>) -> Element {
     let settings = use_app_settings();
 
     let Some(scr) = score else {
         return rsx!();
     };
+
+    if replace_nan.is_some_and(|x| x) && round(scr.score(), precision).is_nan() {
+        return rsx! {
+            "0",
+            if settings().show_percentage { "%" }
+        };
+    }
     
     rsx! {
         if settings().show_percentage {

@@ -1,6 +1,6 @@
 (() => {
-    const SCROLL_KEY = "soc-scroll";
-    const initial_scroll = localStorage.getItem(SCROLL_KEY);
+    const SCROLL_KEY = "soc-scroll-";
+    const initial_scroll = localStorage.getItem(SCROLL_KEY + window.location.pathname);
     if (initial_scroll != null) {
         window.scroll(
             window.scrollX,
@@ -9,6 +9,6 @@
     }
 
     window.addEventListener("scroll", () => {
-        localStorage.setItem(SCROLL_KEY, window.scrollY)
+        localStorage.setItem(SCROLL_KEY + window.location.pathname, window.scrollY)
     })
 })();

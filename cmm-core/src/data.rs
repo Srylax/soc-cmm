@@ -14,9 +14,12 @@ use crate::{
 /// Only contains the soc-cmm values at its most simple form (CID->Control)
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct SOCData {
+    notes: Option<String>,
+    #[serde(default = "IndexMap::new")]
+    profile: IndexMap<String, String>,
+    
     #[serde(flatten)]
     controls: IndexMap<CID, Control>,
-    notes: Option<String>,
 }
 
 impl SOCData {
@@ -30,12 +33,21 @@ impl SOCData {
         SOCData {
             controls: indexmap,
             notes: None,
+            profile: IndexMap::new(),
         }
     }
 
-    pub fn new(mut controls: IndexMap<CID, Control>, notes: Option<String>) -> Self {
+    pub fn new(
+        mut controls: IndexMap<CID, Control>,
+        notes: Option<String>,
+        profile: IndexMap<String, String>,
+    ) -> Self {
         controls.sort_keys();
-        SOCData { controls, notes }
+        SOCData {
+            controls,
+            notes,
+            profile,
+        }
     }
 
     pub fn controls_by_aspect(
@@ -111,6 +123,14 @@ impl SOCData {
         self.notes = notes;
     }
 
+    pub fn set_profile_answer(&mut self, id: String, value: String) {
+        self.profile.insert(id, value);
+    }
+
+    pub fn profile_answer(&self, id: String) -> Option<&String> {
+        self.profile.get(&id)
+    }
+
     pub fn has_pinned_items(&self) -> bool {
         self.controls
             .iter()
@@ -130,6 +150,7 @@ impl From<&Schema> for SOCData {
                 .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
                 .collect(),
             notes: None,
+            profile: IndexMap::new(),
         }
     }
 }
