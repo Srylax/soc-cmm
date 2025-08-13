@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use strum::VariantArray;
 
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
@@ -10,6 +11,12 @@ pub enum QuestionType {
     Date,
     Number,
     Select { items: Vec<String> },
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone, VariantArray)]
+pub enum QuestionCategory {
+    Personal,
+    Organization
 }
 
 impl QuestionType {
@@ -28,6 +35,9 @@ impl QuestionType {
 pub struct ProfileQuestion {
     question: String,
     description: Option<String>,
+    category: QuestionCategory,
+    /// Short description of what the answer value represents
+    short: String,
 
     #[serde(flatten)]
     question_type: QuestionType,
@@ -44,5 +54,13 @@ impl ProfileQuestion {
     
     pub fn question_type(&self) -> &QuestionType {
         &self.question_type
+    }
+    
+    pub fn short(&self) -> &str {
+        &self.short
+    }
+    
+    pub fn category(&self) -> &QuestionCategory {
+        &self.category
     }
 }

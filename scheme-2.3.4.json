@@ -40,18 +40,26 @@
     "profile": {
         "contact_allowed": {
             "question": "May we contact you regarding your scoring?",
+            "short": "May we contact you?",
+            "category": "Personal",
             "type": "YesNo"
         },
         "email_address": {
             "question": "If yes: please provide your email address",
+            "short": "Email",
+            "category": "Personal",
             "type": "Text"
         },
         "assessment_date": {
             "question": "Assessment date",
+            "short": "Assessment date (YYYY-MM-DD)",
+            "category": "Organization",
             "type": "Date"
         },
         "assessment_type": {
             "question": "Select assessment type",
+            "short": "Assessment type",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "quick scan",
@@ -63,6 +71,8 @@
         },
         "assessment_style": {
             "question": "Select assessment style",
+            "short": "Assessment type",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "self-assessment",
@@ -73,6 +83,8 @@
         },
         "organization_size": {
             "question": "What is your organization's size (FTE)?",
+            "short": "Organization size (FTE)",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "1-49",
@@ -86,6 +98,8 @@
         },
         "organization_sector": {
             "question": "What is your organization's sector?",
+            "short": "Sector",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "Aerospace industry",
@@ -107,10 +121,14 @@
         },
         "soc_operation_years": {
             "question": "Number of years of SOC operations",
+            "short": "Years of SOC operations",
+            "category": "Organization",
             "type": "Number"
         },
         "soc_size": {
             "question": "What is your SOC size (FTE)?",
+            "short": "SOC Size (FTE)",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "1-5",
@@ -122,6 +140,8 @@
         },
         "soc_region": {
             "question": "What region is your SOC located in?",
+            "short": "Region",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "Africa",
@@ -135,7 +155,9 @@
             ]
         },
         "soc_model": {
-            "question": "What is your SOC organisational model?",
+            "question": "What is your SOC organizational model?",
+            "short": "SOC model",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "Distributed SOC",
@@ -151,6 +173,8 @@
         },
         "soc_geo_scope": {
             "question": "What is your SOC geographical scope?",
+            "short": "Geographical scope",
+            "category": "Organization",
             "type": "Select",
             "items": [
                 "Regional",
