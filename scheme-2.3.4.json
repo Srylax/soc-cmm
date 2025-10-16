@@ -3,36 +3,36 @@
         "Business": [
             "Business Drivers",
             "Customers",
-            "SOC Charter",
+            "Charter",
             "Governance",
             "Privacy & Policy"
         ],
         "People": [
-            "SOC Employees",
-            "SOC Roles and Hierarchy",
+            "Employees",
+            "Roles and Hierarchy",
             "People Management",
             "Knowledge Management",
             "Training & Education"
         ],
         "Process": [
             "SOC Management",
-            "Security Operations & Facilities",
+            "Operations & Facilities",
             "Reporting & Communication",
             "Use Case Management",
-            "Detection Engineering"
+            "Detection Engineering & Validation"
         ],
         "Technology": [
-            "SIEM Technology",
-            "NDR Tooling",
-            "Security Analytics",
-            "Security Automation & Orchestration"
+            "SIEM / UEBA",
+            "NDR",
+            "EDR",
+            "SOAR"
         ],
         "Services": [
             "Security Monitoring",
             "Security incident Management",
-            "Security Analysis",
+            "Security Analysis & Forensics",
             "Threat Intelligence",
-            "Hunting",
+            "Threat Hunting",
             "Vulnerability Management",
             "Log Management"
         ]
