@@ -35,11 +35,31 @@ pub fn ControlsListComponent(pinned: bool) -> Element {
                 output.push(current_list.clone());
                 current_list.clear();
             }
+            // By filtering out unused controls, we prevent a lag spike :D
+            if pinned && let Some(ctrl) = data().control(cid) && !ctrl.bookmark() {
+                continue;
+            }
             current_list.push((*cid, control.clone()));
         }
         output.push(current_list.clone());
         output
     };
+
+    if pinned && !data().has_pinned_items() {
+        return rsx!{
+            div {
+                class: "opacity-60",
+                "No pinned items. Click"
+                div {
+                    class: "inline-block mx-2 translate-y-[2px] pointer-events-none",
+                    StarButtonComponent {
+                        active: false,
+                    }
+                }
+                "on a control to pin it!"
+            }
+        }
+    }
 
     rsx! {
         for domain in Domain::VARIANTS {

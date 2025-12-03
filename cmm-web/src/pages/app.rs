@@ -64,25 +64,10 @@ pub fn App() -> Element {
                     id: "pinned",
                     text: "Pinned",
                 }
-                if data().has_pinned_items() {
-                    div {
-                        class: "pinned-list",
-                        ControlsListComponent {
-                            pinned: true,
-                        }
-                    }
-                } else {
-                    div {
-                        class: "opacity-60",
-                        key: "no-pinned-{data().has_pinned_items()}",
-                        "No pinned items. Click"
-                        div {
-                            class: "inline-block mx-2 translate-y-[2px] pointer-events-none",
-                            StarButtonComponent {
-                                active: false,
-                            }
-                        }
-                        "on a control to pin it!"
+                div {
+                    class: "pinned-list",
+                    ControlsListComponent {
+                        pinned: true,
                     }
                 }
                 div {
