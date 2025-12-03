@@ -1,6 +1,6 @@
 use cmm_core::data::SOCData;
 use dioxus::prelude::*;
-use dioxus_free_icons::{icons::fa_solid_icons::FaCopy, Icon};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons::FaCopy};
 use wasm_bindgen_futures::JsFuture;
 
 use crate::utils::{use_app_settings, use_soc_compare_data, use_soc_data};
@@ -14,18 +14,18 @@ pub fn ImportExportComponent() -> Element {
     let mut copied = use_signal(|| false);
 
     let upload_file_handler = async move |evt: FormEvent| -> Result<SOCData, String> {
-        let file_engine = evt.files().unwrap();
-        let files = file_engine.files();
+        let files = evt.files();
         let Some(file) = files.first() else {
             return Err(String::from("No file given"));
         };
-        let Some(content) = file_engine.read_file_to_string(file).await else {
-            return Err(String::from("Could not read file contents!"));
-        };
+        let content = file
+            .read_string()
+            .await
+            .map_err(|err| format!("Could not read file: {err}"))?;
 
         match toml::from_str::<SOCData>(&content) {
             Ok(result) => Ok(result),
-            Err(err) => Err(format!("{}", err))
+            Err(err) => Err(format!("{}", err)),
         }
     };
 
@@ -34,7 +34,10 @@ pub fn ImportExportComponent() -> Element {
         tracing::debug!("{}", contents);
         // does not work in dev mode
         let clipboard = web_sys::window().unwrap().navigator().clipboard();
-        if JsFuture::from(clipboard.write_text(&contents)).await.is_ok() {
+        if JsFuture::from(clipboard.write_text(&contents))
+            .await
+            .is_ok()
+        {
             copied.set(true);
         }
     };

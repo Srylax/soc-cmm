@@ -1,4 +1,9 @@
-use crate::{components::{BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent}, utils::{round, use_app_settings, use_schema, use_stats}};
+use crate::{
+    components::{
+        BadToGoodProgressBarComponent, DomainIconComponent, ScoreComponent, SectionTitleComponent,
+    },
+    utils::{round, use_app_settings, use_schema, use_stats},
+};
 use cmm_core::{cid::Domain, score::Stats};
 use dioxus::prelude::*;
 use strum::VariantArray;
@@ -52,9 +57,7 @@ pub fn OverviewComponent() -> Element {
 }
 
 #[component]
-fn OverallScoreComponent(
-    stats: ReadOnlySignal<Stats>
-) -> Element {
+fn OverallScoreComponent(stats: ReadOnlySignal<Stats>) -> Element {
     let settings = use_app_settings();
 
     rsx! {
@@ -79,10 +82,7 @@ fn OverallScoreComponent(
 }
 
 #[component]
-fn DomainOverviewComponent(
-    domain: Domain,
-    stats: ReadOnlySignal<Stats>
-) -> Element {
+fn DomainOverviewComponent(domain: Domain, stats: ReadOnlySignal<Stats>) -> Element {
     let schema = use_schema();
 
     let overall_score = stats.read().maturity_by_domain(&domain);
@@ -144,12 +144,9 @@ fn DomainOverviewComponent(
                 class: "mt-4 bg-slate-50 rounded-2xl p-4 border-1 border-slate-200 dark:border-slate-500 dark:bg-slate-600",
                 for (i , aspect) in schema.aspects(&domain).iter().enumerate() {
                     div {
-                        key: format!(
-                            "{}_{}_{}",
-                            aspect,
-                            stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(),
-                            stats.read().capability_by_aspect(&domain, i as u8 + 1).score(),
-                        ),
+                        // TODO: really ugly - why does format!() no longer work?
+                        key:
+                            "{aspect}_{stats.read().maturity_by_aspect(&domain, i as u8 + 1).score()}_{stats.read().capability_by_aspect(&domain, i as u8 + 1).score()}",
                         span {
                             class: "text-[10px] text-right",
                             "data-aspect-value": "{round(stats.read().maturity_by_aspect(&domain, i as u8 + 1).score(), 2)}",

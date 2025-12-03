@@ -28,7 +28,7 @@
               minimal.cargo
               minimal.rustc
               targets.wasm32-unknown-unknown.latest.rust-std
-          ])
+            ])
         ];
         RUST_SRC_PATH = pkgs.rustPlatform.rustLibSrc;
       };
