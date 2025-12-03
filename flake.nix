@@ -22,6 +22,7 @@
           pkgs.dioxus-cli
           pkgs.tailwindcss_4
           pkgs.wasm-bindgen-cli_0_2_100
+          pkgs.binaryen
           # fenix.packages.${system}.stable.toolchain
           (with fenix.packages.${system};
             combine [
