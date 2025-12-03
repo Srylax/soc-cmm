@@ -57,7 +57,7 @@ pub fn OverviewComponent() -> Element {
 }
 
 #[component]
-fn OverallScoreComponent(stats: ReadOnlySignal<Stats>) -> Element {
+fn OverallScoreComponent(stats: ReadSignal<Stats>) -> Element {
     let settings = use_app_settings();
 
     rsx! {
@@ -82,7 +82,7 @@ fn OverallScoreComponent(stats: ReadOnlySignal<Stats>) -> Element {
 }
 
 #[component]
-fn DomainOverviewComponent(domain: Domain, stats: ReadOnlySignal<Stats>) -> Element {
+fn DomainOverviewComponent(domain: Domain, stats: ReadSignal<Stats>) -> Element {
     let schema = use_schema();
 
     let overall_score = stats.read().maturity_by_domain(&domain);

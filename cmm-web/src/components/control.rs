@@ -13,7 +13,8 @@ use strum::VariantArray;
 
 use crate::{
     components::{
-        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent, ValueOrPlaceholderComponent,
+        CompletenessScoreComponent, DomainIconComponent, SmallButtonComponent, StarButtonComponent,
+        ValueOrPlaceholderComponent,
     },
     utils::{use_app_settings, use_schema, use_soc_compare_data, use_soc_data},
 };
@@ -166,7 +167,7 @@ fn ControlItemComponent(
                                 value: "{Answer::try_from(ctrl_schema.control_type()).unwrap()}"
                             }
                         }
-                        
+
                     }
                 }
                 button {
@@ -306,7 +307,7 @@ fn ControlItemComponent(
 #[component]
 fn ControlInputComponent(
     cid: CID,
-    control: ReadOnlySignal<Control>,
+    control: ReadSignal<Control>,
     control_schema: ControlSchema,
     pinned: bool,
 ) -> Element {
@@ -381,7 +382,7 @@ fn ControlInputComponent(
 }
 
 #[component]
-fn ControlItemValuePreviewComponent(cid: CID, control: ReadOnlySignal<Control>) -> Element {
+fn ControlItemValuePreviewComponent(cid: CID, control: ReadSignal<Control>) -> Element {
     let mut data = use_soc_data();
 
     let Answer::Bool(_) = control().answer() else {

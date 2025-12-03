@@ -1,14 +1,14 @@
 use cmm_core::profile::{ProfileQuestion, QuestionType};
 use dioxus::prelude::*;
 
-use crate::{components::{PrintBoxComponent, ValueOrPlaceholderComponent}, utils::{use_schema, use_soc_data}};
+use crate::utils::{use_schema, use_soc_data};
 
 #[component]
 pub fn ProfileComponent() -> Element {
     let schema = use_schema();
 
     rsx! {
-        
+
         for (id, question) in schema.profile() {
             div {
                 key: "{id}",
@@ -30,9 +30,6 @@ pub fn ProfileComponent() -> Element {
         }
     }
 }
-
-
-
 
 #[component]
 fn QuestionTypeHandlerComponent(id: String, question: ProfileQuestion) -> Element {
