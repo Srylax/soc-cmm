@@ -24,7 +24,10 @@ pub fn ImportExportComponent() -> Element {
             .map_err(|err| format!("Could not read file: {err}"))?;
 
         match toml::from_str::<SOCData>(&content) {
-            Ok(result) => Ok(result),
+            Ok(mut result) => {
+                result.sort_controls();
+                Ok(result)
+            },
             Err(err) => Err(format!("{}", err)),
         }
     };
