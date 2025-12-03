@@ -1,7 +1,7 @@
 use cmm_core::{data::SOCData, schema::Schema, score::Stats};
 use dioxus::prelude::*;
 
-use dioxus_storage::{LocalStorage, use_synced_storage};
+use dioxus_sdk_storage::{LocalStorage, use_synced_storage};
 
 use crate::components::AppSettings;
 
@@ -18,11 +18,7 @@ pub fn SettingsLayout() -> Element {
 
     let _ = use_context_provider(|| settings);
 
-    rsx!(
-        Outlet::<Route> {
-
-        }
-    )
+    rsx!(Outlet::<Route> {})
 }
 
 #[component]
@@ -31,13 +27,10 @@ pub fn DataSchemaLayout() -> Element {
         serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
     });
 
-    let data: Signal<SOCData> = use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || {
-        SOCData::from(&schema)
-    });
+    let data: Signal<SOCData> =
+        use_synced_storage::<LocalStorage, _>("cmm".to_owned(), || SOCData::from(&schema));
     let compare_data: Signal<SOCData> =
-        use_synced_storage::<LocalStorage, _>("compare-cmm".to_owned(), || {
-            SOCData::from(&schema)
-        });
+        use_synced_storage::<LocalStorage, _>("compare-cmm".to_owned(), || SOCData::from(&schema));
     let (data, cmp_data) = use_context_provider(|| (data, compare_data));
 
     let stats = use_signal(|| Stats::new(data(), schema.clone()));
@@ -49,9 +42,5 @@ pub fn DataSchemaLayout() -> Element {
         cmp_stats.set(Stats::new(cmp_data(), schema.clone()));
     });
 
-    rsx!(
-        Outlet::<Route> {
-
-        }
-    )
+    rsx!(Outlet::<Route> {})
 }
