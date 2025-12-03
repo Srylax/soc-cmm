@@ -1,6 +1,6 @@
 use cmm_core::data::SOCData;
 use dioxus::prelude::*;
-use dioxus_free_icons::{Icon, icons::fa_solid_icons::FaCopy};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons::FaCopy, icons::fa_solid_icons::FaDownload};
 use wasm_bindgen_futures::JsFuture;
 
 use crate::utils::{use_app_settings, use_soc_compare_data, use_soc_data};
@@ -42,6 +42,21 @@ pub fn ImportExportComponent() -> Element {
         }
     };
 
+    let download_data = move |_: MouseEvent | async move {
+        let contents = toml::to_string(&data()).unwrap();
+        let encoded_contents = web_sys::js_sys::encode_uri_component(&contents);
+        document::eval(&format!(
+            r#"const link = document.createElement('a');
+            link.setAttribute('href', 'data:text/plain;charset=utf-8,{encoded_contents}');
+            link.setAttribute('download', 'soc_data.toml');
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            "#
+        ));
+    };
+
     // Revert to copy if data has changed
     use_effect(move || {
         data.read();
@@ -50,13 +65,13 @@ pub fn ImportExportComponent() -> Element {
 
     rsx! {
         div {
-            class: "bg-slate-950 text-slate-50 p-4 max-w-2xl rounded-2xl mx-auto my-10 grid grid-cols-2 gap-2 print:hidden",
+            class: "bg-slate-950 text-slate-50 p-4 max-w-2xl rounded-2xl mx-auto my-10 grid md:grid-cols-2 gap-2 print:hidden ",
             div {
                 class: "border-1 p-4 rounded-2xl border-slate-700 bg-slate-900",
                 label {
                     class: "text-sm mb-2 block",
                     r#for: "textreader",
-                    "Upload CMM values in TOML format"
+                    "Import SOC data from TOML file"
                 }
                 input {
                     class: "bg-slate-700 py-1 px-2 rounded cursor-pointer hover:bg-slate-600 w-full border-1 border-slate-500",
@@ -77,21 +92,35 @@ pub fn ImportExportComponent() -> Element {
                 class: "border-1 p-4 rounded-2xl border-slate-700 bg-slate-900",
                 span {
                     class: "text-sm mb-2 block",
-                    "Copy the CMM as TOML file"
+                    "Export SOC data as TOML file"
                 }
-                button {
-                    class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 border-1 border-slate-500 w-full flex items-center gap-x-2",
-                    onclick: copy_to_clipboard,
-                    Icon {
-                        width: 15,
-                        height: 15,
-                        fill: "white",
-                        icon: FaCopy,
+                div {
+                    class: "grid gap-2 sm:grid-cols-2",
+                    button {
+                        class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 border-1 border-slate-500 w-full flex items-center gap-x-2",
+                        onclick: copy_to_clipboard,
+                        Icon {
+                            width: 15,
+                            height: 15,
+                            fill: "white",
+                            icon: FaCopy,
+                        }
+                        if copied() {
+                            "Copied"
+                        } else {
+                            "Copy"
+                        }
                     }
-                    if copied() {
-                        "Copied ✅"
-                    } else {
-                        "Copy"
+                    button {
+                        class: "bg-slate-700 text-left px-2 rounded py-1 cursor-pointer hover:bg-slate-600 border-1 border-slate-500 w-full flex items-center gap-x-2",
+                        onclick: download_data,
+                        Icon {
+                            width: 15,
+                            height: 15,
+                            fill: "white",
+                            icon: FaDownload,
+                        }
+                        "Download"
                     }
                 }
             }
