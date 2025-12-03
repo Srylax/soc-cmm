@@ -38,7 +38,7 @@ jobs:
 
       - name: Install Dioxus-CLI
         shell: bash
-        run: cargo install --git https://github.com/Srylax/dioxus.git --branch "v0.6" dioxus-cli
+        run: cargo install dioxus-cli:0.7.1
 
       - name: Build Project 🎁
         shell: bash
