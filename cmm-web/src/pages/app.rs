@@ -1,14 +1,11 @@
-use cmm_core::{data::SOCData, schema::Schema, score::Stats};
 use dioxus::prelude::*;
 
 use dioxus_markdown::Markdown;
-use dioxus_sdk_storage::{LocalStorage, use_synced_storage};
 
 use crate::{
     components::{
-        AppSettings, ChartComponent, ControlsListComponent, ImportExportComponent,
-        OverviewComponent, ProfileComponent, SectionTitleComponent, SettingsComponent,
-        SidebarComponent, StarButtonComponent,
+        ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent,
+        SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent,
     },
     utils::use_soc_data,
 };

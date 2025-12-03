@@ -1,14 +1,17 @@
 use dioxus::prelude::*;
-use dioxus_free_icons::{icons::fa_solid_icons::FaArrowTurnDown, Icon};
+use dioxus_free_icons::{Icon, icons::fa_solid_icons::FaArrowTurnDown};
 
-use crate::{components::{ButtonComponent, PrintOverviewComponent, ProfileComponent, ProfileValuesComponent}, Route};
+use crate::{
+    Route,
+    components::{PrintOverviewComponent, ProfileComponent, ProfileValuesComponent},
+};
 
 #[component]
 pub fn Report() -> Element {
-    rsx! { 
+    rsx! {
         main {
             class: "max-w-3xl mx-auto not-print:mt-16",
-            Link { 
+            Link {
                 class: "print:hidden flex gap-x-2 items-center mb-4 hover:underline",
                 to: Route::App {  },
                 Icon {
@@ -42,7 +45,7 @@ pub fn Report() -> Element {
                     "Assessment results"
                 }
                 div {
-                    section {  
+                    section {
                         class: "mb-4 grid gap-4",
                         ProfileValuesComponent {  }
                     }
