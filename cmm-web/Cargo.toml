@@ -21,7 +21,6 @@ wasm-bindgen-futures = "0.4.50"
 dioxus-free-icons = { version = "0.10", features = ["font-awesome-regular", "font-awesome-solid"]}
 dioxus-markdown = {git="https://github.com/rambip/rust-web-markdown.git"}
 
-
 [dependencies.web-sys]
 version = "0.3"
 # We need to enable all the web-sys features we want to use!

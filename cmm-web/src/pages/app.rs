@@ -16,13 +16,13 @@ pub fn App() -> Element {
 
     rsx! {
         document::Script {
-            src: asset!("/assets/scripts/highlight-nav.js"),
+            src: asset!("/assets/scripts/highlight-nav.js", JsAssetOptions::new().with_preload(true)),
         }
         document::Script {
             src: "https://cdn.jsdelivr.net/npm/chart.js",
         }
         document::Script {
-            src: asset!("/assets/scripts/chart.js"),
+            src: asset!("/assets/scripts/chart.js" JsAssetOptions::new().with_preload(true)),
             defer: true,
         }
 
