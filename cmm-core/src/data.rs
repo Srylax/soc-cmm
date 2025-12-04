@@ -50,6 +50,12 @@ impl SOCData {
         }
     }
 
+    pub fn sort_controls(
+        &mut self
+    ) {
+        self.controls.sort_keys();
+    }
+
     pub fn controls_by_aspect(
         &self,
         domain: &Domain,
@@ -142,13 +148,15 @@ impl SOCData {
 
 impl From<&Schema> for SOCData {
     fn from(schema: &Schema) -> Self {
-        SOCData {
-            controls: schema
+        let mut controls: IndexMap<CID, Control> = schema
                 .controls()
                 .iter()
                 .filter(|(_, control_schema)| Control::try_from(*control_schema).is_ok())
                 .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
-                .collect(),
+                .collect();
+        controls.sort_keys();
+        SOCData {
+            controls,
             notes: None,
             profile: IndexMap::new(),
         }

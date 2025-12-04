@@ -107,6 +107,7 @@ pub enum DetailedOptional {
     Averagely = 3,
     Mostly = 4,
     Fully = 5,
+    #[strum(serialize="NotRequired", to_string="Not Required")]
     NotRequired = 6,
 }
 impl Default for DetailedOptional {
