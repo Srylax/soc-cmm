@@ -47,7 +47,7 @@ pub fn ImportExportComponent() -> Element {
         let encoded_contents = web_sys::js_sys::encode_uri_component(&contents);
         document::eval(&format!(
             r#"const link = document.createElement('a');
-            link.setAttribute('href', 'data:text/plain;charset=utf-8,{encoded_contents}');
+            link.setAttribute('href', `data:application/toml;charset=utf-8,{encoded_contents}`);
             link.setAttribute('download', 'soc_data.toml');
             link.style.display = 'none';
             document.body.appendChild(link);
