@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use indexmap::IndexMap;
+use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -17,7 +18,7 @@ pub struct SOCData {
     notes: Option<String>,
     #[serde(default = "IndexMap::new")]
     profile: IndexMap<String, String>,
-    
+
     #[serde(flatten)]
     controls: IndexMap<CID, Control>,
 }
@@ -48,6 +49,12 @@ impl SOCData {
             notes,
             profile,
         }
+    }
+
+    pub fn sort_controls(
+        &mut self
+    ) {
+        self.controls.sort_keys();
     }
 
     pub fn controls_by_aspect(
@@ -144,11 +151,12 @@ impl From<&Schema> for SOCData {
     fn from(schema: &Schema) -> Self {
         SOCData {
             controls: schema
-                .controls()
-                .iter()
-                .filter(|(_, control_schema)| Control::try_from(*control_schema).is_ok())
-                .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
-                .collect(),
+                    .controls()
+                    .iter()
+                    .filter(|(_, control_schema)| Control::try_from(*control_schema).is_ok())
+                    .map(|(cid, control_schema)| (*cid, Control::try_from(control_schema).unwrap()))
+                    .sorted_by_key(|(cid,_control)|*cid)
+                    .collect(),
             notes: None,
             profile: IndexMap::new(),
         }
