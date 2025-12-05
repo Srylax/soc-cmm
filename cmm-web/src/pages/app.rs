@@ -1,11 +1,10 @@
 use dioxus::prelude::*;
 
-use dioxus_markdown::Markdown;
 
 use crate::{
     components::{
         ChartComponent, ControlsListComponent, ImportExportComponent, OverviewComponent,
-        SectionTitleComponent, SettingsComponent, SidebarComponent, StarButtonComponent,
+        SectionTitleComponent, SettingsComponent, SidebarComponent,
     },
     utils::use_soc_data,
 };
@@ -44,13 +43,11 @@ pub fn App() -> Element {
             ImportExportComponent {
 
             }
-            if data().notes().is_some() {
+            if let Some(notes) = data().notes() {
                 div {
-                    class: "max-w-2xl mx-auto mb-6 md-content",
-                    Markdown {
-                        src: data().notes().cloned().unwrap(),
+                        class: "max-w-2xl mx-auto mb-6 md-content",
+                        dangerous_inner_html: "{mini_markdown::render(notes)}"
                     }
-                }
             }
             ChartComponent {
 
