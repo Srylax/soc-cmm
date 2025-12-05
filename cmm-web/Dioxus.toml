@@ -18,6 +18,9 @@ style = []
 # Additional JavaScript files
 script = []
 
+[web.wasm_opt]
+level = "z"
+
 [web.resource.dev]
 
 # Javascript code file

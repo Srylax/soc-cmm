@@ -1,11 +1,13 @@
 use cmm_core::{data::SOCData, schema::Schema, score::Stats};
-use dioxus::prelude::*;
+use dioxus::{asset_resolver, prelude::*};
 
 use dioxus_sdk_storage::{LocalStorage, use_synced_storage};
 
 use crate::components::AppSettings;
 
 use crate::Route;
+
+const SCHEME: Asset = asset!("/assets/scheme-2.3.4.json");
 
 #[component]
 pub fn SettingsLayout() -> Element {
@@ -23,8 +25,10 @@ pub fn SettingsLayout() -> Element {
 
 #[component]
 pub fn DataSchemaLayout() -> Element {
-    let schema: Schema = use_context_provider(|| {
-        serde_json::from_str(include_str!("../../scheme-2.3.4.json")).unwrap()
+    let asset: Resource<Schema> = use_resource( || async {serde_json::from_slice(&asset_resolver::read_asset_bytes(&SCHEME).await.unwrap()).unwrap() });
+    let asset = asset.suspend()?;
+    let schema = use_context_provider( move || {
+        asset.read().clone()
     });
 
     let data: Signal<SOCData> =
