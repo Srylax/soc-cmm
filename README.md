@@ -1,8 +1,8 @@
-# SOC-CMM Web
+# SOC Web Assessment
 
 The SOC-CMM is a tool to assess the maturity of a SOC, [originally created by Rob van Os as Excel tool](https://www.soc-cmm.com/).
 It is very impressive and works well, but is an Excel tool after all...
-SOC-CMM Web is a web version of the tool, which uses TOML to store the data.
+SOC Web Assessment is a web version of the tool, which uses TOML to store the data.
 
 ## Issues with the Excel tool
 
